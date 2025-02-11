@@ -1,18 +1,24 @@
 #include "CppBehaviour.h"
 
-CppBehaviour::CppBehaviour()
+dae::CppBehaviour::CppBehaviour()
 {
 }
 
-void CppBehaviour::Update(float deltaTime)
+void dae::CppBehaviour::Start()
 {
-	if (deltaTime > 0)
-	{
-		int poop = 1;
-		poop++;
-	}
 }
 
-void CppBehaviour::Render() const
+void dae::CppBehaviour::Update([[maybe_unused]] float deltaTime)
 {
+
+}
+
+void dae::CppBehaviour::Render() const
+{
+
+}
+
+void dae::CppBehaviour::SetOwningGameObject(GameObject* owningGameObject)
+{
+	m_OwningGameObject = owningGameObject;
 }

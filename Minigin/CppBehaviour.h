@@ -1,18 +1,31 @@
 #pragma once
-class CppBehaviour
+
+namespace dae
 {
-public:
-	CppBehaviour();
+	class GameObject;
 
-	virtual void Update(float deltaTime);
-	virtual void Render() const;
+	class CppBehaviour
+	{
+	public:
+		CppBehaviour();
 
-	virtual ~CppBehaviour() = default;
-	CppBehaviour(const CppBehaviour& other) = delete;
-	CppBehaviour(CppBehaviour&& other) = delete;
-	CppBehaviour& operator=(const CppBehaviour& other) = delete;
-	CppBehaviour& operator=(CppBehaviour&& other) = delete;
-private:
+		virtual void Start();
 
-};
+		virtual void Update(float deltaTime);
+		virtual void Render() const;
+
+		virtual ~CppBehaviour() = default;
+		CppBehaviour(const CppBehaviour& other) = delete;
+		CppBehaviour(CppBehaviour&& other) = delete;
+		CppBehaviour& operator=(const CppBehaviour& other) = delete;
+		CppBehaviour& operator=(CppBehaviour&& other) = delete;
+		void SetOwningGameObject(GameObject* owningGameObject);
+
+		bool pendingRemove = false;
+	private:
+
+	protected:
+		GameObject* m_OwningGameObject{ nullptr };
+	};
+}
 
