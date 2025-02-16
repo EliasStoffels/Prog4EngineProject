@@ -27,6 +27,14 @@ void dae::GameObject::Update(float deltaTime)
 	m_OwnedComponents.erase(removeIter, m_OwnedComponents.end());
 }
 
+void dae::GameObject::LateUpdate(float deltaTime)
+{
+	for (const auto& component : m_OwnedComponents)
+	{
+		component->LateUpdate(deltaTime);
+	}
+}
+
 void dae::GameObject::Render() const
 {
 	for (const auto& component : m_OwnedComponents)

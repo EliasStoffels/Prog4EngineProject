@@ -40,6 +40,15 @@ void Scene::Update(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
+
+	for (auto& object : m_objects)
+	{
+		object->LateUpdate(deltaTime);
+	}
+
+	auto removeIter = std::remove_if(m_objects.begin(), m_objects.end(),
+		[](const std::shared_ptr <GameObject>& object) { return object->pendingRemove; });
+	m_objects.erase(removeIter, m_objects.end());
 }
 
 void Scene::Render() const

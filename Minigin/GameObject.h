@@ -15,6 +15,7 @@ namespace dae
 		void Start();
 
 		void Update(float deltaTime);
+		void LateUpdate(float deltaTime);
 		void Render() const;
 
 		//void SetTexture(const std::string& filename);
@@ -89,7 +90,7 @@ namespace dae
 			return false;
 		}
 
-
+		bool pendingRemove = false;
 	private:
 		std::vector<std::unique_ptr<CppBehaviour>> m_OwnedComponents{};
 		Transform m_transform{};
