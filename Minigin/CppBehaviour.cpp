@@ -13,6 +13,10 @@ void dae::CppBehaviour::Update([[maybe_unused]] float deltaTime)
 
 }
 
+void dae::CppBehaviour::FixedUpdate([[maybe_unused]] float fixedTime)
+{
+}
+
 void dae::CppBehaviour::LateUpdate([[maybe_unused]] float deltaTime)
 {
 }

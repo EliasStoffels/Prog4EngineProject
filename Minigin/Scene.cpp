@@ -51,6 +51,14 @@ void Scene::Update(float deltaTime)
 	m_objects.erase(removeIter, m_objects.end());
 }
 
+void dae::Scene::FixedUpdate(float fixedTime)
+{
+	for (auto& object : m_objects)
+	{
+		object->FixedUpdate(fixedTime);
+	}
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_objects)

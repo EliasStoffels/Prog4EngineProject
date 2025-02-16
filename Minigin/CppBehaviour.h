@@ -12,6 +12,7 @@ namespace dae
 		virtual void Start();
 
 		virtual void Update(float deltaTime);
+		virtual void FixedUpdate(float fixedTime);
 		virtual void LateUpdate(float deltaTime);
 		virtual void Render() const;
 
