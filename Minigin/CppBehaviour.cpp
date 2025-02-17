@@ -8,16 +8,16 @@ void dae::CppBehaviour::Start()
 {
 }
 
-void dae::CppBehaviour::Update([[maybe_unused]] float deltaTime)
+void dae::CppBehaviour::Update(float)
 {
 
 }
 
-void dae::CppBehaviour::FixedUpdate([[maybe_unused]] float fixedTime)
+void dae::CppBehaviour::FixedUpdate(float)
 {
 }
 
-void dae::CppBehaviour::LateUpdate([[maybe_unused]] float deltaTime)
+void dae::CppBehaviour::LateUpdate(float)
 {
 }
 
@@ -26,7 +26,7 @@ void dae::CppBehaviour::Render() const
 
 }
 
-void dae::CppBehaviour::SetOwningGameObject(GameObject* owningGameObject)
+void dae::CppBehaviour::SetOwningGameObject(GameObject& owningGameObject)
 {
-	m_OwningGameObject = owningGameObject;
+	m_OwningGameObject = &owningGameObject;
 }

@@ -23,8 +23,6 @@ namespace dae
 		void SetPosition(float x, float y);
 		Transform GetTransform();
 
-		void AddComponent(std::unique_ptr<CppBehaviour> component);
-
 		GameObject() = default;
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -34,7 +32,19 @@ namespace dae
 
 		// template functions
 		template <typename T>
-		CppBehaviour* GetComponent(int index = 0)
+		CppBehaviour* AddComponent()
+		{
+			if (std::is_base_of<CppBehaviour, T>::value)
+			{
+				std::unique_ptr<T> component(new T());
+				component->SetOwningGameObject(*this);
+				m_OwnedComponents.push_back(std::move(component));
+				return m_OwnedComponents[m_OwnedComponents.size() - 1].get();
+			}
+		}
+
+		template <typename T>
+		T* GetComponent(int index = 0)
 		{
 			int currentIndex = 0;
 			for (const auto& component : m_OwnedComponents)
@@ -95,7 +105,5 @@ namespace dae
 	private:
 		std::vector<std::unique_ptr<CppBehaviour>> m_OwnedComponents{};
 		Transform m_transform{};
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		//std::shared_ptr<Texture2D> m_texture{};
 	};
 }

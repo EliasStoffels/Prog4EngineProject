@@ -90,6 +90,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 
+	sceneManager.Start();
+
 	while (doContinue)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();

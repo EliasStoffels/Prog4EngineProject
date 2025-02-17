@@ -10,20 +10,20 @@ namespace dae
 	class Texture2D;
 	class TextureComponent : public CppBehaviour
 	{
+		friend class GameObject;
 	public:
 		void Render() const override;
 
 		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
 
-		TextureComponent(const std::string& filename);
+		
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;
 		TextureComponent(TextureComponent&& other) = delete;
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 	private:
-		Transform m_transform{};
-		std::shared_ptr<Texture2D> m_texture;
+		TextureComponent();
+		std::shared_ptr<Texture2D> m_texture = nullptr;
 	};
 }

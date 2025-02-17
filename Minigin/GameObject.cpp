@@ -49,14 +49,7 @@ void dae::GameObject::Render() const
 	{
 		component->Render();
 	}
-	//const auto& pos = m_transform.GetPosition();
-	//Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 }
-
-//void dae::GameObject::SetTexture(const std::string& filename)
-//{
-//	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
-//}
 
 void dae::GameObject::SetPosition(float x, float y)
 {
@@ -66,13 +59,4 @@ void dae::GameObject::SetPosition(float x, float y)
 dae::Transform dae::GameObject::GetTransform()
 {
 	return m_transform;
-}
-
-void dae::GameObject::AddComponent(std::unique_ptr<CppBehaviour> component)
-{
-	if (component)
-	{
-		component->SetOwningGameObject(this);
-		m_OwnedComponents.push_back(std::move(component));
-	}
 }

@@ -101,7 +101,7 @@
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextComponentcpp">
+    <ClCompile Include="TextComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
     <ClCompile Include="TextureComponent.cpp">
@@ -109,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="FpsComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CppBehaviour.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>

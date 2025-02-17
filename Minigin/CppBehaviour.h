@@ -6,9 +6,9 @@ namespace dae
 
 	class CppBehaviour
 	{
-	public:
-		CppBehaviour();
+		friend class GameObject;
 
+	public:
 		virtual void Start();
 
 		virtual void Update(float deltaTime);
@@ -21,12 +21,12 @@ namespace dae
 		CppBehaviour(CppBehaviour&& other) = delete;
 		CppBehaviour& operator=(const CppBehaviour& other) = delete;
 		CppBehaviour& operator=(CppBehaviour&& other) = delete;
-		void SetOwningGameObject(GameObject* owningGameObject);
 
 		bool pendingRemove = false;
 	private:
-
+		void SetOwningGameObject(GameObject& owningGameObject);
 	protected:
+		CppBehaviour();
 		GameObject* m_OwningGameObject{ nullptr };
 	};
 }

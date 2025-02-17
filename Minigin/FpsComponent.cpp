@@ -8,24 +8,19 @@ dae::FpsComponent::FpsComponent()
 
 void dae::FpsComponent::Start()
 {
-	auto texComp = static_cast<dae::TextComponent*>(m_OwningGameObject->GetComponent<dae::TextComponent>());
-	if(texComp)
-	{
-		texComp->SetPosition(0.f, 0.f);
-	}
+	m_TextComp = m_OwningGameObject->GetComponent<dae::TextComponent>();
 }
 
-void dae::FpsComponent::Update([[maybe_unused]] float deltaTime)
+void dae::FpsComponent::Update(float deltaTime)
 {
 	m_totalDeltaTime += deltaTime;
 
 	if(m_totalDeltaTime > m_fpsUpdateDelay)
 	{
 		float fps = 1 / deltaTime;
-		auto texComp = static_cast<dae::TextComponent*>(m_OwningGameObject->GetComponent<dae::TextComponent>());
-		if (texComp)
+		if (m_TextComp)
 		{
-			texComp->SetText(std::to_string(fps) + " FPS");
+			m_TextComp->SetText(std::to_string(fps) + " FPS");
 		}
 		m_totalDeltaTime -= m_fpsUpdateDelay;
 	}
