@@ -8,7 +8,6 @@ namespace dae
 {
 	class Texture2D;
 
-	// todo: this should become final.
 	class GameObject final
 	{
 	public:
@@ -19,8 +18,13 @@ namespace dae
 		void LateUpdate(float deltaTime);
 		void Render() const;
 
-		//void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(glm::vec3 pos);
+		glm::vec3 GetWorldPosition();
+
+		void SetParent(GameObject* parent, bool keepWorldPosition);
+		bool IsChild(GameObject* otherObject);
+
 		Transform GetTransform();
 
 		GameObject() = default;
@@ -32,21 +36,20 @@ namespace dae
 
 		// template functions
 		template <typename T>
-		CppBehaviour* AddComponent()
+		T* AddComponent()
 		{
 			if (std::is_base_of<CppBehaviour, T>::value)
 			{
 				std::unique_ptr<T> component(new T());
 				component->SetOwningGameObject(*this);
 				m_OwnedComponents.push_back(std::move(component));
-				return m_OwnedComponents[m_OwnedComponents.size() - 1].get();
+				return static_cast<T*>(m_OwnedComponents[m_OwnedComponents.size() - 1].get());
 			}
 		}
 
 		template <typename T>
 		T* GetComponent()
 		{
-			int currentIndex = 0;
 			for (const auto& component : m_OwnedComponents)
 			{
 				if (auto* castedComponent = dynamic_cast<T*>(component.get()))
@@ -108,6 +111,8 @@ namespace dae
 		bool pendingRemove = false;
 	private:
 		std::vector<std::unique_ptr<CppBehaviour>> m_OwnedComponents{};
+		std::vector<GameObject*> m_childObjects{};
+		GameObject* m_parent = nullptr;
 		Transform m_transform{};
 	};
 }
