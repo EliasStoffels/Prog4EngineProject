@@ -44,16 +44,14 @@ namespace dae
 		}
 
 		template <typename T>
-		T* GetComponent(int index = 0)
+		T* GetComponent()
 		{
 			int currentIndex = 0;
 			for (const auto& component : m_OwnedComponents)
 			{
 				if (auto* castedComponent = dynamic_cast<T*>(component.get()))
 				{
-					if (currentIndex == index)
-						return castedComponent;
-					++currentIndex;
+					return castedComponent;
 				}
 			}
 
@@ -61,16 +59,22 @@ namespace dae
 		}
 
 		template <typename T>
-		void RemoveComponent(int index = 0)
+		void RemoveComponent(T* component = nullptr)
 		{
-			int currentIndex = 0;
+			if (!std::is_base_of<CppBehaviour, T>::value)
+				return;
+
+			if (T)
+			{
+				component->pendingRemoval = true;
+				return;
+			}
+
 			for (const auto& component : m_OwnedComponents)
 			{
 				if (auto* castedComponent = dynamic_cast<T*>(component.get()))
 				{
-					if (currentIndex == index)
-						castedComponent->pendingRemove = true;
-					++currentIndex;
+					castedComponent->pendingRemove = true;
 				}
 			}
 		}
