@@ -101,6 +101,11 @@ bool dae::GameObject::IsChild(GameObject* otherObject)
 	return false;
 }
 
+std::vector<dae::GameObject*>* dae::GameObject::GetChildren()
+{
+	return &m_childObjects;
+}
+
 dae::Transform dae::GameObject::GetTransform()
 {
 	return m_transform;

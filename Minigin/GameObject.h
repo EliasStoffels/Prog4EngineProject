@@ -24,6 +24,7 @@ namespace dae
 
 		void SetParent(GameObject* parent, bool keepWorldPosition);
 		bool IsChild(GameObject* otherObject);
+		std::vector<GameObject*>* GetChildren();
 
 		Transform GetTransform();
 
