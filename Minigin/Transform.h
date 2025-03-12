@@ -1,5 +1,6 @@
 #pragma once
 #include <glm.hpp>
+#include <vector>
 
 namespace dae
 {
@@ -15,15 +16,17 @@ namespace dae
 		void SetLocalPosition(glm::vec3 pos);
 
 		const glm::vec3& GetWorldPosition();
+		void Move(glm::vec3 direction);
 
+	private:
 		void UpdatePosition();
 		void SetPositionDirty();
-	private:
-		glm::vec3 m_localPosition;
-		glm::vec3 m_worldPosition;
+		glm::vec3 m_localPosition{};
+		glm::vec3 m_worldPosition{};
 
-		bool m_positionDirty;
+		bool m_positionDirty = false;
 
 		GameObject* m_parent = nullptr;
+		std::vector<GameObject*>* m_childObjects = nullptr;
 	};
 }

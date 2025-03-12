@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include <chrono>
 #include <thread>
+#include "TimeSingleton.h"
 
 SDL_Window* g_window{};
 
@@ -84,6 +85,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
+	auto& timeS = TimeSingleton::GetInstance();
 
 	// todo: this update loop could use some work.
 	bool doContinue = true;
@@ -96,6 +98,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+		timeS.SetDeltaTime(deltaTime);
 		lastTime = currentTime;
 		lag += deltaTime;
 

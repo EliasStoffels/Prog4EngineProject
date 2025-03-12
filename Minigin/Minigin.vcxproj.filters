@@ -19,6 +19,12 @@
     <Filter Include="Source Files\ComponentCppFiles">
       <UniqueIdentifier>{4aab0edd-d72f-473f-9b4b-97235530712d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ComandCppFiles">
+      <UniqueIdentifier>{2f6a258e-0dff-496d-998e-2a8c2ac5cb6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CommandHeaders">
+      <UniqueIdentifier>{162b54ad-5507-4968-8d75-8cc66583057d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -69,6 +75,15 @@
     <ClInclude Include="RotateComponent.h">
       <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeSingleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -118,6 +133,15 @@
     </ClCompile>
     <ClCompile Include="RotateComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSingleton.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

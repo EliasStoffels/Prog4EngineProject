@@ -1,5 +1,7 @@
 #include "Transform.h"
 #include "GameObject.h"
+#include <algorithm>
+#include <iostream>
 
 const glm::vec3& dae::Transform::GetLocalPosition() const
 {
@@ -17,7 +19,9 @@ void dae::Transform::SetLocalPosition(const float x, const float y, const float 
 
 void dae::Transform::SetLocalPosition(glm::vec3 pos)
 {
-	m_localPosition = pos;
+	m_localPosition.x = pos.x;
+	m_localPosition.y = pos.y;
+	m_localPosition.z = pos.z;
 
 	SetPositionDirty();
 }
@@ -25,8 +29,16 @@ void dae::Transform::SetLocalPosition(glm::vec3 pos)
 const glm::vec3& dae::Transform::GetWorldPosition()
 {
 	if (m_positionDirty)
+	{
 		UpdatePosition();
+	}
 	return m_worldPosition;
+}
+
+
+void dae::Transform::Move(glm::vec3 direction)
+{
+	SetLocalPosition(m_localPosition + direction);
 }
 
 void dae::Transform::UpdatePosition()
@@ -36,7 +48,7 @@ void dae::Transform::UpdatePosition()
 		if (m_parent == nullptr)
 			m_worldPosition = m_localPosition;
 		else
-		m_worldPosition = m_parent->GetTransform().GetWorldPosition() + m_localPosition;
+		m_worldPosition = m_parent->GetTransform()->GetWorldPosition() + m_localPosition;
 	}
 	m_positionDirty = false;
 }
@@ -44,5 +56,8 @@ void dae::Transform::UpdatePosition()
 void dae::Transform::SetPositionDirty()
 {
 	m_positionDirty = true;
+	 
+	if(m_childObjects)
+	std::for_each(m_childObjects->begin(), m_childObjects->end(), [](dae::GameObject* child) {child->GetTransform()->SetPositionDirty(); });
 }
 

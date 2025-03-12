@@ -26,7 +26,7 @@ namespace dae
 		bool IsChild(GameObject* otherObject);
 		std::vector<GameObject*>* GetChildren();
 
-		Transform GetTransform();
+		Transform* GetTransform();
 
 		GameObject() = default;
 		virtual ~GameObject();
@@ -68,7 +68,7 @@ namespace dae
 			if (!std::is_base_of<CppBehaviour, T>::value)
 				return;
 
-			if (T)
+			if (component)
 			{
 				component->pendingRemoval = true;
 				return;
