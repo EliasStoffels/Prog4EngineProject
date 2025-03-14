@@ -27,9 +27,9 @@ namespace dae
 			--m_CharacterHealth;
 			m_TextLives->SetText("# Lives: " + std::to_string(m_CharacterHealth));
 		}
-		else if (event.id == sdbm_hash("EnemyKilled"))
+		else if (event.id == sdbm_hash("ScoreChanged"))
 		{
-			m_Score += 500.f;
+			m_Score += reinterpret_cast<ScoreChangedArgs*>(event.arg)->amount;
 			m_TextPoints->SetText("score: " + std::to_string(m_Score));
 		}
 	}

@@ -105,6 +105,9 @@
     <ClInclude Include="BaseObserver.h">
       <Filter>Header Files\ObserverHeaders</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -181,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="BaseObserver.cpp">
       <Filter>Source Files\ObserverCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

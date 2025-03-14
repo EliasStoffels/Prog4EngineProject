@@ -3,16 +3,18 @@
 
 namespace dae
 {
+	struct ScoreChangedArgs
+	{
+		int amount;
+	};
+
 	unsigned int sdbm_hash(const char* str);
 
-	struct EventArg {};
 	using EventId = unsigned int;
 	struct Event {
 		const EventId id;
-		static const uint8_t MAX_ARGS = 8;
-		uint8_t nbArgs;
-		EventArg args[MAX_ARGS];
-		explicit Event(EventId _id) : id{ _id } {}
+		void* arg;
+		explicit Event(EventId _id, void* ptr = nullptr) : id{ _id }, arg{ ptr } {}
 	};
 
 	class GameObject;

@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseCommand.h"
 #include <memory>
-#include "HealthComponent.h"
+#include "ScoreComponent.h"
 
 namespace dae
 {
@@ -12,5 +12,6 @@ namespace dae
         void Execute() override;
 
     private:
+        ScoreComponent* m_ScoreComponent = nullptr;
     };
 }

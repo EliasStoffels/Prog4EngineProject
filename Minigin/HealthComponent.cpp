@@ -1,6 +1,7 @@
 #include "HealthComponent.h"
 #include "GameObject.h"
 #include "iostream"
+
 namespace dae
 {
 	void HealthComponent::Die()
@@ -29,7 +30,6 @@ namespace dae
 	{
 		if (target->TakeDamage(amount))
 		{
-			m_OwningGameObject->NotifyObservers(Event{ sdbm_hash("EnemyKilled") });
 			return true;
 		}
 		return false;
