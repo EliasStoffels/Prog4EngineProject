@@ -1,9 +1,5 @@
 #pragma once
 #include "Singleton.h"
-#include "Windows.h"
-#define WIN32_LEAN_AND_MEAN
-#include <Xinput.h>
-#pragma comment(lib, "Xinput.lib")
 #include <memory>
 #include "BaseCommand.h"
 

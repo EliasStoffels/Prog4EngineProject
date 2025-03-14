@@ -176,10 +176,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseCommand.h" />
+    <ClInclude Include="BaseObserver.h" />
     <ClInclude Include="CppBehaviour.h" />
+    <ClInclude Include="DieCommand.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FpsComponent.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MoveCommand.h" />
@@ -194,13 +197,16 @@
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TimeSingleton.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UiObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseCommand.cpp" />
     <ClCompile Include="CppBehaviour.cpp" />
+    <ClCompile Include="DieCommand.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FpsComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
@@ -210,11 +216,14 @@
     <ClCompile Include="RotateComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="BaseObserver.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="TimeSingleton.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UiObserver.cpp" />
+    <ClCompile Include="XinputImpl.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "CppBehaviour.h"
 #include <vector>
+#include "BaseObserver.h"
 
 namespace dae
 {
@@ -26,6 +27,10 @@ namespace dae
 		bool IsChild(GameObject* otherObject);
 		std::vector<GameObject*>* GetChildren();
 
+		void AddObserver(Observer* observer);
+		void RemoveObserver(Observer* observer);
+		void NotifyObservers(const Event& event);
+
 		Transform* GetTransform();
 
 		GameObject() = default;
@@ -36,12 +41,12 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 		// template functions
-		template <typename T>
-		T* AddComponent()
+		template <typename T, typename... Args>
+		T* AddComponent(Args&&... args)
 		{
 			if (std::is_base_of<CppBehaviour, T>::value)
 			{
-				std::unique_ptr<T> component(new T());
+				std::unique_ptr<T> component(new T(std::forward<Args>(args)...));
 				component->SetOwningGameObject(*this);
 				m_OwnedComponents.push_back(std::move(component));
 				return static_cast<T*>(m_OwnedComponents[m_OwnedComponents.size() - 1].get());
@@ -110,9 +115,12 @@ namespace dae
 		}
 
 		bool pendingRemove = false;
+	protected:
+			
 	private:
 		std::vector<std::unique_ptr<CppBehaviour>> m_OwnedComponents{};
 		std::vector<GameObject*> m_childObjects{};
+		std::vector<Observer*> m_observers{};
 		GameObject* m_parent = nullptr;
 		Transform m_transform{};
 	};

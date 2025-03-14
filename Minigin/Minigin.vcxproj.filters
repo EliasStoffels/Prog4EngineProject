@@ -25,6 +25,12 @@
     <Filter Include="Header Files\CommandHeaders">
       <UniqueIdentifier>{162b54ad-5507-4968-8d75-8cc66583057d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ObserverHeaders">
+      <UniqueIdentifier>{fc5357c8-f72d-4b39-8641-36cc71f7ac24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ObserverCppFiles">
+      <UniqueIdentifier>{6c64a665-f7cd-4b16-9170-e0bfac18ac4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -84,6 +90,18 @@
     <ClInclude Include="TimeSingleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UiObserver.h">
+      <Filter>Header Files\ObserverHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="DieCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -142,6 +160,21 @@
     </ClCompile>
     <ClCompile Include="TimeSingleton.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XinputImpl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="UiObserver.cpp">
+      <Filter>Source Files\ObserverCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DieCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

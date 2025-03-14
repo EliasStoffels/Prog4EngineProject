@@ -15,7 +15,6 @@ namespace dae
 		void Render() const override;
 
 		void SetTexture(const std::string& filename);
-
 		
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;

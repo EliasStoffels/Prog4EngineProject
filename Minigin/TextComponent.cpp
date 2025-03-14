@@ -6,9 +6,17 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 
+dae::TextComponent::TextComponent(std::shared_ptr<Font> font, const std::string text, glm::vec3 offset)
+	: m_needsUpdate(true), m_textTexture(nullptr), RenderOffset{offset}
+{ 
+	SetFont(font);
+	SetText(text);
+}
+
 dae::TextComponent::TextComponent()
 	: m_needsUpdate(true), m_textTexture(nullptr)
-{ }
+{
+}
 
 void dae::TextComponent::Update(float)
 {
@@ -35,7 +43,7 @@ void dae::TextComponent::Render() const
 {
 	if (m_textTexture != nullptr)
 	{
-		const auto& pos = m_OwningGameObject->GetTransform()->GetWorldPosition();
+		const auto& pos = m_OwningGameObject->GetTransform()->GetWorldPosition() + RenderOffset;
 		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
 	}
 }

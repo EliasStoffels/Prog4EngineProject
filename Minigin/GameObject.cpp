@@ -108,6 +108,27 @@ std::vector<dae::GameObject*>* dae::GameObject::GetChildren()
 	return &m_childObjects;
 }
 
+void dae::GameObject::AddObserver(Observer* observer)
+{
+	if (std::any_of(m_observers.begin(), m_observers.end(), [observer](Observer* linkedObserver) { return linkedObserver == observer;}))
+		return;
+	m_observers.emplace_back(observer);
+}
+
+void dae::GameObject::RemoveObserver(Observer* observer)
+{
+	auto eraseIt = std::remove(m_observers.begin(), m_observers.end(), observer);
+	m_observers.erase(eraseIt, m_observers.end());
+}
+
+void dae::GameObject::NotifyObservers(const Event& event)
+{
+	for (auto observer : m_observers)
+	{
+		observer->Notify(event, this);
+	}
+}
+
 dae::Transform* dae::GameObject::GetTransform()
 {
 	return &m_transform;
