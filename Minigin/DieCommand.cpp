@@ -10,6 +10,6 @@ namespace dae
 	void DieCommand::Execute()
 	{
 		if (m_buttonState.ReleasedThisFrame)
-			m_HealthComponent->Die();
+			m_HealthComponent->TakeDamage(100.f);
 	}
 }

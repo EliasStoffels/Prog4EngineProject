@@ -9,7 +9,10 @@ namespace dae
 
 	public:
 		void Die();
-		int GetCurrentHealth() { return m_CurrentHealth; }
+		float GetCurrentHealth() { return m_CurrentHealth; }
+
+		bool TakeDamage(float amount);
+		bool DealDamage(HealthComponent* target, float amount);
 
 		virtual ~HealthComponent() = default;
 		HealthComponent(const HealthComponent& other) = delete;
@@ -18,9 +21,12 @@ namespace dae
 		HealthComponent& operator=(HealthComponent&& other) = delete;
 
 	private:
-		HealthComponent(int health);
-		int MAX_HEALTH;
-		int m_CurrentHealth = MAX_HEALTH;
+		HealthComponent(float health, int lives, bool autoRespawn = true);
+		const float MAX_HEALTH;
+		const int MAX_LIVES;
+		float m_CurrentHealth = MAX_HEALTH;
+		int m_CurrentLives = MAX_LIVES;
+		bool m_AutoRespawn;
 	};
 }
 

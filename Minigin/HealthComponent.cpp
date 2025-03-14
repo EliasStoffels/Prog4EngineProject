@@ -5,12 +5,39 @@ namespace dae
 {
 	void HealthComponent::Die()
 	{
-		--m_CurrentHealth;
+		--m_CurrentLives;
 		m_OwningGameObject->NotifyObservers(Event{ sdbm_hash("CharacterDied") });
+		if (m_CurrentLives > 0)
+		{
+			m_CurrentHealth = MAX_HEALTH;
+		}
 	}
 
-	HealthComponent::HealthComponent(int health) :MAX_HEALTH{health}
+	bool HealthComponent::TakeDamage(float amount)
+	{
+		m_CurrentHealth -= amount;
+
+		if (m_CurrentHealth <= 0)
+		{
+			Die();
+			return true;
+		}
+		return false;
+	}
+
+	bool HealthComponent::DealDamage(HealthComponent* target, float amount)
+	{
+		if (target->TakeDamage(amount))
+		{
+			m_OwningGameObject->NotifyObservers(Event{ sdbm_hash("EnemyKilled") });
+			return true;
+		}
+		return false;
+	}
+
+	HealthComponent::HealthComponent(float health, int lives, bool autoRespawn) :MAX_HEALTH{ health }, MAX_LIVES{lives},m_AutoRespawn{autoRespawn}
 	{
 		m_CurrentHealth = MAX_HEALTH;
+		m_CurrentLives = MAX_LIVES;
 	}
 }

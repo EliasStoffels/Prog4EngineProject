@@ -5,7 +5,6 @@ namespace dae
 {
 	unsigned int sdbm_hash(const char* str);
 
-
 	struct EventArg {};
 	using EventId = unsigned int;
 	struct Event {

@@ -93,14 +93,17 @@
     <ClInclude Include="HealthComponent.h">
       <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="BaseObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UiObserver.h">
       <Filter>Header Files\ObserverHeaders</Filter>
     </ClInclude>
     <ClInclude Include="DieCommand.h">
       <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="KillEnemyCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObserver.h">
+      <Filter>Header Files\ObserverHeaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,11 +173,14 @@
     <ClCompile Include="UiObserver.cpp">
       <Filter>Source Files\ObserverCppFiles</Filter>
     </ClCompile>
-    <ClCompile Include="BaseObserver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DieCommand.cpp">
       <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="KillEnemyCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObserver.cpp">
+      <Filter>Source Files\ObserverCppFiles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
