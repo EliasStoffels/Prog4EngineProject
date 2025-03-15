@@ -29,8 +29,7 @@ namespace dae
 		}
 		else if (event.id == sdbm_hash("ScoreChanged"))
 		{
-			m_Score += reinterpret_cast<ScoreChangedArgs*>(event.arg)->amount;
-			m_TextPoints->SetText("score: " + std::to_string(m_Score));
+			m_TextPoints->SetText("score: " + std::to_string(reinterpret_cast<ScoreChangedArgs*>(event.arg)->newScore));
 		}
 	}
 }

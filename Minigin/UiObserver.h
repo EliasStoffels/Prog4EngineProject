@@ -25,7 +25,6 @@ namespace dae
 		int m_CharacterHealth;
 		TextComponent* m_TextLives = nullptr;
 		TextComponent* m_TextPoints = nullptr;
-		int m_Score = 0;
 	};
 }
 

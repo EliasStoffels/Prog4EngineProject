@@ -1,3 +1,5 @@
+#include <steam_api.h>
+
 #include <stdexcept>
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
@@ -101,6 +103,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		timeS.SetDeltaTime(deltaTime);
 		lastTime = currentTime;
 		lag += deltaTime;
+
+		SteamAPI_RunCallbacks();
 
 		doContinue = input.ProcessInput();
 		while (lag >= fixedTimeStep)

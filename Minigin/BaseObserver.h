@@ -5,7 +5,7 @@ namespace dae
 {
 	struct ScoreChangedArgs
 	{
-		int amount;
+		int newScore;
 	};
 
 	unsigned int sdbm_hash(const char* str);
