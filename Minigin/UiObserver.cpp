@@ -1,6 +1,7 @@
 #include "UiObserver.h"
 #include "GameObject.h"
 #include "TextComponent.h"
+#include <AchievementObserver.h>
 
 namespace dae
 {

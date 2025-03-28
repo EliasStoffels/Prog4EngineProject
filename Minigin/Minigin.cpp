@@ -104,7 +104,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		lastTime = currentTime;
 		lag += deltaTime;
 
-		SteamAPI_RunCallbacks();
+		//SteamAPI_RunCallbacks();
 
 		doContinue = input.ProcessInput();
 		while (lag >= fixedTimeStep)

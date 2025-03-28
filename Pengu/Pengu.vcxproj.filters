@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ObserverCppFiles">
+      <UniqueIdentifier>{7521ff17-4521-4a16-8b94-595332a7163e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ComponentCppFiles">
+      <UniqueIdentifier>{e834bf8b-7c4a-45a2-bc35-7c5e0f1c2ef3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ComandCppFiles">
+      <UniqueIdentifier>{8b998921-dffb-4c5f-aada-5d74371ad652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CommandHeaders">
+      <UniqueIdentifier>{7f16d069-b821-485c-947d-ca64c459dfd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ComponentHeaders">
+      <UniqueIdentifier>{adcbb0df-c839-49a1-93de-8645375786f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ObserverHeaders">
+      <UniqueIdentifier>{18090b12-1127-4d61-b52e-cc457c29a5fb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\AchievementObserver.cpp">
+      <Filter>Source Files\ObserverCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\UiObserver.cpp">
+      <Filter>Source Files\ObserverCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\FpsComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\HealthComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\RotateComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\ScoreComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\TextComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\TextureComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\DieCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\KillEnemyCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\MoveCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Minigin\DieCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\KillEnemyCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\MoveCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\FpsComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\HealthComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\RotateComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\ScoreComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\TextComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\TextureComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\AchievementObserver.h">
+      <Filter>Header Files\ObserverHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\UiObserver.h">
+      <Filter>Header Files\ObserverHeaders</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

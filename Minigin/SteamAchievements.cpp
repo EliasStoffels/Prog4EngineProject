@@ -1,9 +1,9 @@
 #include "SteamAchievements.h"
 #include "iostream"
 
-bool UnlockAchievement(const char* achievementID)
+bool UnlockAchievement(const char*)
 {
-    if (SteamUserStats() == nullptr)
+    /*if (SteamUserStats() == nullptr)
     {
         return false;
     }
@@ -16,5 +16,6 @@ bool UnlockAchievement(const char* achievementID)
         std::cout << "Failed to unlock achievement: " << achievementID << "\n";
     }
 
-    return success;
+    return success;*/
+    return false;
 }

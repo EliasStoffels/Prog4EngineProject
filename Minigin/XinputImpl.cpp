@@ -36,6 +36,7 @@ namespace dae
         void CheckKeyboard(const std::pair<unsigned int, std::unique_ptr<Command>>& command);
         void CheckController(const std::pair<unsigned int, std::unique_ptr<Command>>& command);
     };
+
     void InputManager::inputImpl::ProcessInput(const std::vector<std::pair<unsigned int, std::unique_ptr<Command>>>& commands)
     {
         //update states

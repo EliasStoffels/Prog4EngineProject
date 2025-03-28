@@ -3,10 +3,6 @@
 
 namespace dae
 {
-	struct ScoreChangedArgs
-	{
-		int newScore;
-	};
 
 	unsigned int sdbm_hash(const char* str);
 

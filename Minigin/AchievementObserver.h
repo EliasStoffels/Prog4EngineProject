@@ -4,6 +4,11 @@
 
 namespace dae
 {
+	struct ScoreChangedArgs
+	{
+		int newScore;
+	};
+
 	class AchievementComponent : public CppBehaviour, public Observer
 	{
 		friend class GameObject;

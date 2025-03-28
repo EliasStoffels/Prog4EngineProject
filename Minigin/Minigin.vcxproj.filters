@@ -13,24 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\ComponentHeaders">
-      <UniqueIdentifier>{ed7b20a3-1e53-41c3-878e-d52194086d09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ComponentCppFiles">
-      <UniqueIdentifier>{4aab0edd-d72f-473f-9b4b-97235530712d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ComandCppFiles">
-      <UniqueIdentifier>{2f6a258e-0dff-496d-998e-2a8c2ac5cb6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\CommandHeaders">
-      <UniqueIdentifier>{162b54ad-5507-4968-8d75-8cc66583057d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ObserverHeaders">
-      <UniqueIdentifier>{fc5357c8-f72d-4b39-8641-36cc71f7ac24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ObserverCppFiles">
-      <UniqueIdentifier>{6c64a665-f7cd-4b16-9170-e0bfac18ac4f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -66,53 +48,20 @@
     <ClInclude Include="Minigin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="FpsComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="CppBehaviour.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="RotateComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Header Files\CommandHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCommand.h">
-      <Filter>Header Files\CommandHeaders</Filter>
-    </ClInclude>
     <ClInclude Include="TimeSingleton.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="UiObserver.h">
-      <Filter>Header Files\ObserverHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="DieCommand.h">
-      <Filter>Header Files\CommandHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="KillEnemyCommand.h">
-      <Filter>Header Files\CommandHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseObserver.h">
-      <Filter>Header Files\ObserverHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
     <ClInclude Include="SteamAchievements.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AchievementObserver.h">
-      <Filter>Header Files\ObserverHeaders</Filter>
+    <ClInclude Include="BaseCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CppBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObserver.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -143,32 +92,8 @@
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="FpsComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="CppBehaviour.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="RotateComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
     </ClCompile>
     <ClCompile Include="TimeSingleton.cpp">
       <Filter>Source Files</Filter>
@@ -176,29 +101,17 @@
     <ClCompile Include="XinputImpl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="UiObserver.cpp">
-      <Filter>Source Files\ObserverCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="DieCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="KillEnemyCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseObserver.cpp">
-      <Filter>Source Files\ObserverCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
     <ClCompile Include="SteamAchievements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AchievementObserver.cpp">
-      <Filter>Source Files\ObserverCppFiles</Filter>
+    <ClCompile Include="BaseObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CppBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCommand.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
