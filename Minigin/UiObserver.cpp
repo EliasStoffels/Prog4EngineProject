@@ -23,12 +23,12 @@ namespace dae
 
 	void UiObserverComponent::Notify(const Event& event, GameObject*)
 	{
-		if (event.id == sdbm_hash("CharacterDied") && m_CharacterHealth > 0)
+		if (event.id == make_sdbm_hash("CharacterDied") && m_CharacterHealth > 0)
 		{
 			--m_CharacterHealth;
 			m_TextLives->SetText("# Lives: " + std::to_string(m_CharacterHealth));
 		}
-		else if (event.id == sdbm_hash("ScoreChanged"))
+		else if (event.id == make_sdbm_hash("ScoreChanged"))
 		{
 			m_TextPoints->SetText("score: " + std::to_string(reinterpret_cast<ScoreChangedArgs*>(event.arg)->newScore));
 		}

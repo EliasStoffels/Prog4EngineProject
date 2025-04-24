@@ -15,6 +15,6 @@ namespace dae
 	{
 		m_Score += value;
 		ScoreChangedArgs args = ScoreChangedArgs{ m_Score };
-		m_OwningGameObject->NotifyObservers(Event{ sdbm_hash("ScoreChanged"), &args});
+		m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("ScoreChanged"), &args});
 	}
 }

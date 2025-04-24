@@ -7,7 +7,7 @@ namespace dae
 	void HealthComponent::Die()
 	{
 		--m_CurrentLives;
-		m_OwningGameObject->NotifyObservers(Event{ sdbm_hash("CharacterDied") });
+		m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("CharacterDied") });
 		if (m_CurrentLives > 0)
 		{
 			m_CurrentHealth = MAX_HEALTH;

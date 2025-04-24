@@ -11,7 +11,7 @@ namespace dae
 
 	void dae::AchievementComponent::Notify(const Event& event, GameObject*)
 	{
-		if (event.id == sdbm_hash("ScoreChanged"))
+		if (event.id == make_sdbm_hash("ScoreChanged"))
 		{
 			if (reinterpret_cast<ScoreChangedArgs*>(event.arg)->newScore >= 500 && !hasAchieved)
 			{
