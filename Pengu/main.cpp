@@ -30,6 +30,8 @@
 #include "KillEnemyCommand.h"
 #include <SteamAchievements.h>
 #include <AchievementObserver.h>
+#include "ServiceLocator.h"
+#include "mixerSoundSystem.cpp"
 
 void load()
 {
@@ -155,14 +157,17 @@ void load()
 
 int main(int, char* []) {
 
-	//if (!
-	//SteamAPI_Init();
-	//{
-	//	std::cerr << "Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)." << std::endl;
-	//	return 1;
-	//}
-	//else
-	//	std::cout << "Successfully initialized steam." << std::endl;
+	auto &serviceLocator = dae::ServiceLocator::GetInstance();
+	std::unique_ptr<dae::SoundSystem> ss = std::make_unique<dae::MixerSoundSystem>();
+	serviceLocator.RegisterSoundSystem(ss);
+	dae::SoundSystem* ss2 = &serviceLocator.GetSoundSystem();
+
+	ss2->LoadSound(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong")), "../Data/relaxing-guitar-loop-v5-245859.wav");
+	ss2->Play(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong")),1.f);
+	ss2->LoadSound(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong2")), "../Data/JumpSFX.wav");
+	ss2->Play(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong2")), 1.f);
+
+
 
 	dae::Minigin engine("../Data/");
 	engine.Run(load);
