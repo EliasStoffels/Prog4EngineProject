@@ -9,40 +9,6 @@
 
 namespace dae
 {
-	/*class MixerSoundSystem::Impl
-	{
-	public:
-		void Play(const sound_id id, const float volume = 128);
-		void Stop(const sound_id id);
-		void StopAllSounds();
-		void LoadSound(const sound_id id, const std::string& filePath);
-		bool IsSoundPlaying(const sound_id id);
-	private:
-
-	};
-
-	void MixerSoundSystem::Impl::Play(const sound_id id, const float volume)
-	{
-
-	}
-
-	void MixerSoundSystem::Impl::Stop(const sound_id id)
-	{
-	}
-
-	void MixerSoundSystem::Impl::StopAllSounds()
-	{
-	}
-
-	void MixerSoundSystem::Impl::LoadSound(const sound_id id, const std::string& filePath)
-	{
-	}
-
-	bool MixerSoundSystem::Impl::IsSoundPlaying(const sound_id id)
-	{
-		return false;
-	}*/
-
     class MixerSoundSystem::Impl
     {
     public:
@@ -179,6 +145,12 @@ namespace dae
 
         void HandleLoadEvent(const SoundEvent& event)
         {
+            auto it = m_SoundChunks.find(event.id);
+            if (it != m_SoundChunks.end())
+            {
+                return;
+            }
+
             Mix_Chunk* chunk = Mix_LoadWAV(event.filePath.c_str());
             if (chunk)
             {

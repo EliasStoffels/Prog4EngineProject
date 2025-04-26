@@ -231,6 +231,7 @@ echo 480 &gt; "$(OutputPath)steam_appid.txt"
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LoggingSoundSystem.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MixerSoundSystem.h" />
     <ClInclude Include="Renderer.h" />
@@ -251,6 +252,7 @@ echo 480 &gt; "$(OutputPath)steam_appid.txt"
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MixerSoundSystem.cpp" />
     <ClCompile Include="Renderer.cpp" />
