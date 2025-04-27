@@ -158,18 +158,8 @@ void load()
 
 int main(int, char* []) {
 
-	auto &serviceLocator = dae::ServiceLocator::GetInstance();
-	std::unique_ptr<dae::SoundSystem> ss = std::make_unique<dae::MixerSoundSystem>();
-	std::unique_ptr<dae::SoundSystem> lss = std::make_unique<dae::LoggingSoundSystem>(ss);
-	serviceLocator.RegisterSoundSystem(lss);
-	dae::SoundSystem* ServiceLocatedSoundSystem = &serviceLocator.GetSoundSystem();
-
-	ServiceLocatedSoundSystem->LoadSound(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong")), "../Data/relaxing-guitar-loop-v5-245859.wav");
-	ServiceLocatedSoundSystem->Play(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong")),1.f);
-	ServiceLocatedSoundSystem->LoadSound(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong2")), "../Data/JumpSFX.wav");
-	ServiceLocatedSoundSystem->Play(static_cast<dae::sound_id>(dae::make_sdbm_hash("poopooSong2")), 1.f);
-
-
+	
+	//serviceLocator.RegisterSoundSystem(std::make_unique<dae::LoggingSoundSystem>(std::make_unique<dae::MixerSoundSystem>()));
 
 	dae::Minigin engine("../Data/");
 	engine.Run(load);

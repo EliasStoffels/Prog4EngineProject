@@ -5,7 +5,7 @@
 namespace dae {
     class LoggingSoundSystem : public SoundSystem {
     public:
-        LoggingSoundSystem(std::unique_ptr<SoundSystem>& soundSystem){
+        LoggingSoundSystem(std::unique_ptr<SoundSystem>&& soundSystem){
             m_WrappedSoundSystem = std::move(soundSystem);
         }
 
