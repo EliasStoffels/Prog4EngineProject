@@ -48,7 +48,7 @@ namespace dae
 			{
 				std::unique_ptr<T> component(new T(std::forward<Args>(args)...));
 				component->SetOwningGameObject(*this);
-				m_OwnedComponents.push_back(std::move(component));
+				m_OwnedComponents.emplace_back(std::move(component));
 				return static_cast<T*>(m_OwnedComponents[m_OwnedComponents.size() - 1].get());
 			}
 		}

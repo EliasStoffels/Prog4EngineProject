@@ -69,6 +69,12 @@
     <ClCompile Include="..\Minigin\MoveCommand.cpp">
       <Filter>Source Files\ComandCppFiles</Filter>
     </ClCompile>
+    <ClCompile Include="GridComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TileComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\DieCommand.h">
@@ -103,6 +109,15 @@
     </ClInclude>
     <ClInclude Include="..\Minigin\UiObserver.h">
       <Filter>Header Files\ObserverHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="GridComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="TileComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

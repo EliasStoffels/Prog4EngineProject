@@ -162,6 +162,8 @@
     <ClCompile Include="..\Minigin\TextComponent.cpp" />
     <ClCompile Include="..\Minigin\TextureComponent.cpp" />
     <ClCompile Include="..\Minigin\UiObserver.cpp" />
+    <ClCompile Include="TileComponent.cpp" />
+    <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +178,9 @@
     <ClInclude Include="..\Minigin\TextComponent.h" />
     <ClInclude Include="..\Minigin\TextureComponent.h" />
     <ClInclude Include="..\Minigin\UiObserver.h" />
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="TileComponent.h" />
+    <ClInclude Include="GridComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

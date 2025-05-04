@@ -8,6 +8,7 @@ namespace dae
 	{
 		friend class GameObject;
 
+
 	public:
 		virtual void Start();
 

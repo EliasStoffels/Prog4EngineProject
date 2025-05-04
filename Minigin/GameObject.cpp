@@ -17,6 +17,7 @@ void dae::GameObject::Start()
 
 void dae::GameObject::Update(float deltaTime)
 {
+
 	for (const auto& component : m_OwnedComponents)
 	{
 		component->Update(deltaTime);

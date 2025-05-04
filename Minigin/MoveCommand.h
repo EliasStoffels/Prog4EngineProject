@@ -4,23 +4,17 @@
 
 namespace dae
 {
-    enum class Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    };
 
     class MoveCommand : public GameObjectCommand
     {
     public:
-        MoveCommand(GameObject* gameObject, float speed, Direction direction);
+        MoveCommand(GameObject* gameObject, float speed,glm::vec2 direction);
         void Execute() override;
 
     private:
         float m_Speed;
-        Direction m_Direction;
+        glm::vec2 m_Direction;
+
     };
 }
 

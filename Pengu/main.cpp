@@ -33,127 +33,91 @@
 #include "ServiceLocator.h"
 #include "mixerSoundSystem.h"
 #include "LoggingSoundSystem.h"
+#include "GridComponent.h"
 
 void load()
 {
-	auto& input = dae::InputManager::GetInstance();
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	const int GRID_WIDTH{ 13 };
+	const int GRID_HEIGHT{ 15 };
+	const int TILE_WIDTH{ 48 };
+	const glm::vec2 GRID_OFSETT{ 24,106 };
 
-	//create gameObject
-	auto go = std::make_shared<dae::GameObject>();
-	auto fpsGo = std::make_shared<dae::GameObject>();
+	auto& input = dae::InputManager::GetInstance();
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Pengo");
 
 	//fonts
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+	//auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
-	//textures
+	//background
+	auto go = std::make_shared<dae::GameObject>();
 	dae::TextureComponent* textureC1 = go->AddComponent<dae::TextureComponent>();
-	textureC1->SetTexture("background.tga");
+	textureC1->SetTexture("BlackBG.png");
+	textureC1->SetWidthAndHeight(672, 768);
+	go->SetLocalPosition(0, 82);
 	scene.Add(go);
 
+	//grid
 	go = std::make_shared<dae::GameObject>();
-	dae::TextureComponent* textureC2 = go->AddComponent<dae::TextureComponent>();
-	textureC2->SetTexture("logo.tga");
-	go->SetLocalPosition(216, 180);
+	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT);
+	//gridC->SaveLevel();
+	gridC->LoadLevel(4);
 	scene.Add(go);
 
-	//// root Game Object;
-	//auto rootGo = std::make_shared<dae::GameObject>();
-	//rootGo->SetLocalPosition(500, 300);
-	//scene.Add(rootGo);
-
-	//// parent game object
-	//auto parentGo = std::make_shared<dae::GameObject>();
-	//dae::TextureComponent* textureTemp = parentGo->AddComponent<dae::TextureComponent>();
-	//textureTemp->SetTexture("pengo.tga");
-	////dae::RotateComponent* parentRotatec = parentGo->AddComponent<dae::RotateComponent>();
-	////parentRotatec->SetRadius(30.f);
-	////parentRotatec->SetRadianPerSecond(static_cast<float>(M_PI));
-	//parentGo->SetLocalPosition(200, 200);
-	//parentGo->SetParent(rootGo.get(), false);
-	//scene.Add(parentGo);
-
-	//// child game object
-	//go = std::make_shared<dae::GameObject>();
-	//dae::TextureComponent* textureC3 = go->AddComponent<dae::TextureComponent>();
-	//textureC3->SetTexture("pengo.tga");
-	//dae::RotateComponent* rotatec = go->AddComponent<dae::RotateComponent>();
-	//rotatec->SetRadius(30.f);
-	//rotatec->SetRadianPerSecond(static_cast<float>(-M_PI/2));
-	//go->SetLocalPosition(30, 30);
-	//go->SetParent(parentGo.get(), false);
-	//scene.Add(go);
-
-	//text
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent<dae::TextComponent>(font, "Programming 4 Assignement");
-	go->SetLocalPosition(80, 30);
-	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent<dae::TextComponent>(smallFont, "use WASD for first character movement, Q to die, E to kill enemy");
-	go->AddComponent<dae::TextComponent>(smallFont, "use DPAD for second character movement, A to die, X to kill enemy", glm::vec3{ 0,20,0 });
-	go->SetLocalPosition(10, 80);
-	scene.Add(go);
-
-
-	//fps
-	fpsGo->AddComponent<dae::FpsComponent>();
-	fpsGo->AddComponent<dae::TextComponent>(font, "number");
-	scene.Add(fpsGo);
 
 	//UiGo
-	auto observerGo = std::make_shared<dae::GameObject>();
-	observerGo->SetLocalPosition(10, 120);
-	auto observer = observerGo->AddComponent<dae::UiObserverComponent>(
-		observerGo->AddComponent<dae::TextComponent>(smallFont),
-		observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	scene.Add(observerGo);
-
-	observerGo = std::make_shared<dae::GameObject>();
-	observerGo->SetLocalPosition(10, 160);
-	auto observer2 = observerGo->AddComponent<dae::UiObserverComponent>(
-		observerGo->AddComponent<dae::TextComponent>(smallFont),
-		observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	scene.Add(observerGo);
-
-	observerGo = std::make_shared<dae::GameObject>();
-	auto observerAch = observerGo->AddComponent<dae::AchievementComponent>();
-	scene.Add(observerGo);
+	//auto observerGo = std::make_shared<dae::GameObject>();
+	//observerGo->SetLocalPosition(10, 120);
+	//auto observer = observerGo->AddComponent<dae::UiObserverComponent>(
+	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
+	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
+	//scene.Add(observerGo);
+	//
+	//observerGo = std::make_shared<dae::GameObject>();
+	//observerGo->SetLocalPosition(10, 160);
+	//auto observer2 = observerGo->AddComponent<dae::UiObserverComponent>(
+	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
+	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
+	//scene.Add(observerGo);
+	//
+	//observerGo = std::make_shared<dae::GameObject>();
+	//auto observerAch = observerGo->AddComponent<dae::AchievementComponent>();
+	//scene.Add(observerGo);
 
 	//movable
 	go = std::make_shared<dae::GameObject>();
 	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
-	textureMovable->SetTexture("pengo.tga");
+	textureMovable->SetTexture("pengo.png");
+	textureMovable->SetWidthAndHeight(45, 45);
 	go->AddComponent<dae::HealthComponent>(100.f, 3);
 	go->AddComponent<dae::ScoreComponent>();
-	go->SetLocalPosition(300, 300);
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, go.get(), 200.f, dae::Direction::Up);
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, go.get(), 200.f, dae::Direction::Down);
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, go.get(), 200.f, dae::Direction::Left);
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, go.get(), 200.f, dae::Direction::Right);
+	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH) + 1, (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH)+1);
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, go.get(), 200.f,glm::vec2{0,-1});
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, go.get(), 200.f, glm::vec2{ 0,1 });
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, go.get(), 200.f, glm::vec2{ -1,0 });
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, go.get(), 200.f, glm::vec2{1,0});
 	input.AddBinding<dae::DieCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, go.get());
 	input.AddBinding<dae::KillEnemyCommand>(XINPUT_GAMEPAD_X, dae::InputType::Controller, go.get());
-	go->AddObserver(observer2);
-	go->AddObserver(observerAch);
+	//go->AddObserver(observer2);
+	//go->AddObserver(observerAch);
 	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>();
-	dae::TextureComponent* textureMovable2 = go->AddComponent<dae::TextureComponent>();
-	textureMovable2->SetTexture("pengo.tga");
-	go->AddComponent<dae::HealthComponent>(100.f, 3);
-	go->AddComponent<dae::ScoreComponent>();
-	go->SetLocalPosition(200, 300);
-	input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, go.get(), 100.f, dae::Direction::Up);
-	input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_S, dae::InputType::Keyboard, go.get(), 100.f, dae::Direction::Down);
-	input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_A, dae::InputType::Keyboard, go.get(), 100.f, dae::Direction::Left);
-	input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, go.get(), 100.f, dae::Direction::Right);
-	input.AddBinding<dae::DieCommand>(SDL_SCANCODE_Q, dae::InputType::Keyboard, go.get());
-	input.AddBinding<dae::KillEnemyCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, go.get());
-	go->AddObserver(observer);
-	go->AddObserver(observerAch);
-	scene.Add(go);
+	
+	//go = std::make_shared<dae::GameObject>();
+	//dae::TextureComponent* textureMovable2 = go->AddComponent<dae::TextureComponent>();
+	//textureMovable2->SetTexture("pengo.png");
+	//textureMovable2->SetWidthAndHeight(45, 45);
+	//go->AddComponent<dae::HealthComponent>(100.f, 3);
+	//go->AddComponent<dae::ScoreComponent>();
+	//go->SetLocalPosition(200, 300);
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{0,-1});
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_S, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{0,1});
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_A, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{-1,0});
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{1,0});
+	//input.AddBinding<dae::DieCommand>(SDL_SCANCODE_Q, dae::InputType::Keyboard, go.get());
+	//input.AddBinding<dae::KillEnemyCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, go.get());
+	////go->AddObserver(observer);
+	////go->AddObserver(observerAch);
+	//scene.Add(go);
 }
 
 int main(int, char* []) {

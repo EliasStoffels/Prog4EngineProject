@@ -15,6 +15,7 @@ namespace dae
 		void Render() const override;
 
 		void SetTexture(const std::string& filename);
+		void SetWidthAndHeight(float width, float height) { m_Width = width; m_Height = height; }
 		
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;
@@ -24,5 +25,7 @@ namespace dae
 	private:
 		TextureComponent();
 		std::shared_ptr<Texture2D> m_texture = nullptr;
+		float m_Width = FLT_MAX;
+		float m_Height = FLT_MAX;
 	};
 }
