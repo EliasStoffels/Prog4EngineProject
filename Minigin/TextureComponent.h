@@ -27,5 +27,6 @@ namespace dae
 		std::shared_ptr<Texture2D> m_texture = nullptr;
 		float m_Width = FLT_MAX;
 		float m_Height = FLT_MAX;
+		SDL_Rect m_SourceRect{INT_MAX,INT_MAX,INT_MAX,INT_MAX};
 	};
 }

@@ -2,7 +2,7 @@
 
 namespace dae
 {
-	enum class Tile
+	enum class Tile:uint8_t
 	{
 		Empty, Breakable, Unbreakable
 	};

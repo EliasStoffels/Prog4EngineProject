@@ -276,12 +276,46 @@ namespace dae
 
 	}
 
-	bool GridComponent::RequestMove(float x, float y)
+	glm::vec3 GridComponent::RequestMove(const glm::vec3& currentPos,glm::vec2& direction)
 	{
-		return true;
+		glm::vec2 indexPos = { ((currentPos.x - GRID_OFSETT.x) + (TILE_WIDTH / 2)) / TILE_WIDTH ,
+							   ((currentPos.y - GRID_OFSETT.y) + (TILE_WIDTH / 2)) / TILE_WIDTH };
+
+		int idx = static_cast<int>(indexPos.x) + static_cast<int>(indexPos.y) * WIDTH;
+		if (direction.x < 0 && idx% WIDTH != 0)
+		{
+			--idx;
+		}
+		if (direction.x > 0 && idx % WIDTH != (WIDTH - 1))
+		{
+			++idx;
+		}
+		if (direction.y < 0 && idx/WIDTH != 0)
+		{
+			idx -= WIDTH;
+		}
+		if (direction.y > 0 && idx/ WIDTH != (HEIGHT - 1))
+		{
+			idx += WIDTH;
+		}
+
+		if (idx < 0 || idx > m_GridPtr->size() - 1)
+		{
+			return currentPos;
+		}
+
+		if (m_GridPtr->at(idx) == Tile::Empty)
+		{
+			return { GRID_OFSETT.x + static_cast<float>(TILE_WIDTH * (idx % WIDTH)), 
+					 GRID_OFSETT.y + static_cast<float>(TILE_WIDTH * (idx / WIDTH)),
+					 0 };
+		}
+
+		return currentPos;
 	}
 
-	GridComponent::GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfsett):WIDTH{width}, HEIGHT{height}, TILE_WIDTH{tileWidth}, GRID_OFSETT{gridOfsett}
+	GridComponent::GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfsett):
+		WIDTH{width}, HEIGHT{height}, TILE_WIDTH{tileWidth}, GRID_OFSETT{gridOfsett}
 	{
 		m_GridPtr = std::make_unique<std::vector<Tile>>();
 		m_GridPtr->clear();

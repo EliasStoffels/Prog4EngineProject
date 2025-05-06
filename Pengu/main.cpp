@@ -34,6 +34,7 @@
 #include "mixerSoundSystem.h"
 #include "LoggingSoundSystem.h"
 #include "GridComponent.h"
+#include "PengoComponent.h"
 
 void load()
 {
@@ -91,11 +92,12 @@ void load()
 	textureMovable->SetWidthAndHeight(45, 45);
 	go->AddComponent<dae::HealthComponent>(100.f, 3);
 	go->AddComponent<dae::ScoreComponent>();
-	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH) + 1, (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH)+1);
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, go.get(), 200.f,glm::vec2{0,-1});
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, go.get(), 200.f, glm::vec2{ 0,1 });
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, go.get(), 200.f, glm::vec2{ -1,0 });
-	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, go.get(), 200.f, glm::vec2{1,0});
+	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f);
+	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, go.get(), 200.f,glm::vec2{0,-1},gridC, pengoC);
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, go.get(), 200.f, glm::vec2{ 0,1 }, gridC, pengoC);
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, go.get(), 200.f, glm::vec2{ -1,0 }, gridC, pengoC);
+	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, go.get(), 200.f, glm::vec2{1,0}, gridC, pengoC);
 	input.AddBinding<dae::DieCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, go.get());
 	input.AddBinding<dae::KillEnemyCommand>(XINPUT_GAMEPAD_X, dae::InputType::Controller, go.get());
 	//go->AddObserver(observer2);
@@ -109,20 +111,19 @@ void load()
 	//go->AddComponent<dae::HealthComponent>(100.f, 3);
 	//go->AddComponent<dae::ScoreComponent>();
 	//go->SetLocalPosition(200, 300);
-	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{0,-1});
-	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_S, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{0,1});
-	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_A, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{-1,0});
-	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{1,0});
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{0,-1}, gridC);
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_S, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{0,1}, gridC);
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_A, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{-1,0}, gridC);
+	//input.AddBinding<dae::MoveCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, go.get(), 100.f, glm::vec2{1,0}, gridC);
 	//input.AddBinding<dae::DieCommand>(SDL_SCANCODE_Q, dae::InputType::Keyboard, go.get());
 	//input.AddBinding<dae::KillEnemyCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, go.get());
 	////go->AddObserver(observer);
 	////go->AddObserver(observerAch);
 	//scene.Add(go);
+
 }
 
 int main(int, char* []) {
-
-	
 	//serviceLocator.RegisterSoundSystem(std::make_unique<dae::LoggingSoundSystem>(std::make_unique<dae::MixerSoundSystem>()));
 
 	dae::Minigin engine("../Data/");

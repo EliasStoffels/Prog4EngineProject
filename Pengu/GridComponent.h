@@ -15,7 +15,7 @@ namespace dae
 	public:
 		void SaveLevel();
 		void LoadLevel(int level);
-		bool RequestMove(float x, float y);
+		glm::vec3 RequestMove(const glm::vec3& currentPos, glm::vec2& direction);
 
 		virtual ~GridComponent() = default;
 		GridComponent(const GridComponent& other) = delete;
@@ -31,7 +31,6 @@ namespace dae
 		const glm::vec2 GRID_OFSETT;
 
 		std::unique_ptr<std::vector<Tile>> m_GridPtr = nullptr;
-		GameObject* m_Pengo = nullptr;
 
 
 	};

@@ -75,6 +75,9 @@
     <ClCompile Include="TileComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
+    <ClCompile Include="PengoComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\DieCommand.h">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PengoComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
