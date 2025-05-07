@@ -40,8 +40,7 @@ namespace dae
 				m_Texture->SetSourceRect(16 * m_CurrentFrame, 48);
 				if (m_CurrentFrame > 8)
 				{
-					m_OwningGameObject->SetParent(nullptr, true);
-					m_OwningGameObject->pendingRemove = true;
+					m_OwningGameObject->Destroy();
 				}
 			}
 		}

@@ -23,6 +23,8 @@ namespace dae
 		void SetLocalPosition(glm::vec3 pos);
 		glm::vec3 GetWorldPosition();
 
+		void Destroy();
+
 		void SetParent(GameObject* parent, bool keepWorldPosition);
 		bool IsChild(GameObject* otherObject);
 		std::vector<GameObject*>* GetChildren();

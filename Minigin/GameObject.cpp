@@ -67,6 +67,16 @@ glm::vec3 dae::GameObject::GetWorldPosition()
 	return m_transform.GetWorldPosition();
 }
 
+void dae::GameObject::Destroy()
+{
+	SetParent(nullptr, true);
+	pendingRemove = true;
+	for (auto child : m_childObjects)
+	{
+		child->Destroy();
+	}
+}
+
 void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
 	if (IsChild(parent) || parent == this || m_parent == parent)
