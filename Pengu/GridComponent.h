@@ -17,7 +17,7 @@ namespace dae
 		void SaveLevel();
 		void LoadLevel(int level);
 		glm::vec3 RequestMove(const glm::vec3& currentPos, glm::vec2& direction);
-		bool RequestPush(const glm::vec3& currentPos, const glm::vec2& direction);
+		bool RequestPush(const glm::vec3& currentPos, const glm::vec2& direction, int& pushFrames);
 
 		int PointToIdx(const glm::vec3 position);
 		glm::vec3 IdxToPoint(int idx);

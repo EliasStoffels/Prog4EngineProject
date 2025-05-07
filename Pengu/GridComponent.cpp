@@ -315,7 +315,7 @@ namespace dae
 		return currentPos;
 	}
 
-	bool GridComponent::RequestPush(const glm::vec3& currentPos, const glm::vec2& direction)
+	bool GridComponent::RequestPush(const glm::vec3& currentPos, const glm::vec2& direction, int& pushFrames)
 	{
 		int idx = PointToIdx(glm::vec3{ currentPos.x + (TILE_WIDTH / 2),currentPos.y + (TILE_WIDTH / 2),0 });
 		int idxBehind = 0;
@@ -352,6 +352,7 @@ namespace dae
 				idx % WIDTH == 0 && direction.x < 0 ||						// pushing left against a block against the left wall
 				idx % WIDTH == (WIDTH - 1) && direction.x > 0)				// pushing right against a block against the right wall
 			{
+				pushFrames = 5;
 				if (m_Blocks.find(idx)->second->Destroy())
 				{
 					m_GridPtr->at(idx) = Tile::Empty;
@@ -359,7 +360,8 @@ namespace dae
 			}
 			else
 			{
-				//m_Blocks.find(idx)->second->Slide(direction);
+				m_Blocks.find(idx)->second->Slide(direction);
+				pushFrames = 1;
 			}
 			return true;
 		}

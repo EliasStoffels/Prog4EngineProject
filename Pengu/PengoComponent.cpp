@@ -44,7 +44,7 @@ namespace dae
 
 	void PengoComponent::SetTargetPosition(glm::vec3 targetPos)
 	{
-		if(m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition || m_TargetPosition.x == FLT_MAX && m_Animation == PengoAnimationState::Walking)
+		if((m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition || m_TargetPosition.x == FLT_MAX) && m_Animation == PengoAnimationState::Walking)
 			m_TargetPosition = targetPos;
 	}
 
@@ -62,7 +62,7 @@ namespace dae
 	void PengoComponent::Push()
 	{
 		if (m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition &&
-			m_GridPtr->RequestPush(m_OwningGameObject->GetWorldPosition(), RotationToVec3(m_Rotation)))
+			m_GridPtr->RequestPush(m_OwningGameObject->GetWorldPosition(), RotationToVec3(m_Rotation),m_pushFrames))
 		{
 			m_Animation = PengoAnimationState::Pushing;
 			m_CurrentFrame = -1;
@@ -114,9 +114,9 @@ namespace dae
 			case PengoAnimationState::Pushing:
 			{
 				++m_CurrentFrame;
-				if (m_CurrentFrame == 1)
+				if (m_CurrentFrame == m_pushFrames)
 					m_Animation = PengoAnimationState::Walking;
-				int currentFrameOffset = 16 * m_CurrentFrame;
+				int currentFrameOffset = 16 * (m_CurrentFrame % 2);
 				switch (m_Rotation)
 				{
 				case PengoRotationState::Left:

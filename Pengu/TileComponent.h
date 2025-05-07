@@ -27,6 +27,10 @@ namespace dae
 	private:
 		TileComponent(const Tile& tileType, float x, float y, float tileSize);
 		const float TILE_SIZE;
+		const float FRAME_DELAY;
+		float totalDT = 0.f;
+		int m_CurrentFrame = 0;
+		bool m_Break = false;
 
 		TextureComponent* m_Texture = nullptr;
 		Tile m_TileType;
