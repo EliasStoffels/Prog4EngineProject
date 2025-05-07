@@ -14,6 +14,7 @@ namespace dae
 
 	public:
 		void Slide(const glm::vec2& direction);
+		bool Destroy();
 
 		void Update(float elapsedSec) override;
 

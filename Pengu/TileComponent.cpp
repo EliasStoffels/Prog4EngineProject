@@ -11,6 +11,17 @@ namespace dae
 	}
 
 
+	bool TileComponent::Destroy()
+	{
+		if (m_TileType == Tile::Breakable)
+		{
+			m_OwningGameObject->SetParent(nullptr, true);
+			m_OwningGameObject->pendingRemove = true;
+			return true;
+		}
+		return false;
+	}
+
 	void TileComponent::Update(float)
 	{
 		if (!tileSet)

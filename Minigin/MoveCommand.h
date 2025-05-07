@@ -1,24 +1,23 @@
 #pragma once
 #include "BaseCommand.h"
 #include <memory>
-#include "../Pengu/GridComponent.h"
-#include "../Pengu/PengoComponent.h"
-
+#include "../Pengu/Enums.h"
 
 namespace dae
 {
-
+    class GridComponent;
+    class PengoComponent;
     class MoveCommand : public GameObjectCommand
     {
     public:
-        MoveCommand(GameObject* gameObject, float speed, const glm::vec2& direction, GridComponent* grid, PengoComponent* pengo);
+        MoveCommand(GameObject* gameObject, const glm::vec2& direction, GridComponent* grid, PengoComponent* pengo);
         void Execute() override;
 
     private:
-        float m_Speed;
         glm::vec2 m_Direction;
         GridComponent* m_Grid;
         PengoComponent* m_Pengo;
+        PengoRotationState m_Rotation;
     };
 }
 

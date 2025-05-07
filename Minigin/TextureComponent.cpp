@@ -24,4 +24,17 @@ void dae::TextureComponent::SetTexture(const std::string& filename)
 	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
+void dae::TextureComponent::SetSourceRect(int x, int y, int width, int height)
+{
+	if (width != -1)
+		SetSourceRect(SDL_Rect{ x,y,width,height });
+	else
+		SetSourceRect(SDL_Rect{x,y,m_SourceRect.w,m_SourceRect.h});
+}
+
+void dae::TextureComponent::SetSourceRect(const SDL_Rect& rect)
+{
+	m_SourceRect = rect;
+}
+
 

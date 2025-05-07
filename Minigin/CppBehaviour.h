@@ -16,6 +16,10 @@ namespace dae
 		virtual void FixedUpdate(float fixedTime);
 		virtual void LateUpdate(float deltaTime);
 		virtual void Render() const;
+		GameObject* GetOwner()
+		{
+			return m_OwningGameObject;
+		}
 
 		virtual ~CppBehaviour() = default;
 		CppBehaviour(const CppBehaviour& other) = delete;

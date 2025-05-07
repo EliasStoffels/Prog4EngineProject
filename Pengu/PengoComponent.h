@@ -1,18 +1,24 @@
 #pragma once
 #include "CppBehaviour.h"
 #include "glm.hpp"
+#include "enums.h"
+#include <TextureComponent.h>
+#include "GridComponent.h"
 
 namespace dae
 {
-
 	class PengoComponent : public CppBehaviour
 	{
 		friend class GameObject;
 
 	public:
-		void Update(float elapsedSec) override;
+		void Start() override;
+		void Update(float deltaTime) override;
 
 		void SetTargetPosition(glm::vec3 targetPos);
+		void SetRotation(PengoRotationState rotation);
+		PengoRotationState GetRotation();
+		void Push();
 
 		virtual ~PengoComponent() = default;
 		PengoComponent(const PengoComponent& other) = delete;
@@ -21,9 +27,17 @@ namespace dae
 		PengoComponent& operator=(PengoComponent&& other) = delete;
 
 	private:
-		PengoComponent(float speed);
+		PengoComponent(float speed, GridComponent* grid);
+		void Animate(float deltaTime);
 		float m_Speed;
+		PengoRotationState m_Rotation = PengoRotationState::Down;
+		PengoAnimationState m_Animation = PengoAnimationState::Walking;
+		int m_CurrentFrame = 0;
+		float m_TotalDT = 0.f;
+		const float FRAME_DELAY = 0.1f;
 
+		GridComponent* m_GridPtr = nullptr;
+		TextureComponent* m_TexturePtr = nullptr;
 		glm::vec3 m_TargetPosition{FLT_MAX,FLT_MAX,FLT_MAX};
 
 	};

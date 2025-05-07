@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include "Transform.h"
+#include "SDL_rect.h"
 
 namespace dae
 {
@@ -16,6 +17,8 @@ namespace dae
 
 		void SetTexture(const std::string& filename);
 		void SetWidthAndHeight(float width, float height) { m_Width = width; m_Height = height; }
+		void SetSourceRect(int x, int y, int widht = -1, int height = -1);
+		void SetSourceRect(const SDL_Rect& rect);
 		
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;
