@@ -33,7 +33,7 @@ namespace dae
 		PengoRotationState m_Rotation = PengoRotationState::Down;
 		PengoAnimationState m_Animation = PengoAnimationState::Walking;
 		int m_CurrentFrame = 0;
-		int m_pushFrames = 0;
+		int m_PushFrames = 0;
 		float m_TotalDT = 0.f;
 		const float FRAME_DELAY = 0.1f;
 

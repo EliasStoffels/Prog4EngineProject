@@ -61,11 +61,27 @@ namespace dae
 
 	void PengoComponent::Push()
 	{
-		if (m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition &&
-			m_GridPtr->RequestPush(m_OwningGameObject->GetWorldPosition(), RotationToVec3(m_Rotation),m_pushFrames))
+		if (m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition)
 		{
-			m_Animation = PengoAnimationState::Pushing;
-			m_CurrentFrame = -1;
+			auto blockState = m_GridPtr->RequestPush(m_OwningGameObject->GetWorldPosition(), RotationToVec3(m_Rotation));
+			switch (blockState)
+			{
+			case BlockState::Sliding:
+			{
+				m_PushFrames = 1;
+				m_Animation = PengoAnimationState::Pushing;
+				m_CurrentFrame = -1;
+			}
+			break;
+			case BlockState::Breaking:
+			{
+				m_PushFrames = 5;
+				m_Animation = PengoAnimationState::Pushing;
+				m_CurrentFrame = -1;
+			}
+			break;
+			}
+			
 		}
 		
 	}
@@ -114,7 +130,7 @@ namespace dae
 			case PengoAnimationState::Pushing:
 			{
 				++m_CurrentFrame;
-				if (m_CurrentFrame == m_pushFrames)
+				if (m_CurrentFrame == m_PushFrames)
 					m_Animation = PengoAnimationState::Walking;
 				int currentFrameOffset = 16 * (m_CurrentFrame % 2);
 				switch (m_Rotation)

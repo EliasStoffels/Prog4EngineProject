@@ -3,6 +3,7 @@
 #include <glm.hpp>
 #include <TextureComponent.h>
 #include "Enums.h"
+#include "GridComponent.h"
 
 namespace dae
 {
@@ -13,7 +14,7 @@ namespace dae
 		friend class GameObject;
 
 	public:
-		void Slide(const glm::vec2& direction);
+		void Slide(const glm::vec3& direction);
 		bool Destroy();
 
 		void Update(float elapsedSec) override;
@@ -25,16 +26,25 @@ namespace dae
 		TileComponent& operator=(TileComponent&& other) = delete;
 
 	private:
-		TileComponent(const Tile& tileType, float x, float y, float tileSize);
-		const float TILE_SIZE;
-		const float FRAME_DELAY;
-		float totalDT = 0.f;
-		int m_CurrentFrame = 0;
-		bool m_Break = false;
-
+		TileComponent(Tile tileType, float x, float y, float tileSize, GridComponent* grid);
+		// sliding
+		GridComponent* m_GridPtr = nullptr;
+		glm::vec3 m_TargetPosition{FLT_MAX,FLT_MAX,0};
+		float m_SlideSpeed;
+		// blockType
 		TextureComponent* m_Texture = nullptr;
 		Tile m_TileType;
 		bool tileSet = false;
-		glm::vec2 m_Pos;
+
+		// animate 
+		const float FRAME_DELAY;
+		float totalDT = 0.f;
+		int m_CurrentFrame = 0;
+
+		// blockState 
+		BlockState m_BlockState;
+		glm::vec3 m_Pos;
+		glm::vec3 m_SlideDirection{};
+		const float TILE_SIZE;
 	};
 }

@@ -16,8 +16,8 @@ namespace dae
 	public:
 		void SaveLevel();
 		void LoadLevel(int level);
-		glm::vec3 RequestMove(const glm::vec3& currentPos, glm::vec2& direction);
-		bool RequestPush(const glm::vec3& currentPos, const glm::vec2& direction, int& pushFrames);
+		glm::vec3 RequestMove(const glm::vec3& currentPos, glm::vec3& direction, bool isBlock =false);
+		BlockState RequestPush(const glm::vec3& currentPos, const glm::vec3& direction);
 
 		int PointToIdx(const glm::vec3 position);
 		glm::vec3 IdxToPoint(int idx);
@@ -36,7 +36,7 @@ namespace dae
 		const glm::vec2 GRID_OFSETT;
 
 		std::unique_ptr<std::vector<Tile>> m_GridPtr = nullptr;
-		std::unordered_map<int,TileComponent*> m_Blocks;
+		std::vector<std::pair<int, TileComponent*>> m_Blocks;
 
 	};
 }

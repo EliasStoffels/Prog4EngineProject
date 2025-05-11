@@ -6,7 +6,7 @@
 
 namespace dae
 {
-	MoveCommand::MoveCommand(GameObject* gameObject, const glm::vec2& direction, GridComponent* grid, PengoComponent* pengo)
+	MoveCommand::MoveCommand(GameObject* gameObject, const glm::vec3& direction, GridComponent* grid, PengoComponent* pengo)
 		: GameObjectCommand{ gameObject }, m_Direction{ direction },m_Grid{grid}, m_Pengo{pengo}, m_Rotation{}
 	{
 		m_Rotation = VecToRotation(direction);

@@ -14,19 +14,20 @@ namespace dae
 	};
 
 	glm::vec2 RotationToVec2(const PengoRotationState& rotation);
-	
 
 	glm::vec3 RotationToVec3(const PengoRotationState& rotation);
 
-
 	PengoRotationState VecToRotation(const glm::vec2 vec);
-	
 
 	PengoRotationState VecToRotation(const glm::vec3 vec);
-	
 
 	enum class PengoAnimationState:uint8_t
 	{
 		Walking, Pushing, Dying
+	};
+
+	enum class BlockState : uint8_t
+	{
+		Still, Sliding, Breaking
 	};
 }

@@ -10,11 +10,11 @@ namespace dae
     class MoveCommand : public GameObjectCommand
     {
     public:
-        MoveCommand(GameObject* gameObject, const glm::vec2& direction, GridComponent* grid, PengoComponent* pengo);
+        MoveCommand(GameObject* gameObject, const glm::vec3& direction, GridComponent* grid, PengoComponent* pengo);
         void Execute() override;
 
     private:
-        glm::vec2 m_Direction;
+        glm::vec3 m_Direction;
         GridComponent* m_Grid;
         PengoComponent* m_Pengo;
         PengoRotationState m_Rotation;

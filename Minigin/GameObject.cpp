@@ -67,6 +67,11 @@ glm::vec3 dae::GameObject::GetWorldPosition()
 	return m_transform.GetWorldPosition();
 }
 
+glm::vec3 dae::GameObject::GetLocalPosition()
+{
+	return m_transform.GetLocalPosition();
+}
+
 void dae::GameObject::Destroy()
 {
 	SetParent(nullptr, true);

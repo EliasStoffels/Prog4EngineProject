@@ -8,6 +8,11 @@
 
 namespace dae
 {
+	auto FindInVector(std::vector<std::pair<int, TileComponent*>>& vec, int idx) {
+		return std::find_if(vec.begin(), vec.end(),
+			[idx](const auto& pair) { return pair.first == idx; });
+	}
+
 	void GridComponent::SaveLevel()
 	{
 		//row 1
@@ -266,25 +271,25 @@ namespace dae
 
 		for (int idx{}; idx < m_GridPtr->size(); ++idx)
 		{
-			auto go = std::make_shared<dae::GameObject>();
-			auto tilePos = IdxToPoint(idx);
-			auto tileC = go->AddComponent<TileComponent>(m_GridPtr->at(idx), tilePos.x, tilePos.y,static_cast<float>(TILE_WIDTH));
-			m_Blocks.insert(std::pair<int,TileComponent*>(idx,tileC));
-			scene.Add(go);
+			auto tileType = m_GridPtr->at(idx);
+			if (tileType == Tile::Breakable || tileType == Tile::Unbreakable)
+			{
+				auto go = std::make_shared<dae::GameObject>();
+				auto tilePos = IdxToPoint(idx);
+				auto tileC = go->AddComponent<TileComponent>(tileType, tilePos.x, tilePos.y, static_cast<float>(TILE_WIDTH), this);
+				m_Blocks.emplace_back(std::pair<int, TileComponent*>(idx, tileC));
+				scene.Add(go);
+			}
 		}
 
 		file.close();
 
 	}
 
-	glm::vec3 GridComponent::RequestMove(const glm::vec3& currentPos,glm::vec2& direction)
+	glm::vec3 GridComponent::RequestMove(const glm::vec3& currentPos,glm::vec3& direction, bool isBlock)
 	{
-		/*glm::vec2 indexPos = { ((currentPos.x - GRID_OFSETT.x) + (TILE_WIDTH / 2)) / TILE_WIDTH ,
-							   ((currentPos.y - GRID_OFSETT.y) + (TILE_WIDTH / 2)) / TILE_WIDTH };
-
-		int idx = static_cast<int>(indexPos.x) + static_cast<int>(indexPos.y) * WIDTH;*/
-
-		int idx = PointToIdx(glm::vec3{ currentPos.x + (TILE_WIDTH / 2),currentPos.y + (TILE_WIDTH / 2),0 });
+		int origIdx = PointToIdx(glm::vec3{ currentPos.x + (TILE_WIDTH / 2),currentPos.y + (TILE_WIDTH / 2),0 });
+		int idx = origIdx;
 		if (direction.x < 0 && idx% WIDTH != 0)
 		{
 			--idx;
@@ -302,20 +307,27 @@ namespace dae
 			idx += WIDTH;
 		}
 
-		if (idx < 0 || idx > m_GridPtr->size() - 1)
-		{
-			return currentPos;
-		}
-
 		if (m_GridPtr->at(idx) == Tile::Empty)
 		{
+			if (isBlock)
+			{
+				m_GridPtr->at(idx) = m_GridPtr->at(origIdx);
+				m_GridPtr->at(origIdx) = Tile::Empty;
+				auto it = FindInVector(m_Blocks, origIdx);
+				std::cout << "orig idx: " << origIdx << "\n";
+				std::cout << "new idx: " << idx << "\n";
+				if (it != m_Blocks.end())
+				{
+					std::cout << "changed idx to: " << idx << "\n\n";
+					it->first = idx;
+				}
+			}
 			return IdxToPoint(idx);
 		}
-
 		return currentPos;
 	}
 
-	bool GridComponent::RequestPush(const glm::vec3& currentPos, const glm::vec2& direction, int& pushFrames)
+	BlockState GridComponent::RequestPush(const glm::vec3& currentPos, const glm::vec3& direction)
 	{
 		int idx = PointToIdx(glm::vec3{ currentPos.x + (TILE_WIDTH / 2),currentPos.y + (TILE_WIDTH / 2),0 });
 		int idxBehind = 0;
@@ -342,7 +354,7 @@ namespace dae
 
 		if (idx < 0 || idx > m_GridPtr->size() - 1)
 		{
-			return false;
+			return BlockState::Still;
 		}
 
 		if (m_GridPtr->at(idx) != Tile::Empty)
@@ -352,21 +364,30 @@ namespace dae
 				idx % WIDTH == 0 && direction.x < 0 ||						// pushing left against a block against the left wall
 				idx % WIDTH == (WIDTH - 1) && direction.x > 0)				// pushing right against a block against the right wall
 			{
-				pushFrames = 5;
-				if (m_Blocks.find(idx)->second->Destroy())
+				std::cout << "breaking block\n";
+				auto it = FindInVector(m_Blocks, idx);
+				if (it != m_Blocks.end() && it->second->Destroy()) 
 				{
 					m_GridPtr->at(idx) = Tile::Empty;
+					m_Blocks.erase(it);
 				}
+				return BlockState::Breaking;
 			}
 			else
 			{
-				m_Blocks.find(idx)->second->Slide(direction);
-				pushFrames = 1;
+				std::cout << "sliding block\n";
+				auto it = FindInVector(m_Blocks, idx);
+				if (it != m_Blocks.end()) 
+				{
+					it->second->Slide(direction);
+					std::cout << "slide idx: " << idx << "\n\n";
+				}
+				return BlockState::Sliding;
 			}
-			return true;
+			
 		}
 
-		return false;
+		return BlockState::Still;
 	}
 
 	int GridComponent::PointToIdx(const glm::vec3 position)

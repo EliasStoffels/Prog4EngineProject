@@ -7,8 +7,6 @@ namespace dae
 	class CppBehaviour
 	{
 		friend class GameObject;
-
-
 	public:
 		virtual void Start();
 
