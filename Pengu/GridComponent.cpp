@@ -269,7 +269,7 @@ namespace dae
 		auto& scene = dae::SceneManager::GetInstance().GetScene("Pengo");
 
 
-		for (int idx{}; idx < m_GridPtr->size(); ++idx)
+		for (unsigned int idx{}; idx < m_GridPtr->size(); ++idx)
 		{
 			auto tileType = m_GridPtr->at(idx);
 			if (tileType == Tile::Breakable || tileType == Tile::Unbreakable)
@@ -352,17 +352,17 @@ namespace dae
 			idxBehind = idx + WIDTH;
 		}
 
-		if (idx < 0 || idx > m_GridPtr->size() - 1)
+		if (idx < 0 || idx > static_cast<int>(m_GridPtr->size() - 1))
 		{
 			return BlockState::Still;
 		}
 
 		if (m_GridPtr->at(idx) != Tile::Empty)
 		{
-			if (idxBehind < 0 || idxBehind > (m_GridPtr->size() - 1) ||		// out of range (push top and bottom blocks against edge)
-				m_GridPtr->at(idxBehind) != Tile::Empty ||					// another block behind
-				idx % WIDTH == 0 && direction.x < 0 ||						// pushing left against a block against the left wall
-				idx % WIDTH == (WIDTH - 1) && direction.x > 0)				// pushing right against a block against the right wall
+			if (idxBehind < 0 || idxBehind > static_cast<int>(m_GridPtr->size() - 1) ||		// out of range (push top and bottom blocks against edge)
+				m_GridPtr->at(idxBehind) != Tile::Empty ||									// another block behind
+				idx % WIDTH == 0 && direction.x < 0 ||										// pushing left against a block against the left wall
+				idx % WIDTH == (WIDTH - 1) && direction.x > 0)								// pushing right against a block against the right wall
 			{
 				std::cout << "breaking block\n";
 				auto it = FindInVector(m_Blocks, idx);
