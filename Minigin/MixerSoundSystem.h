@@ -12,9 +12,11 @@ namespace dae
         ~MixerSoundSystem() override;
 
         void Play(const sound_id id, const float volume = 128) override;
+        void PlayLooping(const sound_id id, const float volume = 128, int loops = -1) override;
         void Stop(const sound_id id) override;
         void StopAllSounds() override;
         void LoadSound(const sound_id id, const std::string& filePath) override;
+        void LoadMusic(const sound_id id, const std::string& filePath) override;
         bool IsSoundPlaying(const sound_id id) override;
 
     private:

@@ -8,7 +8,8 @@ namespace dae
 	}
 	void PushCommand::Execute()
 	{
-		m_PengoPtr->Push();
+		if(m_buttonState.PressedThisFrame)
+			m_PengoPtr->Push();
 	}
 }
 

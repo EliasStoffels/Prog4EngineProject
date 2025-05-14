@@ -5,7 +5,7 @@
 namespace dae
 {
 	TileComponent::TileComponent(Tile tileType, float x, float y, float tileSize, GridComponent* grid):
-		m_Pos{x,y,0}, TILE_SIZE{tileSize}, FRAME_DELAY{0.1f}, m_BlockState{BlockState::Still}, m_TileType{tileType}, m_GridPtr{grid}, m_SlideSpeed{300.f}
+		m_Pos{x,y,0}, TILE_SIZE{tileSize}, FRAME_DELAY{0.1f}, m_BlockState{BlockState::Still}, m_TileType{tileType}, m_GridPtr{grid}, m_SlideSpeed{700.f}
 	{
 		m_TileType = tileType;
 	}
@@ -21,7 +21,6 @@ namespace dae
 	{
 		if (m_TileType == Tile::Breakable)
 		{
-			std::cout << "block is breaking\n";
 			m_BlockState = BlockState::Breaking;
 			m_Texture->SetSourceRect(0, 48);
 			return true;
@@ -95,7 +94,7 @@ namespace dae
 				glm::vec3 direction = (m_TargetPosition - m_Pos);
 				
 				float sqrLength = direction.x * direction.x + direction.y * direction.y;
-				if (sqrLength < 9)
+				if (sqrLength < 64)
 				{
 					m_OwningGameObject->GetTransform()->SetLocalPosition(m_TargetPosition - m_Pos + m_OwningGameObject->GetLocalPosition());
 				}

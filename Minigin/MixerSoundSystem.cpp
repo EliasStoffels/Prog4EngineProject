@@ -6,6 +6,7 @@
 #include <condition_variable>
 #include <unordered_map>
 #include <atomic>
+#include <iostream>
 
 namespace dae
 {
@@ -15,7 +16,7 @@ namespace dae
         Impl() : m_ThreadRunning(true), m_WorkerThread(&Impl::ProcessEvents, this)
         {
             Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLAC | MIX_INIT_MOD);
-            Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+            Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
             Mix_AllocateChannels(32);
         }
 
@@ -35,28 +36,35 @@ namespace dae
         void Play(const sound_id id, const float volume = 128)
         {
             std::lock_guard<std::mutex> lock(m_QueueMutex);
-            m_EventQueue.push({ SoundEventType::PLAY, id, volume, "" });
+            m_EventQueue.push({ SoundEventType::PLAY, id, 1, volume, "" });
             m_Condition.notify_one();
         }
 
         void Stop(const sound_id id)
         {
             std::lock_guard<std::mutex> lock(m_QueueMutex);
-            m_EventQueue.push({ SoundEventType::STOP, id, 0, "" });
+            m_EventQueue.push({ SoundEventType::STOP, id, 1, 0, "" });
             m_Condition.notify_one();
         }
 
         void StopAllSounds()
         {
             std::lock_guard<std::mutex> lock(m_QueueMutex);
-            m_EventQueue.push({ SoundEventType::STOP_ALL, 0, 0, "" });
+            m_EventQueue.push({ SoundEventType::STOP_ALL, 0, 1, 0, "" });
             m_Condition.notify_one();
         }
 
         void LoadSound(const sound_id id, const std::string& filePath)
         {
             std::lock_guard<std::mutex> lock(m_QueueMutex);
-            m_EventQueue.push({ SoundEventType::LOAD, id, 0, filePath });
+            m_EventQueue.push({ SoundEventType::LOAD, id, 1, 0, filePath });
+            m_Condition.notify_one();
+        }
+
+        void LoadMusic(const sound_id id, const std::string& filePath)
+        {
+            std::lock_guard<std::mutex> lock(m_QueueMutex);
+            m_EventQueue.push({ SoundEventType::LOAD_MUSIC, id, 1, 0, filePath });
             m_Condition.notify_one();
         }
 
@@ -66,12 +74,20 @@ namespace dae
             return m_PlayingChannels.find(id) != m_PlayingChannels.end();
         }
 
+        void PlayLooping(const sound_id id, const float volume = 128, int loops = -1)
+        {
+            std::lock_guard<std::mutex> lock(m_QueueMutex);
+            m_EventQueue.push({ SoundEventType::LOOP, id, loops, volume, "" });
+            m_Condition.notify_one();
+        }
+
     private:
-        enum class SoundEventType { PLAY, STOP, STOP_ALL, LOAD };
+        enum class SoundEventType { PLAY, STOP, STOP_ALL, LOAD, LOAD_MUSIC, LOOP };
 
         struct SoundEvent {
             SoundEventType type;
             sound_id id;
+            int loops;
             float volume;
             std::string filePath;
         };
@@ -105,6 +121,13 @@ namespace dae
                 case SoundEventType::LOAD:
                     HandleLoadEvent(event);
                     break;
+                case SoundEventType::LOAD_MUSIC:
+                    HandleLoadMusicEvent(event);
+                    break;
+                case SoundEventType::LOOP:
+                    HandleLoopEvent(event);
+                    break;
+
                 }
             }
         }
@@ -115,6 +138,19 @@ namespace dae
             if (it != m_SoundChunks.end())
             {
                 int channel = Mix_PlayChannel(-1, it->second, 0);
+                if (channel != -1)
+                {
+                    Mix_Volume(channel, static_cast<int>(event.volume));
+
+                    std::lock_guard<std::mutex> lock(m_PlayingChannelsMutex);
+                    m_PlayingChannels[event.id] = channel;
+                }
+            }
+
+            auto it2 = m_SoundMusic.find(event.id);
+            if (it2 != m_SoundMusic.end())
+            {
+                int channel = Mix_PlayMusic(it2->second, event.loops);
                 if (channel != -1)
                 {
                     Mix_Volume(channel, static_cast<int>(event.volume));
@@ -158,11 +194,64 @@ namespace dae
             }
         }
 
+        void HandleLoadMusicEvent(const SoundEvent& event)
+        {
+            auto it = m_SoundMusic.find(event.id);
+            if (it != m_SoundMusic.end())
+            {
+                return;
+            }
+
+            Mix_Music* chunk = Mix_LoadMUS(event.filePath.c_str());
+            if (chunk)
+            {
+                m_SoundMusic[event.id] = chunk;
+            }
+        }
+
+        void HandleLoopEvent(const SoundEvent& event)
+        {
+            auto it = m_SoundChunks.find(event.id);
+            if (it != m_SoundChunks.end())
+            {
+                // Use channel 0 for music (reserved)
+                int channel = Mix_PlayChannel(0, it->second, event.loops);
+                if (channel != -1)
+                {
+                    Mix_Volume(channel, static_cast<int>(event.volume));
+                    std::lock_guard<std::mutex> lock(m_PlayingChannelsMutex);
+                    m_PlayingChannels[event.id] = channel;
+                }
+                else
+                {
+                    std::cerr << "Mix_PlayChannel error: " << Mix_GetError() << std::endl;
+                }
+            }
+
+            auto it2 = m_SoundMusic.find(event.id);
+            if (it2 != m_SoundMusic.end())
+            {
+                // Use channel 0 for music (reserved)
+                int channel = Mix_PlayMusic(it2->second, event.loops);
+                if (channel != -1)
+                {
+                    Mix_Volume(channel, static_cast<int>(event.volume));
+                    std::lock_guard<std::mutex> lock(m_PlayingChannelsMutex);
+                    m_PlayingChannels[event.id] = channel;
+                }
+                else
+                {
+                    std::cerr << "Mix_PlayChannel error: " << Mix_GetError() << std::endl;
+                }
+            }
+        }
+
         std::queue<SoundEvent> m_EventQueue;
         std::mutex m_QueueMutex;
         std::condition_variable m_Condition;
 
         std::unordered_map<sound_id, Mix_Chunk*> m_SoundChunks;
+        std::unordered_map<sound_id, Mix_Music*> m_SoundMusic;
 
         std::unordered_map<sound_id, int> m_PlayingChannels;
         std::mutex m_PlayingChannelsMutex;
@@ -179,6 +268,11 @@ namespace dae
 		m_Impl->Play(id, volume);
 	}
 
+    void MixerSoundSystem::PlayLooping(const sound_id id, const float volume, int loops)
+    {
+        m_Impl->PlayLooping(id, volume, loops);
+    }
+
 	void MixerSoundSystem::Stop(const sound_id id)
 	{
 		m_Impl->Stop(id);
@@ -193,6 +287,11 @@ namespace dae
 	{
 		m_Impl->LoadSound(id, filePath);
 	}
+
+    void MixerSoundSystem::LoadMusic(const sound_id id, const std::string& filePath)
+    {
+        m_Impl->LoadMusic(id, filePath);
+    }
 
 	bool MixerSoundSystem::IsSoundPlaying(const sound_id id)
 	{

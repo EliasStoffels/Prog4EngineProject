@@ -16,8 +16,8 @@ namespace dae
 		void Update(float deltaTime) override;
 
 		void SetTargetPosition(glm::vec3 targetPos);
-		void SetRotation(PengoRotationState rotation);
-		PengoRotationState GetRotation();
+		void SetRotation(DirectionState rotation);
+		DirectionState GetRotation();
 		void Push();
 
 		virtual ~PengoComponent() = default;
@@ -30,8 +30,8 @@ namespace dae
 		PengoComponent(float speed, GridComponent* grid);
 		void Animate(float deltaTime);
 		float m_Speed;
-		PengoRotationState m_Rotation = PengoRotationState::Down;
-		PengoAnimationState m_Animation = PengoAnimationState::Walking;
+		DirectionState m_Rotation = DirectionState::Down;
+		PengoActionState m_Animation = PengoActionState::Walking;
 		int m_CurrentFrame = 0;
 		int m_PushFrames = 0;
 		float m_TotalDT = 0.f;

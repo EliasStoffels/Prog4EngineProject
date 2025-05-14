@@ -4,7 +4,9 @@
 #include "GameObject.h"
 #include "SceneManager.h"
 #include "TileComponent.h"
+#include "TextureComponent.h"
 #include "Scene.h"
+#include "WallComponent.h"
 
 namespace dae
 {
@@ -272,7 +274,7 @@ namespace dae
 		for (unsigned int idx{}; idx < m_GridPtr->size(); ++idx)
 		{
 			auto tileType = m_GridPtr->at(idx);
-			if (tileType == Tile::Breakable || tileType == Tile::Unbreakable)
+			if (tileType != Tile::Empty)
 			{
 				auto go = std::make_shared<dae::GameObject>();
 				auto tilePos = IdxToPoint(idx);
@@ -314,11 +316,8 @@ namespace dae
 				m_GridPtr->at(idx) = m_GridPtr->at(origIdx);
 				m_GridPtr->at(origIdx) = Tile::Empty;
 				auto it = FindInVector(m_Blocks, origIdx);
-				std::cout << "orig idx: " << origIdx << "\n";
-				std::cout << "new idx: " << idx << "\n";
 				if (it != m_Blocks.end())
 				{
-					std::cout << "changed idx to: " << idx << "\n\n";
 					it->first = idx;
 				}
 			}
@@ -331,31 +330,63 @@ namespace dae
 	{
 		int idx = PointToIdx(glm::vec3{ currentPos.x + (TILE_WIDTH / 2),currentPos.y + (TILE_WIDTH / 2),0 });
 		int idxBehind = 0;
-		if (direction.x < 0 && idx % WIDTH != 0)
+		if (direction.x < 0)
 		{
-			--idx;
-			idxBehind = idx - 1;
+			if (idx % WIDTH != 0)
+			{
+				--idx;
+				idxBehind = idx - 1;
+			}
+			else
+			{
+				m_Walls->ShakeWall(DirectionState::Left);
+				return BlockState::Breaking;
+			}
 		}
-		if (direction.x > 0 && idx % WIDTH != (WIDTH - 1))
+		if (direction.x > 0 )
 		{
-			++idx;
-			idxBehind = idx + 1;
+			if(idx % WIDTH != (WIDTH - 1))
+			{
+				++idx;
+				idxBehind = idx + 1;
+			}
+			else
+			{
+				m_Walls->ShakeWall(DirectionState::Right);
+				return BlockState::Breaking;
+			}
 		}
-		if (direction.y < 0 && idx / WIDTH != 0)
+		if (direction.y < 0)
 		{
-			idx -= WIDTH;
-			idxBehind = idx - WIDTH;
+			if (idx / WIDTH != 0)
+			{
+				idx -= WIDTH;
+				idxBehind = idx - WIDTH;
+			}
+			else
+			{
+				m_Walls->ShakeWall(DirectionState::Up);
+				return BlockState::Breaking;
+			}
 		}
-		if (direction.y > 0 && idx / WIDTH != (HEIGHT - 1))
+		if (direction.y > 0)
 		{
-			idx += WIDTH;
-			idxBehind = idx + WIDTH;
+			if (idx / WIDTH != (HEIGHT - 1))
+			{
+				idx += WIDTH;
+				idxBehind = idx + WIDTH;
+			}
+			else
+			{
+				m_Walls->ShakeWall(DirectionState::Down);
+				return BlockState::Breaking;
+			}
 		}
 
-		if (idx < 0 || idx > static_cast<int>(m_GridPtr->size() - 1))
+		/*if (idx < 0 || idx > static_cast<int>(m_GridPtr->size() - 1))
 		{
-			return BlockState::Still;
-		}
+			return BlockState::Breaking;
+		}*/
 
 		if (m_GridPtr->at(idx) != Tile::Empty)
 		{
@@ -364,7 +395,6 @@ namespace dae
 				idx % WIDTH == 0 && direction.x < 0 ||										// pushing left against a block against the left wall
 				idx % WIDTH == (WIDTH - 1) && direction.x > 0)								// pushing right against a block against the right wall
 			{
-				std::cout << "breaking block\n";
 				auto it = FindInVector(m_Blocks, idx);
 				if (it != m_Blocks.end() && it->second->Destroy()) 
 				{
@@ -375,12 +405,10 @@ namespace dae
 			}
 			else
 			{
-				std::cout << "sliding block\n";
 				auto it = FindInVector(m_Blocks, idx);
 				if (it != m_Blocks.end()) 
 				{
 					it->second->Slide(direction);
-					std::cout << "slide idx: " << idx << "\n\n";
 				}
 				return BlockState::Sliding;
 			}
@@ -407,8 +435,8 @@ namespace dae
 				 0 };
 	}
 
-	GridComponent::GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfsett):
-		WIDTH{width}, HEIGHT{height}, TILE_WIDTH{tileWidth}, GRID_OFSETT{gridOfsett}
+	GridComponent::GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfset, WallComponent* walls):
+		WIDTH{width}, HEIGHT{height}, TILE_WIDTH{tileWidth}, GRID_OFSETT{ gridOfset }, m_Walls{ walls }
 	{
 		m_GridPtr = std::make_unique<std::vector<Tile>>();
 	}

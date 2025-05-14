@@ -21,12 +21,12 @@ namespace dae
 		auto transform = m_OwningGameObject->GetTransform();
 		glm::vec3 direction = (m_TargetPosition - transform->GetWorldPosition());
 
-		float sqrLength = direction.x * direction.x + direction.y * direction.y;
+		float sqrLength = glm::dot(direction,direction);
 		if (sqrLength < 4)
 		{
 			transform->SetLocalPosition(m_TargetPosition - transform->GetWorldPosition() + transform->GetLocalPosition());
 		}
-		else if (m_Animation == PengoAnimationState::Walking)
+		else if (m_Animation == PengoActionState::Walking)
 		{
 			float length = std::sqrt(sqrLength);
 			direction.x /= length;
@@ -44,39 +44,42 @@ namespace dae
 
 	void PengoComponent::SetTargetPosition(glm::vec3 targetPos)
 	{
-		if((m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition || m_TargetPosition.x == FLT_MAX) && m_Animation == PengoAnimationState::Walking)
+		if((m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition || m_TargetPosition.x == FLT_MAX) && m_Animation == PengoActionState::Walking)
 			m_TargetPosition = targetPos;
 	}
 
-	void PengoComponent::SetRotation(PengoRotationState rotation)
+	void PengoComponent::SetRotation(DirectionState rotation)
 	{
-		if(m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition && m_TargetPosition.x != FLT_MAX && m_Animation == PengoAnimationState::Walking)
+		if(m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition && m_TargetPosition.x != FLT_MAX && m_Animation == PengoActionState::Walking)
 			m_Rotation = rotation;
 	}
 
-	PengoRotationState PengoComponent::GetRotation()
+	DirectionState PengoComponent::GetRotation()
 	{
 		return m_Rotation;
 	}
 
 	void PengoComponent::Push()
 	{
-		if (m_OwningGameObject->GetTransform()->GetWorldPosition() == m_TargetPosition)
+		glm::vec3 distanceVec = m_OwningGameObject->GetWorldPosition() - m_TargetPosition;
+		float sqrLength = glm::dot(distanceVec, distanceVec);
+		if (sqrLength < 100)
 		{
+			m_OwningGameObject->SetLocalPosition(m_TargetPosition - m_OwningGameObject->GetWorldPosition() + m_OwningGameObject->GetLocalPosition());
 			auto blockState = m_GridPtr->RequestPush(m_OwningGameObject->GetWorldPosition(), RotationToVec3(m_Rotation));
 			switch (blockState)
 			{
 			case BlockState::Sliding:
 			{
 				m_PushFrames = 1;
-				m_Animation = PengoAnimationState::Pushing;
+				m_Animation = PengoActionState::Pushing;
 				m_CurrentFrame = -1;
 			}
 			break;
 			case BlockState::Breaking:
 			{
 				m_PushFrames = 5;
-				m_Animation = PengoAnimationState::Pushing;
+				m_Animation = PengoActionState::Pushing;
 				m_CurrentFrame = -1;
 			}
 			break;
@@ -95,7 +98,7 @@ namespace dae
 			
 			switch (m_Animation)
 			{
-			case PengoAnimationState::Walking:
+			case PengoActionState::Walking:
 			{
 				if (m_OwningGameObject->GetWorldPosition() != m_TargetPosition && m_TargetPosition.x != FLT_MAX)
 					++m_CurrentFrame %= 2;
@@ -104,22 +107,22 @@ namespace dae
 				int currentFrameOffset = 16 * m_CurrentFrame;
 				switch (m_Rotation)
 				{
-				case PengoRotationState::Left:
+				case DirectionState::Left:
 				{
 					m_TexturePtr->SetSourceRect(32 + currentFrameOffset, 0);
 				}
 				break;
-				case PengoRotationState::Right:
+				case DirectionState::Right:
 				{
 					m_TexturePtr->SetSourceRect(96 + currentFrameOffset, 0);
 				}
 				break;
-				case PengoRotationState::Up:
+				case DirectionState::Up:
 				{
 					m_TexturePtr->SetSourceRect(currentFrameOffset, 0);
 				}
 				break;
-				case PengoRotationState::Down:
+				case DirectionState::Down:
 				{
 					m_TexturePtr->SetSourceRect(64 + currentFrameOffset, 0);
 				}
@@ -127,30 +130,30 @@ namespace dae
 				}
 			}
 			break;
-			case PengoAnimationState::Pushing:
+			case PengoActionState::Pushing:
 			{
 				++m_CurrentFrame;
 				if (m_CurrentFrame == m_PushFrames)
-					m_Animation = PengoAnimationState::Walking;
+					m_Animation = PengoActionState::Walking;
 				int currentFrameOffset = 16 * (m_CurrentFrame % 2);
 				switch (m_Rotation)
 				{
-				case PengoRotationState::Left:
+				case DirectionState::Left:
 				{
 					m_TexturePtr->SetSourceRect(32 + currentFrameOffset, 16);
 				}
 				break;
-				case PengoRotationState::Right:
+				case DirectionState::Right:
 				{
 					m_TexturePtr->SetSourceRect(96 + currentFrameOffset, 16);
 				}
 				break;
-				case PengoRotationState::Up:
+				case DirectionState::Up:
 				{
 					m_TexturePtr->SetSourceRect(currentFrameOffset, 16);
 				}
 				break;
-				case PengoRotationState::Down:
+				case DirectionState::Down:
 				{
 					m_TexturePtr->SetSourceRect(64 + currentFrameOffset, 16);
 				}
@@ -158,26 +161,26 @@ namespace dae
 				}
 			}
 			break;
-			case PengoAnimationState::Dying:
+			case PengoActionState::Dying:
 			{
 				switch (m_Rotation)
 				{
-				case PengoRotationState::Left:
+				case DirectionState::Left:
 				{
 
 				}
 				break;
-				case PengoRotationState::Right:
+				case DirectionState::Right:
 				{
 					
 				}
 				break;
-				case PengoRotationState::Up:
+				case DirectionState::Up:
 				{
 					
 				}
 				break;
-				case PengoRotationState::Down:
+				case DirectionState::Down:
 				{
 					
 				}

@@ -10,7 +10,10 @@ dae::TextureComponent::TextureComponent()
 
 void dae::TextureComponent::Render() const
 {
-	const auto& pos = m_OwningGameObject->GetTransform()->GetWorldPosition();
+	if (!m_Render)
+		return;
+
+	const auto& pos = m_OwningGameObject->GetWorldPosition();
 	if(m_Width == FLT_MAX)
 		Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 	else if(m_SourceRect.x == INT_MAX)
@@ -35,6 +38,11 @@ void dae::TextureComponent::SetSourceRect(int x, int y, int width, int height)
 void dae::TextureComponent::SetSourceRect(const SDL_Rect& rect)
 {
 	m_SourceRect = rect;
+}
+
+void dae::TextureComponent::IsActive(bool isActive)
+{
+	m_Render = isActive;
 }
 
 

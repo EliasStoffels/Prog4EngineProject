@@ -2,20 +2,20 @@
 
 namespace dae
 {
-	glm::vec2 RotationToVec2(const PengoRotationState& rotation)
+	glm::vec2 RotationToVec2(const DirectionState& rotation)
 	{
 		switch (rotation)
 		{
-		case PengoRotationState::Left:
+		case DirectionState::Left:
 			return glm::vec2{ -1,0 };
 			break;
-		case PengoRotationState::Right:
+		case DirectionState::Right:
 			return glm::vec2{ 1,0 };
 			break;
-		case PengoRotationState::Up:
+		case DirectionState::Up:
 			return glm::vec2{ 0,1 };
 			break;
-		case PengoRotationState::Down:
+		case DirectionState::Down:
 			return glm::vec2{ 0,-1 };
 			break;
 		}
@@ -23,20 +23,20 @@ namespace dae
 		return glm::vec2{ 0,1 };
 	}
 
-	glm::vec3 RotationToVec3(const PengoRotationState& rotation)
+	glm::vec3 RotationToVec3(const DirectionState& rotation)
 	{
 		switch (rotation)
 		{
-		case PengoRotationState::Left:
+		case DirectionState::Left:
 			return glm::vec3{ -1,0,0 };
 			break;
-		case PengoRotationState::Right:
+		case DirectionState::Right:
 			return glm::vec3{ 1,0,0 };
 			break;
-		case PengoRotationState::Up:
+		case DirectionState::Up:
 			return glm::vec3{ 0,1,0 };
 			break;
-		case PengoRotationState::Down:
+		case DirectionState::Down:
 			return glm::vec3{ 0,-1,0 };
 			break;
 		}
@@ -44,48 +44,48 @@ namespace dae
 		return glm::vec3{ 0,1,0 };
 	}
 
-	PengoRotationState VecToRotation(const glm::vec2 vec)
+	DirectionState VecToRotation(const glm::vec2 vec)
 	{
 		if (vec.x < 0)
 		{
-			return PengoRotationState::Left;
+			return DirectionState::Left;
 		}
 		if (vec.x > 0)
 		{
-			return PengoRotationState::Right;
+			return DirectionState::Right;
 		}
 		if (vec.y < 0)
 		{
-			return PengoRotationState::Down;
+			return DirectionState::Down;
 		}
 		if (vec.y > 0)
 		{
-			return PengoRotationState::Up;
+			return DirectionState::Up;
 		}
 
-		return PengoRotationState::Up;
+		return DirectionState::Up;
 	}
 
-	PengoRotationState VecToRotation(const glm::vec3 vec)
+	DirectionState VecToRotation(const glm::vec3 vec)
 	{
 		if (vec.x < 0)
 		{
-			return PengoRotationState::Left;
+			return DirectionState::Left;
 		}
 		if (vec.x > 0)
 		{
-			return PengoRotationState::Right;
+			return DirectionState::Right;
 		}
 		if (vec.y < 0)
 		{
-			return PengoRotationState::Down;
+			return DirectionState::Down;
 		}
 		if (vec.y > 0)
 		{
-			return PengoRotationState::Up;
+			return DirectionState::Up;
 		}
 
-		return PengoRotationState::Up;
+		return DirectionState::Up;
 	}
 
 }

@@ -17,7 +17,7 @@ namespace dae
         glm::vec3 m_Direction;
         GridComponent* m_Grid;
         PengoComponent* m_Pengo;
-        PengoRotationState m_Rotation;
+        DirectionState m_Rotation;
     };
 }
 

@@ -86,7 +86,7 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
-	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::LoggingSoundSystem>(std::make_unique<dae::MixerSoundSystem>()));
+	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::MixerSoundSystem>());
 
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();

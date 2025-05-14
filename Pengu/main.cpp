@@ -36,6 +36,7 @@
 #include "GridComponent.h"
 #include "PengoComponent.h"
 #include "PushCommand.h"
+#include "WallComponent.h"
 
 void load()
 {
@@ -59,9 +60,20 @@ void load()
 	go->SetLocalPosition(0, 82);
 	scene.Add(go);
 
+	//walls
+	go = std::make_shared<dae::GameObject>();
+	auto vertWallTex = go->AddComponent<dae::TextureComponent>();
+	vertWallTex->SetTexture("VerticalWallTex.png");
+	vertWallTex->IsActive(false);
+	auto horWallTex = go->AddComponent<dae::TextureComponent>();
+	horWallTex->SetTexture("HorizontalWallTex.png");
+	horWallTex->IsActive(false);
+	auto wallComp = go->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
+	scene.Add(go);
+
 	//grid
 	go = std::make_shared<dae::GameObject>();
-	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT);
+	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT, wallComp);
 	//gridC->SaveLevel();
 	gridC->LoadLevel(4);
 	scene.Add(go);
@@ -128,7 +140,7 @@ void load()
 	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, go.get(), glm::vec3{ 0,1,0 }, gridC, pengoC);
 	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, go.get(), glm::vec3{ -1,0,0 }, gridC, pengoC);
 	input.AddBinding<dae::MoveCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, go.get(), glm::vec3{ 1,0,0 }, gridC, pengoC);
-	//input.AddBinding<dae::DieCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, go.get());
+	//input.AddBinding<dae::DieCommand>(SDL_SCANCODE_Q, dae::InputType::Keyboard, go.get());
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, go.get(), pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, go.get(), pengoC);
 	//go->AddObserver(observer2);
@@ -138,7 +150,10 @@ void load()
 }
 
 int main(int, char* []) {
-	//serviceLocator.RegisterSoundSystem(std::make_unique<dae::LoggingSoundSystem>(std::make_unique<dae::MixerSoundSystem>()));
+	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::MixerSoundSystem>());
+
+	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadMusic(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), "../Data/PengoSoundFX/Main_BGM_Popcorn.mp3");
+	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 100.f,-1);
 
 	dae::Minigin engine("../Data/");
 	engine.Run(load);

@@ -84,6 +84,9 @@
     <ClCompile Include="Enums.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WallComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\DieCommand.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="PushCommand.h">
       <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="WallComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

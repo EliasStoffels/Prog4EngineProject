@@ -8,20 +8,20 @@ namespace dae
 		Empty, Breakable, Unbreakable
 	};
 
-	enum class PengoRotationState:uint8_t
+	enum class DirectionState:uint8_t
 	{
 		Left, Right, Up, Down
 	};
 
-	glm::vec2 RotationToVec2(const PengoRotationState& rotation);
+	glm::vec2 RotationToVec2(const DirectionState& rotation);
 
-	glm::vec3 RotationToVec3(const PengoRotationState& rotation);
+	glm::vec3 RotationToVec3(const DirectionState& rotation);
 
-	PengoRotationState VecToRotation(const glm::vec2 vec);
+	DirectionState VecToRotation(const glm::vec2 vec);
 
-	PengoRotationState VecToRotation(const glm::vec3 vec);
+	DirectionState VecToRotation(const glm::vec3 vec);
 
-	enum class PengoAnimationState:uint8_t
+	enum class PengoActionState:uint8_t
 	{
 		Walking, Pushing, Dying
 	};

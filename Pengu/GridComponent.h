@@ -4,10 +4,11 @@
 #include <glm.hpp>
 #include <memory>
 #include "Enums.h"
-#include <unordered_map>
 
 namespace dae
 {
+	class WallComponent;
+	class TextureComponent;
 	class TileComponent;
 	class GridComponent : public CppBehaviour
 	{
@@ -29,7 +30,7 @@ namespace dae
 		GridComponent& operator=(GridComponent&& other) = delete;
 
 	private:
-		GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfset);
+		GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfset, WallComponent* walls);
 		const int WIDTH;
 		const int HEIGHT;
 		const int TILE_WIDTH;
@@ -37,6 +38,8 @@ namespace dae
 
 		std::unique_ptr<std::vector<Tile>> m_GridPtr = nullptr;
 		std::vector<std::pair<int, TileComponent*>> m_Blocks;
+
+		WallComponent* m_Walls = nullptr;
 
 	};
 }

@@ -168,6 +168,7 @@
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="WallComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\AchievementObserver.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="GridComponent.h" />
+    <ClInclude Include="WallComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
