@@ -6,19 +6,19 @@
 
 namespace dae
 {
-	MoveCommand::MoveCommand(GameObject* gameObject, const glm::vec3& direction, GridComponent* grid, PengoComponent* pengo)
-		: GameObjectCommand{ gameObject }, m_Direction{ direction },m_Grid{grid}, m_Pengo{pengo}, m_Rotation{}
+	MoveCommand::MoveCommand(GameObject* gameObject, const glm::vec3& direction, PengoComponent* pengo)
+		: GameObjectCommand{ gameObject }, m_Direction{ direction }, m_Pengo{pengo}
 	{
-		m_Rotation = VecToRotation(direction);
 		
 	}
 
 	void MoveCommand::Execute()
 	{
-		auto goTransform = GetGameObject()->GetTransform();
-		auto currentPos = goTransform->GetWorldPosition();
-
-		m_Pengo->SetRotation(m_Rotation);
-		m_Pengo->SetTargetPosition(m_Grid->RequestMove(currentPos, m_Direction));
+		m_Pengo->Move(m_Direction);
+		//auto goTransform = GetGameObject()->GetTransform();
+		//auto currentPos = goTransform->GetWorldPosition();
+		//
+		//m_Pengo->SetRotation(m_Rotation);
+		//m_Pengo->SetTargetPosition(m_Grid->RequestMove(currentPos, m_Direction));
 	}
 }

@@ -164,6 +164,7 @@
     <ClCompile Include="..\Minigin\UiObserver.cpp" />
     <ClCompile Include="Enums.cpp" />
     <ClCompile Include="PengoComponent.cpp" />
+    <ClCompile Include="PengoState.cpp" />
     <ClCompile Include="PushCommand.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="GridComponent.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\Minigin\UiObserver.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="PengoComponent.h" />
+    <ClInclude Include="PengoState.h" />
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="GridComponent.h" />

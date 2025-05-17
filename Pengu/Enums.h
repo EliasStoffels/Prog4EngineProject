@@ -5,7 +5,7 @@ namespace dae
 {
 	enum class Tile:uint8_t
 	{
-		Empty, Breakable, Unbreakable
+		Empty, Breakable, Unbreakable, Sno_Bee
 	};
 
 	enum class DirectionState:uint8_t

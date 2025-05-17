@@ -383,11 +383,6 @@ namespace dae
 			}
 		}
 
-		/*if (idx < 0 || idx > static_cast<int>(m_GridPtr->size() - 1))
-		{
-			return BlockState::Breaking;
-		}*/
-
 		if (m_GridPtr->at(idx) != Tile::Empty)
 		{
 			if (idxBehind < 0 || idxBehind > static_cast<int>(m_GridPtr->size() - 1) ||		// out of range (push top and bottom blocks against edge)
