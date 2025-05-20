@@ -15,10 +15,5 @@ namespace dae
 	void MoveCommand::Execute()
 	{
 		m_Pengo->Move(m_Direction);
-		//auto goTransform = GetGameObject()->GetTransform();
-		//auto currentPos = goTransform->GetWorldPosition();
-		//
-		//m_Pengo->SetRotation(m_Rotation);
-		//m_Pengo->SetTargetPosition(m_Grid->RequestMove(currentPos, m_Direction));
 	}
 }

@@ -3,7 +3,6 @@
 #include "GameObject.h"
 #include "TimeSingleton.h"
 
-
 namespace dae
 {
     class TextureComponent;
@@ -11,14 +10,13 @@ namespace dae
     class PengoState
     {
     protected:
-        TextureComponent* m_TexturePtr;
+        TextureComponent* m_TexturePtr = nullptr;
         glm::vec3 m_Direction{};
         float m_TotalDT{};
         float FRAME_DELAY{ 0.1f };
         int m_CurrentFrame{ 0 };
 
     public:
-        PengoState(const glm::vec3& direction) : m_Direction{ direction }, m_TexturePtr{ nullptr } {};
         virtual ~PengoState() = default;
         virtual void Enter(PengoComponent* pengo) = 0;
         virtual std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) = 0;
@@ -34,7 +32,6 @@ namespace dae
     {
         glm::vec3 m_TargetPosition{ FLT_MAX,FLT_MAX,FLT_MAX };
     public:
-        PengoWalkingState(const glm::vec3& direction) : PengoState{ direction } {};
         void Enter(PengoComponent* pengo) override;
         std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) override;
         void Animate(PengoComponent* pengo, float deltaTime) override;
@@ -47,7 +44,7 @@ namespace dae
     class PengoPushingState : public PengoState
     {
     public:
-        PengoPushingState(const glm::vec3& direction, int pushFrames) : PengoState{ direction }, m_PushFrames(pushFrames) {};
+        PengoPushingState(int pushFrames) : m_PushFrames(pushFrames) {};
 
         void Enter(PengoComponent* pengo) override;
         std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) override;
@@ -64,7 +61,6 @@ namespace dae
     class PengoDyingState : public PengoState
     {
     public:
-        PengoDyingState(const glm::vec3& direction) : PengoState{ direction } {};
         void Enter(PengoComponent* pengo) override;
         std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) override;
         void Animate(PengoComponent* pengo, float deltaTime) override;

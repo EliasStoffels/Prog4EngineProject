@@ -31,7 +31,7 @@ namespace dae
 
 
 	}
-	void WallComponent::ShakeWall(DirectionState direction)
+	void WallComponent::ShakeWall(Walls direction)
 	{
 		if (m_Shake)
 			return;
@@ -39,25 +39,25 @@ namespace dae
 		m_Shake = true;
 		switch (direction)
 		{
-		case DirectionState::Left:
+		case Walls::Left:
 		{
 			m_OwningGameObject->SetLocalPosition(GRID_OFSETT.x - WALL_WIDTH,GRID_OFSETT.y - WALL_WIDTH);
 			m_VertWallTex->IsActive(true);
 		}
 		break;
-		case DirectionState::Right:
+		case Walls::Right:
 		{
 			m_OwningGameObject->SetLocalPosition(GRID_OFSETT.x + GRID_SIZE.x, GRID_OFSETT.y - WALL_WIDTH);
 			m_VertWallTex->IsActive(true);
 		}
 		break;
-		case DirectionState::Up:
+		case Walls::Up:
 		{
 			m_OwningGameObject->SetLocalPosition(GRID_OFSETT.x - WALL_WIDTH, GRID_OFSETT.y - WALL_WIDTH);
 			m_HorWallTex->IsActive(true);
 		}
 		break;
-		case DirectionState::Down:
+		case Walls::Down:
 		{
 			m_OwningGameObject->SetLocalPosition(GRID_OFSETT.x - WALL_WIDTH, GRID_OFSETT.y + GRID_SIZE.y);
 			m_HorWallTex->IsActive(true);

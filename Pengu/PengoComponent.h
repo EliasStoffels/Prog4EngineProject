@@ -9,8 +9,8 @@ namespace dae
     class GridComponent;
     class PengoComponent : public CppBehaviour
     {
+        friend class GameObject;
     public:
-        PengoComponent(float speed, GridComponent* grid);
 
         void Start() override;
         void Update(float deltaTime) override;
@@ -26,6 +26,8 @@ namespace dae
         GridComponent* GetGrid() const { return m_GridPtr; }
 
     private:
+
+        PengoComponent(float speed, GridComponent* grid);
         float m_Speed;
         GridComponent* m_GridPtr;
         TextureComponent* m_TexturePtr;

@@ -81,13 +81,16 @@
     <ClCompile Include="PushCommand.cpp">
       <Filter>Source Files\ComandCppFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Enums.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WallComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
     <ClCompile Include="PengoState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -144,6 +147,12 @@
       <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
     <ClInclude Include="PengoState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -270,7 +270,6 @@ namespace dae
 		
 		auto& scene = dae::SceneManager::GetInstance().GetScene("Pengo");
 
-
 		for (unsigned int idx{}; idx < m_GridPtr->size(); ++idx)
 		{
 			auto tileType = m_GridPtr->at(idx);
@@ -339,7 +338,7 @@ namespace dae
 			}
 			else
 			{
-				m_Walls->ShakeWall(DirectionState::Left);
+				m_Walls->ShakeWall(Walls::Left);
 				return BlockState::Breaking;
 			}
 		}
@@ -352,7 +351,7 @@ namespace dae
 			}
 			else
 			{
-				m_Walls->ShakeWall(DirectionState::Right);
+				m_Walls->ShakeWall(Walls::Right);
 				return BlockState::Breaking;
 			}
 		}
@@ -365,7 +364,7 @@ namespace dae
 			}
 			else
 			{
-				m_Walls->ShakeWall(DirectionState::Up);
+				m_Walls->ShakeWall(Walls::Up);
 				return BlockState::Breaking;
 			}
 		}
@@ -378,7 +377,7 @@ namespace dae
 			}
 			else
 			{
-				m_Walls->ShakeWall(DirectionState::Down);
+				m_Walls->ShakeWall(Walls::Down);
 				return BlockState::Breaking;
 			}
 		}

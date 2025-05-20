@@ -19,17 +19,15 @@ namespace dae
         std::vector<std::pair<unsigned int, std::unique_ptr<Command>>> m_commands;
     public:
         template <typename CommandType, typename... Args>
-        void AddBinding(unsigned int button, InputType inputType, Args&&... args)
+        void AddBinding(unsigned int button, InputType inputType, int controllerIndex, Args&&... args)
         {
             std::unique_ptr<Command> command = std::make_unique<CommandType>(std::forward<Args>(args)...);
             command->m_InputType = inputType;
+            command->m_ControllerIndex = controllerIndex;
 
             m_commands.emplace_back(button, std::move(command));
         }
 
         bool ProcessInput();
-        //bool IsDownThisFrame(unsigned int button) const;
-        //bool IsReleasedThisFrame(unsigned int button) const;
-        //bool IsDown(unsigned int button) const;
     };
 }

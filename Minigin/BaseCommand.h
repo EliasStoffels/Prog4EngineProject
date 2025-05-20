@@ -6,8 +6,7 @@ namespace dae
 	enum class InputType
 	{
 		Controller,
-		Keyboard,
-		Both
+		Keyboard
 	};
 
 	struct ButtonState
@@ -22,6 +21,7 @@ namespace dae
 	public:
 		ButtonState m_buttonState;
 		InputType m_InputType;
+		int m_ControllerIndex = 0;
 
 		virtual ~Command() = default;
 		virtual void Execute() = 0;

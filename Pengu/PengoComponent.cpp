@@ -11,7 +11,7 @@ namespace dae
     PengoComponent::PengoComponent(float speed, GridComponent* grid)
         : m_Speed{ speed }, m_GridPtr{ grid }, m_TexturePtr{nullptr}
     {
-        m_CurrentState = std::make_unique<PengoWalkingState>(m_Direction);
+        m_CurrentState = std::make_unique<PengoWalkingState>();
     }
 
     void PengoComponent::Start()
@@ -44,7 +44,6 @@ namespace dae
 
     void PengoComponent::ChangeState(std::unique_ptr<PengoState> newState)
     {
-        std::cout << "switched state\n";
         m_CurrentState->Exit(this);
         m_CurrentState = std::move(newState);
         m_CurrentState->Enter(this);

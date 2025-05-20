@@ -12,7 +12,23 @@ namespace dae
     void PengoWalkingState::Enter(PengoComponent* pengo)
     {
         m_TexturePtr = pengo->GetTexture();
-        m_TexturePtr->SetSourceRect(0, 0);
+        m_Direction = pengo->GetDirection();
+        if (m_Direction.x < 0)
+        {
+            m_TexturePtr->SetSourceRect(32, 0);
+        }
+        if (m_Direction.x > 0)
+        {
+            m_TexturePtr->SetSourceRect(96, 0);
+        }
+        if (m_Direction.y < 0)
+        {
+            m_TexturePtr->SetSourceRect(64, 0);
+        }
+        if (m_Direction.y > 0)
+        {
+            m_TexturePtr->SetSourceRect(0, 0);
+        }
     }
 
     std::unique_ptr<PengoState>  PengoWalkingState::Update(PengoComponent* pengo, float deltaTime)
@@ -102,11 +118,11 @@ namespace dae
         
         if (blockState == BlockState::Sliding)
         {
-            return std::make_unique<PengoPushingState>(m_Direction, 2);
+            return std::make_unique<PengoPushingState>(2);
         }
         else if (blockState == BlockState::Breaking)
         {
-            return std::make_unique<PengoPushingState>(m_Direction, 6);
+            return std::make_unique<PengoPushingState>(6);
         }
 
         return nullptr;
@@ -143,7 +159,7 @@ namespace dae
         Animate(pengo, deltaTime);
         if (m_CurrentFrame >= m_PushFrames)
         {
-            return std::make_unique<PengoWalkingState>(m_Direction);
+            return std::make_unique<PengoWalkingState>();
         }
 
         return nullptr;

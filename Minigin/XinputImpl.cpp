@@ -5,6 +5,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <Xinput.h>
+#include <iostream>
 
 namespace dae
 {
@@ -12,22 +13,27 @@ namespace dae
     class InputManager::inputImpl 
     {
         //xinput
-        XINPUT_STATE previousState{};
-        XINPUT_STATE currentState{};
-        int m_controllerIndex = 0;
+        static constexpr int MAX_CONTROLLERS = 4;
 
-        int buttonChanges = 0;
-        int buttonsPressedThisFrame = 0;
-        int buttonsReleasedThisFrame = 0;
+        struct ControllerState {
+            XINPUT_STATE previousState{};
+            XINPUT_STATE currentState{};
+            int buttonChanges = 0;
+            int buttonsPressedThisFrame = 0;
+            int buttonsReleasedThisFrame = 0;
+            bool isConnected = false;
+        };
+
+        ControllerState m_controllers[MAX_CONTROLLERS];
 
         //sdl
         const Uint8* currentKeyboardState = nullptr;
         Uint8 previousKeyboardState[SDL_NUM_SCANCODES] = { 0 };
     public:
         void ProcessInput(const  std::vector<std::pair<unsigned int, std::unique_ptr<Command>>>& commands);
-        bool IsDownThisFrame(unsigned int button) const;
-        bool IsReleasedThisFrame(unsigned int button) const;
-        bool IsDown(unsigned int button) const;
+        bool IsDownThisFrame(unsigned int button, int controllerIndex) const;
+        bool IsReleasedThisFrame(unsigned int button, int controllerIndex) const;
+        bool IsDown(unsigned int button, int controllerIndex) const;
 
         bool IsDownThisFrameKey(unsigned int key) const;
         bool IsReleasedThisFrameKey(unsigned int key) const;
@@ -41,12 +47,20 @@ namespace dae
     {
         //update states
         //xinput
-        CopyMemory(&previousState, &currentState, sizeof(XINPUT_STATE));
-        ZeroMemory(&currentState, sizeof(XINPUT_STATE));
-        XInputGetState(m_controllerIndex, &currentState);
-        buttonChanges = currentState.Gamepad.wButtons ^ previousState.Gamepad.wButtons;
-        buttonsPressedThisFrame = buttonChanges & currentState.Gamepad.wButtons;
-        buttonsReleasedThisFrame = buttonChanges & (~currentState.Gamepad.wButtons);
+        for (int i = 0; i < MAX_CONTROLLERS; ++i)
+        {
+            auto& controller = m_controllers[i];
+            CopyMemory(&controller.previousState, &controller.currentState, sizeof(XINPUT_STATE));
+            ZeroMemory(&controller.currentState, sizeof(XINPUT_STATE));
+
+            controller.isConnected = (XInputGetState(i, &controller.currentState) == ERROR_SUCCESS);
+            if (controller.isConnected)
+            {
+                controller.buttonChanges = controller.currentState.Gamepad.wButtons ^ controller.previousState.Gamepad.wButtons;
+                controller.buttonsPressedThisFrame = controller.buttonChanges & controller.currentState.Gamepad.wButtons;
+                controller.buttonsReleasedThisFrame = controller.buttonChanges & (~controller.currentState.Gamepad.wButtons);
+            }
+        }
 
         // sdl
         SDL_PumpEvents();
@@ -67,31 +81,25 @@ namespace dae
                     CheckKeyboard(command);
                 }
                 break;
-                case InputType::Both:
-                {
-                    CheckKeyboard(command);
-                    CheckController(command);
-                }
-                break;
                 }
             });
 
         memcpy(previousKeyboardState, currentKeyboardState, SDL_NUM_SCANCODES);
     }
 
-    bool InputManager::inputImpl::IsDownThisFrame(unsigned int button) const
+    bool dae::InputManager::inputImpl::IsDownThisFrame(unsigned int button, int controllerIndex) const
     {
-        return buttonsPressedThisFrame & button;
+        return m_controllers[controllerIndex].buttonsPressedThisFrame & button;
     }
 
-    bool InputManager::inputImpl::IsReleasedThisFrame(unsigned int button) const
+    bool dae::InputManager::inputImpl::IsReleasedThisFrame(unsigned int button, int controllerIndex) const
     {
-        return buttonsReleasedThisFrame & button;
+        return m_controllers[controllerIndex].buttonsReleasedThisFrame & button;
     }
 
-    bool InputManager::inputImpl::IsDown(unsigned int button) const
+    bool dae::InputManager::inputImpl::IsDown(unsigned int button, int controllerIndex) const
     {
-        return currentState.Gamepad.wButtons & button;
+        return m_controllers[controllerIndex].currentState.Gamepad.wButtons & button;
     }
 
     bool dae::InputManager::inputImpl::IsDownThisFrameKey(unsigned int key) const
@@ -109,23 +117,24 @@ namespace dae
         return currentKeyboardState[key];
     }
 
-    void dae::InputManager::inputImpl::CheckController(const std::pair<unsigned int, std::unique_ptr<Command>>& command)
+    void InputManager::inputImpl::CheckController(const std::pair<unsigned int, std::unique_ptr<Command>>& command)
     {
-        if (IsDownThisFrame(command.first))
+
+        if (IsDownThisFrame(command.first, command.second->m_ControllerIndex))
         {
             command.second->m_buttonState.PressedThisFrame = true;
             command.second->m_buttonState.Down = true;
             command.second->m_buttonState.ReleasedThisFrame = false;
             command.second->Execute();
         }
-        else if (IsReleasedThisFrame(command.first))
+        else if (IsReleasedThisFrame(command.first, command.second->m_ControllerIndex))
         {
             command.second->m_buttonState.ReleasedThisFrame = true;
             command.second->m_buttonState.PressedThisFrame = false;
             command.second->m_buttonState.Down = false;
             command.second->Execute();
         }
-        else if (IsDown(command.first))
+        else if (IsDown(command.first, command.second->m_ControllerIndex))
         {
             command.second->m_buttonState.Down = true;
             command.second->m_buttonState.PressedThisFrame = false;

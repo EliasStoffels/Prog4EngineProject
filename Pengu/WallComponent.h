@@ -8,12 +8,10 @@ namespace dae
 	class WallComponent : public CppBehaviour
 	{
 		friend class GameObject;
-
 	public:
-		//void Start() override;
 		void Update(float deltaTime) override;
 		
-		void ShakeWall(DirectionState direction);
+		void ShakeWall(Walls direction);
 
 		virtual ~WallComponent() = default;
 		WallComponent(const WallComponent& other) = delete;

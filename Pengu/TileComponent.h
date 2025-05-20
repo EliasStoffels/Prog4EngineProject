@@ -12,7 +12,6 @@ namespace dae
 	class TileComponent : public CppBehaviour
 	{
 		friend class GameObject;
-
 	public:
 		void Slide(const glm::vec3& direction);
 		bool Destroy();
