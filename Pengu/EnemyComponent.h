@@ -30,7 +30,7 @@ namespace dae
         float m_Speed;
         GridComponent* m_GridPtr;
         TextureComponent* m_TexturePtr;
-        glm::vec3 m_Direction{};
+        glm::vec3 m_Direction{0,1,0};
 
         std::unique_ptr<EnemyState> m_CurrentState;
         void ChangeState(std::unique_ptr<EnemyState> newState);

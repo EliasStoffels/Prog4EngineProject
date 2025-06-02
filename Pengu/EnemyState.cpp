@@ -3,6 +3,7 @@
 #include "TextureComponent.h"
 #include "GameObject.h"
 #include "GridComponent.h"
+#include <iostream>
 
 namespace dae
 {
@@ -28,7 +29,7 @@ namespace dae
 		{
 			m_TexturePtr->SetSourceRect(0, 160);
 		}
-
+		std::cout << "walking state\n";
 		m_TargetPosition = snobee->GetOwner()->GetWorldPosition();
 	}
 
@@ -229,6 +230,49 @@ namespace dae
 	}
 
 	std::unique_ptr<EnemyState> EnemyBreakingState::Break(EnemyComponent* )
+	{
+		return nullptr;
+	}
+
+	//spawning
+	void EnemySpawningState::Enter(EnemyComponent* snobee)
+	{
+		m_TexturePtr = snobee->GetTexture();
+		m_TexturePtr->SetSourceRect(0,128);
+		m_TargetPosition = snobee->GetOwner()->GetWorldPosition();
+	}
+
+	std::unique_ptr<EnemyState> EnemySpawningState::Update(EnemyComponent* snobee, float deltaTime)
+	{
+		if (m_CurrentFrame > 7)
+		{
+			return std::make_unique<EnemyWalkingState>();
+		}
+		Animate(snobee, deltaTime);
+		return nullptr;
+	}
+
+	void EnemySpawningState::Animate(EnemyComponent* , float deltaTime)
+	{
+		m_TotalDT += deltaTime;
+		if (m_TotalDT > FRAME_DELAY)
+		{
+			m_TotalDT -= FRAME_DELAY;
+			++m_CurrentFrame;
+
+			m_TexturePtr->SetSourceRect(16 * m_CurrentFrame, 128);
+		}
+	}
+
+	void EnemySpawningState::Exit(EnemyComponent* )
+	{
+	}
+
+	std::unique_ptr<EnemyState> EnemySpawningState::OnMove(EnemyComponent* )
+	{
+		return nullptr;
+	}
+	std::unique_ptr<EnemyState> EnemySpawningState::Break(EnemyComponent* )
 	{
 		return nullptr;
 	}

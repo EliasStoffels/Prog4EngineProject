@@ -39,6 +39,7 @@
 #include "WallComponent.h"
 #include "EnemyComponent.h"
 #include "BreakCommand.h"
+#include "EnemyControllerComponent.h"
 
 void load()
 {
@@ -149,7 +150,11 @@ void load()
 	//go->AddObserver(observerAch);
 	scene.Add(go);
 
-	auto go2 = std::make_shared<dae::GameObject>();
+	go = std::make_shared<dae::GameObject>();
+	/*auto enemyController = */go->AddComponent<dae::EnemyControllerComponent>(gridC);
+	scene.Add(go);
+
+	/*auto go2 = std::make_shared<dae::GameObject>();
 	auto textureMovable2 = go2->AddComponent<dae::TextureComponent>();
 	textureMovable2->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable2->SetSourceRect(0, 160, 16, 16);
@@ -162,17 +167,17 @@ void load()
 	input.AddBinding<dae::MoveCommand<dae::EnemyComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 1, go2.get(), glm::vec3{ 0,1,0 }, pengoC2);
 	input.AddBinding<dae::MoveCommand<dae::EnemyComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, go2.get(), glm::vec3{ -1,0,0 }, pengoC2);
 	input.AddBinding<dae::MoveCommand<dae::EnemyComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, go2.get(), glm::vec3{ 1,0,0 }, pengoC2);
-	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, go2.get(), pengoC2);
+	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, go2.get(), pengoC2);*/
 	//go->AddObserver(observer2);
 	//go->AddObserver(observerAch);
-	scene.Add(go2);
+	//scene.Add(go2);
 }
 
 int main(int, char* []) {
 	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::MixerSoundSystem>());
 
 	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadMusic(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), "../Data/PengoSoundFX/Main_BGM_Popcorn.mp3");
-	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 100.f,-1);
+	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 30.f,-1);
 
 	dae::Minigin engine("../Data/");
 	engine.Run(load);

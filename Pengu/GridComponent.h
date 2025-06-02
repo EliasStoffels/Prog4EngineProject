@@ -20,9 +20,10 @@ namespace dae
 		glm::vec3 RequestMove(const glm::vec3& currentPos, glm::vec3& direction, bool isBlock =false);
 		BlockState RequestPush(const glm::vec3& currentPos, const glm::vec3& direction);
 		BlockState RequestBreak(const glm::vec3& currentPos, const glm::vec3& direction);
-
+		std::vector<Tile>* GetGridLayout() const;
 		int PointToIdx(const glm::vec3 position);
 		glm::vec3 IdxToPoint(int idx);
+		void RandomiseSnobee();
 
 		virtual ~GridComponent() = default;
 		GridComponent(const GridComponent& other) = delete;

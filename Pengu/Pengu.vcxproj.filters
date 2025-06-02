@@ -96,7 +96,7 @@
     <ClCompile Include="BreakCommand.cpp">
       <Filter>Source Files\ComandCppFiles</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
+    <ClCompile Include="EnemyControllerComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
   </ItemGroup>
@@ -164,7 +164,7 @@
     <ClInclude Include="BreakCommand.h">
       <Filter>Header Files\CommandHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
+    <ClInclude Include="EnemyControllerComponent.h">
       <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
   </ItemGroup>

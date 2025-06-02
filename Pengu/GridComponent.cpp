@@ -7,6 +7,7 @@
 #include "TextureComponent.h"
 #include "Scene.h"
 #include "WallComponent.h"
+#include <random>
 
 namespace dae
 {
@@ -268,6 +269,8 @@ namespace dae
 
 		file.read(reinterpret_cast<char*>(m_GridPtr->data()), numTiles * sizeof(Tile));
 		
+		RandomiseSnobee();
+
 		auto& scene = dae::SceneManager::GetInstance().GetScene("Pengo");
 
 		for (unsigned int idx{}; idx < m_GridPtr->size(); ++idx)
@@ -446,7 +449,7 @@ namespace dae
 		if (idx < 0 || idx > static_cast<int>(m_GridPtr->size() - 1))
 			return BlockState::Still;
 
-		if (m_GridPtr->at(idx) == Tile::Breakable)
+		if (m_GridPtr->at(idx) != Tile::Unbreakable)
 		{
 			auto it = FindInVector(m_Blocks, idx);
 			if (it != m_Blocks.end() && it->second->Destroy())
@@ -458,6 +461,11 @@ namespace dae
 		}
 
 		return BlockState::Still;
+	}
+
+	std::vector<Tile>* GridComponent::GetGridLayout() const
+	{
+		return m_GridPtr.get();
 	}
 
 	int GridComponent::PointToIdx(const glm::vec3 position)
@@ -475,6 +483,28 @@ namespace dae
 		return { GRID_OFSETT.x + static_cast<float>(TILE_WIDTH * (idx % WIDTH)),
 				 GRID_OFSETT.y + static_cast<float>(TILE_WIDTH * (idx / WIDTH)),
 				 0 };
+	}
+
+	void GridComponent::RandomiseSnobee()
+	{
+		// Collect indices of all Breakable tiles
+		std::vector<size_t> breakableIndices;
+		for (size_t i = 0; i < m_GridPtr->size(); ++i)
+		{
+			if (m_GridPtr->at(i) == Tile::Breakable)
+				breakableIndices.push_back(i);
+		}
+
+		// Shuffle the Breakable indices randomly
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::shuffle(breakableIndices.begin(), breakableIndices.end(), gen);
+
+		// Set the first 'count' Breakable tiles to the new value
+		for (int i = 0; i < 6; ++i)
+		{
+			m_GridPtr->at(breakableIndices[i]) = Tile::Sno_Bee;
+		}
 	}
 
 	GridComponent::GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfset, WallComponent* walls):

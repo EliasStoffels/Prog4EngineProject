@@ -15,6 +15,6 @@ namespace dae
 
 	enum class BlockState : uint8_t
 	{
-		Still, Sliding, Breaking
+		Still, Sliding, Breaking, Spawning
 	};
 }

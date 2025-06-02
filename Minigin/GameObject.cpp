@@ -11,6 +11,7 @@ void dae::GameObject::Start()
 {
 	for (const auto& component : m_OwnedComponents)
 	{
+		component->m_StartWasCalled = true;
 		component->Start();
 	}
 }
@@ -20,6 +21,11 @@ void dae::GameObject::Update(float deltaTime)
 
 	for (const auto& component : m_OwnedComponents)
 	{
+		if (!component->m_StartWasCalled)
+		{
+			component->m_StartWasCalled = true;
+			component->Start();
+		}
 		component->Update(deltaTime);
 	}
 

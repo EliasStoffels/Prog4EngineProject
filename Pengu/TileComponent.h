@@ -33,11 +33,11 @@ namespace dae
 		// blockType
 		TextureComponent* m_Texture = nullptr;
 		Tile m_TileType;
-		bool tileSet = false;
+		bool m_TileSet = false;
 
 		// animate 
 		const float FRAME_DELAY;
-		float totalDT = 0.f;
+		float m_TotalDT = 0.f;
 		int m_CurrentFrame = 0;
 
 		// blockState 

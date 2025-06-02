@@ -19,10 +19,12 @@ namespace dae
 
 	bool TileComponent::Destroy()
 	{
-		if (m_TileType == Tile::Breakable)
+		if (m_TileType != Tile::Unbreakable)
 		{
 			m_BlockState = BlockState::Breaking;
 			m_Texture->SetSourceRect(0, 48);
+			m_TotalDT = 0.f;
+			m_CurrentFrame = 0;
 			return true;
 		}
 		return false;
@@ -34,17 +36,17 @@ namespace dae
 		{
 		case BlockState::Still:
 		{
-			if (!tileSet)
+			if (!m_TileSet)
 			{
 				switch (m_TileType)
 				{
+				case Tile::Sno_Bee:
 				case Tile::Breakable:
 				{
 					m_Texture = m_OwningGameObject->AddComponent<TextureComponent>();
 					m_Texture->SetTexture("Blocks.png");
 					m_Texture->SetSourceRect(0, 0, 16, 16);
 					m_Texture->SetWidthAndHeight(TILE_SIZE, TILE_SIZE);
-
 				}
 				break;
 				case Tile::Unbreakable:
@@ -56,19 +58,32 @@ namespace dae
 				}
 				break;
 				}
-
 				m_OwningGameObject->SetLocalPosition(m_Pos.x, m_Pos.y);
+				m_TileSet = true;
+			}
+			if (m_TileType == Tile::Sno_Bee)
+			{
+				m_TotalDT += deltaTime;
+				if (m_TotalDT > FRAME_DELAY)
+				{
+					m_TotalDT -= FRAME_DELAY;
+					++m_CurrentFrame;
 
-				tileSet = true;
+					if (m_CurrentFrame < 9)
+					{
+						int frameNr = m_CurrentFrame % 2;
+						m_Texture->SetSourceRect(16 * frameNr, 0);
+					}
+				}
 			}
 		}
 		break;
 		case BlockState::Breaking:
 		{
-			totalDT += deltaTime;
-			if (totalDT > FRAME_DELAY)
+			m_TotalDT += deltaTime;
+			if (m_TotalDT > FRAME_DELAY)
 			{
-				totalDT -= FRAME_DELAY;
+				m_TotalDT -= FRAME_DELAY;
 				++m_CurrentFrame;
 
 				m_Texture->SetSourceRect(16 * m_CurrentFrame, 48);

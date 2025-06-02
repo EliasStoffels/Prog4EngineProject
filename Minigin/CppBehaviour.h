@@ -28,6 +28,7 @@ namespace dae
 		bool pendingRemove = false;
 	private:
 		void SetOwningGameObject(GameObject& owningGameObject);
+		bool m_StartWasCalled = false;
 	protected:
 		CppBehaviour();
 		GameObject* m_OwningGameObject{ nullptr };

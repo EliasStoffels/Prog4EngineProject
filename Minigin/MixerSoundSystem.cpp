@@ -77,6 +77,7 @@ namespace dae
         void PlayLooping(const sound_id id, const float volume = 128, int loops = -1)
         {
             std::lock_guard<std::mutex> lock(m_QueueMutex);
+            std::cout << volume << "\n";
             m_EventQueue.push({ SoundEventType::LOOP, id, loops, volume, "" });
             m_Condition.notify_one();
         }
@@ -153,7 +154,7 @@ namespace dae
                 int channel = Mix_PlayMusic(it2->second, event.loops);
                 if (channel != -1)
                 {
-                    Mix_Volume(channel, static_cast<int>(event.volume));
+                    Mix_VolumeMusic(static_cast<int>(event.volume));
 
                     std::lock_guard<std::mutex> lock(m_PlayingChannelsMutex);
                     m_PlayingChannels[event.id] = channel;
@@ -211,6 +212,7 @@ namespace dae
 
         void HandleLoopEvent(const SoundEvent& event)
         {
+            std::cout << event.volume << "\n";
             auto it = m_SoundChunks.find(event.id);
             if (it != m_SoundChunks.end())
             {
@@ -231,11 +233,10 @@ namespace dae
             auto it2 = m_SoundMusic.find(event.id);
             if (it2 != m_SoundMusic.end())
             {
-                // Use channel 0 for music (reserved)
                 int channel = Mix_PlayMusic(it2->second, event.loops);
                 if (channel != -1)
                 {
-                    Mix_Volume(channel, static_cast<int>(event.volume));
+                    Mix_VolumeMusic(static_cast<int>(event.volume));
                     std::lock_guard<std::mutex> lock(m_PlayingChannelsMutex);
                     m_PlayingChannels[event.id] = channel;
                 }
@@ -271,6 +272,7 @@ namespace dae
     void MixerSoundSystem::PlayLooping(const sound_id id, const float volume, int loops)
     {
         m_Impl->PlayLooping(id, volume, loops);
+        std::cout << volume << "\n";
     }
 
 	void MixerSoundSystem::Stop(const sound_id id)
