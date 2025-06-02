@@ -406,7 +406,55 @@ namespace dae
 				}
 				return BlockState::Sliding;
 			}
-			
+		}
+
+		return BlockState::Still;
+	}
+
+	BlockState GridComponent::RequestBreak(const glm::vec3& currentPos, const glm::vec3& direction)
+	{
+		int idx = PointToIdx(glm::vec3{ currentPos.x + (TILE_WIDTH / 2),currentPos.y + (TILE_WIDTH / 2),0 });
+		if (direction.x < 0)
+		{
+			if (idx % WIDTH != 0)
+			{
+				--idx;
+			}
+		}
+		if (direction.x > 0)
+		{
+			if (idx % WIDTH != (WIDTH - 1))
+			{
+				++idx;
+			}
+		}
+		if (direction.y < 0)
+		{
+			if (idx / WIDTH != 0)
+			{
+				idx -= WIDTH;
+			}
+		}
+		if (direction.y > 0)
+		{
+			if (idx / WIDTH != (HEIGHT - 1))
+			{
+				idx += WIDTH;
+			}
+		}
+
+		if (idx < 0 || idx > static_cast<int>(m_GridPtr->size() - 1))
+			return BlockState::Still;
+
+		if (m_GridPtr->at(idx) == Tile::Breakable)
+		{
+			auto it = FindInVector(m_Blocks, idx);
+			if (it != m_Blocks.end() && it->second->Destroy())
+			{
+				m_GridPtr->at(idx) = Tile::Empty;
+				m_Blocks.erase(it);
+				return BlockState::Breaking;
+			}
 		}
 
 		return BlockState::Still;

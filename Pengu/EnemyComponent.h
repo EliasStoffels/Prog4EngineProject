@@ -17,7 +17,7 @@ namespace dae
         void Update(float deltaTime) override;
 
         void Move(const glm::vec3& direction);
-        void Push();
+        void Break();
 
         // Getters for states
         TextureComponent* GetTexture() const { return m_TexturePtr; }

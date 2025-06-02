@@ -162,7 +162,9 @@
     <ClCompile Include="..\Minigin\TextComponent.cpp" />
     <ClCompile Include="..\Minigin\TextureComponent.cpp" />
     <ClCompile Include="..\Minigin\UiObserver.cpp" />
+    <ClCompile Include="BreakCommand.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoState.cpp" />
@@ -184,7 +186,9 @@
     <ClInclude Include="..\Minigin\TextComponent.h" />
     <ClInclude Include="..\Minigin\TextureComponent.h" />
     <ClInclude Include="..\Minigin\UiObserver.h" />
+    <ClInclude Include="BreakCommand.h" />
     <ClInclude Include="EnemyComponent.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="PengoComponent.h" />

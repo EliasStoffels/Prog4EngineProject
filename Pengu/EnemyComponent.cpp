@@ -1,14 +1,39 @@
 #include "EnemyComponent.h"
+#include "GameObject.h"
+#include "TextureComponent.h"
 
 namespace dae
 {
-	void EnemyComponent::Start()
+	EnemyComponent::EnemyComponent(float speed, GridComponent* grid)
+		: m_Speed{ speed }, m_GridPtr{ grid }, m_TexturePtr{ nullptr }
 	{
+		m_CurrentState = std::make_unique<EnemyWalkingState>();
 	}
 
-	void EnemyComponent::Update(float )
+	void EnemyComponent::Start()
 	{
+		m_TexturePtr = m_OwningGameObject->GetComponent<TextureComponent>();
+		m_CurrentState->Enter(this);
+	}
 
+	void EnemyComponent::Update(float deltaTime)
+	{
+		auto newState = m_CurrentState->Update(this, deltaTime);
+		if (newState)
+			ChangeState(std::move(newState));
+	}
+	void EnemyComponent::Move(const glm::vec3& direction)
+	{
+		m_Direction = direction;
+		auto newState = m_CurrentState->OnMove(this);
+		if (newState)
+			ChangeState(std::move(newState));
+	}
+	void EnemyComponent::Break()
+	{
+		auto newState = m_CurrentState->Break(this);
+		if (newState)
+			ChangeState(std::move(newState));
 	}
 	void EnemyComponent::ChangeState(std::unique_ptr<EnemyState> newState)
 	{

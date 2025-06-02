@@ -20,6 +20,8 @@ namespace dae
 		void SetSourceRect(int x, int y, int widht = -1, int height = -1);
 		void SetSourceRect(const SDL_Rect& rect);
 		void IsActive(bool isActive);
+
+		SDL_Rect GetSourceRect() { return m_SourceRect; }
 		
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;

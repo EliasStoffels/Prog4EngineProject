@@ -19,6 +19,7 @@ namespace dae
 		void LoadLevel(int level);
 		glm::vec3 RequestMove(const glm::vec3& currentPos, glm::vec3& direction, bool isBlock =false);
 		BlockState RequestPush(const glm::vec3& currentPos, const glm::vec3& direction);
+		BlockState RequestBreak(const glm::vec3& currentPos, const glm::vec3& direction);
 
 		int PointToIdx(const glm::vec3 position);
 		glm::vec3 IdxToPoint(int idx);

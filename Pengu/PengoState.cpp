@@ -29,6 +29,7 @@ namespace dae
         {
             m_TexturePtr->SetSourceRect(0, 0);
         }
+        m_TargetPosition = pengo->GetOwner()->GetWorldPosition();
     }
 
     std::unique_ptr<PengoState>  PengoWalkingState::Update(PengoComponent* pengo, float deltaTime)

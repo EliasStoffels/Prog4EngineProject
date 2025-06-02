@@ -93,6 +93,12 @@
     <ClCompile Include="EnemyState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BreakCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\DieCommand.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,20 +2,28 @@
 #include "BaseCommand.h"
 #include <memory>
 #include "../Pengu/Enums.h"
-
+#include "../Pengu/PengoComponent.h"
+#include "../Pengu/EnemyComponent.h"
+#include "GameObject.h"
 namespace dae
 {
     class GridComponent;
     class PengoComponent;
+
+    template <typename T>
     class MoveCommand : public GameObjectCommand
     {
     public:
-        MoveCommand(GameObject* gameObject, const glm::vec3& direction, PengoComponent* pengo);
-        void Execute() override;
+        template <typename T>
+        MoveCommand(GameObject* gameObject, const glm::vec3& direction, T* character) : GameObjectCommand{ gameObject }, m_Direction{ direction }, m_Character{ character } {}
+        void Execute() override
+        {
+            m_Character->Move(m_Direction);
+        }
 
     private:
         glm::vec3 m_Direction;
-        PengoComponent* m_Pengo;
+        T* m_Character;
     };
 }
 
