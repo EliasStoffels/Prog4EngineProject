@@ -65,4 +65,9 @@ namespace dae
     InputManager::~InputManager()
     {
     }
+
+    void InputManager::ClearCommands()
+    {
+        m_commands.clear();
+    }
 }

@@ -169,6 +169,7 @@
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoState.cpp" />
     <ClCompile Include="PushCommand.cpp" />
+    <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="main.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="PengoComponent.h" />
     <ClInclude Include="PengoState.h" />
     <ClInclude Include="PushCommand.h" />
+    <ClInclude Include="StartCommand.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="WallComponent.h" />

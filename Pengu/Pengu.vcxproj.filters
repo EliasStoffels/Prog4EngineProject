@@ -99,6 +99,9 @@
     <ClCompile Include="EnemyControllerComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
+    <ClCompile Include="StartCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\DieCommand.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="EnemyControllerComponent.h">
       <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="StartCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

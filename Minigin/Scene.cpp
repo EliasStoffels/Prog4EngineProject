@@ -67,3 +67,11 @@ void Scene::Render() const
 	}
 }
 
+void dae::Scene::UnloadScene()
+{
+	for (const auto& object : m_objects)
+	{
+		object->pendingRemove = true;
+	}
+}
+

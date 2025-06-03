@@ -16,6 +16,7 @@ namespace dae
         class inputImpl;
         std::unique_ptr<inputImpl> implPtr;
 
+
         std::vector<std::pair<unsigned int, std::unique_ptr<Command>>> m_commands;
     public:
         template <typename CommandType, typename... Args>
@@ -29,5 +30,6 @@ namespace dae
         }
 
         bool ProcessInput();
+        void ClearCommands();
     };
 }

@@ -2,40 +2,62 @@
 #include "Scene.h"
 #include <algorithm>
 #include <stdexcept>
+#include "InputManager.h"
 
 void dae::SceneManager::Update(float deltaTime)
 {
-	for(auto& scene : m_scenes)
+	if (!m_CurrentScene->startCalled)
+	{
+		m_CurrentScene->startCalled = true;
+		m_CurrentScene->Start();
+	}
+	m_CurrentScene->Update(deltaTime);
+	/*for(auto& scene : m_scenes)
 	{
 		scene->Update(deltaTime);
-	}
+	}*/
 }
 
 void dae::SceneManager::FixedUpdate(float fixedTime)
 {
-	for (auto& scene : m_scenes)
+	m_CurrentScene->FixedUpdate(fixedTime);
+
+	/*for (auto& scene : m_scenes)
 	{
 		scene->FixedUpdate(fixedTime);
-	}
+	}*/
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
+	m_CurrentScene->Render();
+	/*for (const auto& scene : m_scenes)
 	{
 		scene->Render();
-	}
+	}*/
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+dae::Scene& dae::SceneManager::CreateScene(const std::string& name, const std::function<void()>& load)
 {
+	auto it = std::find_if(m_scenes.begin(), m_scenes.end(),
+		[&name](const std::shared_ptr<Scene>& scene) {
+			return scene->name == name;
+		});
+
+	if(it != m_scenes.end())
+		throw std::runtime_error("Scene already exists: " + name);
+
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	m_scenes.push_back(scene);
+	m_SceneLoaders.push_back(load);
 	return *scene;
 }
 
 dae::Scene& dae::SceneManager::GetScene(const std::string& name)
 {
+	if (name == "")
+		return *m_CurrentScene;
+
 	 auto it = std::find_if(m_scenes.begin(), m_scenes.end(),
         [&name](const std::shared_ptr<Scene>& scene) {
             return scene->name == name;
@@ -47,10 +69,32 @@ dae::Scene& dae::SceneManager::GetScene(const std::string& name)
     return **it; 
 }
 
+void dae::SceneManager::LoadScene(const std::string& name)
+{
+	m_CurrentScene->UnloadScene();
+	InputManager::GetInstance().ClearCommands();
+
+	auto it = std::find_if(m_scenes.begin(), m_scenes.end(),
+		[&name](const std::shared_ptr<Scene>& scene) {
+			return scene->name == name;
+		});
+
+	if (it == m_scenes.end())
+		throw std::runtime_error("Scene not found: " + name);
+
+	int idx = std::distance(m_scenes.begin(), it);
+	m_SceneLoaders[idx]();
+
+	m_CurrentScene = it->get();
+}
+
 void dae::SceneManager::Start()
 {
-	for (const auto& scene : m_scenes)
+	m_CurrentScene = m_scenes[0].get();
+	m_CurrentScene->startCalled = true;
+	m_CurrentScene->Start();
+	/*for (const auto& scene : m_scenes)
 	{
 		scene->Start();
-	}
+	}*/
 }

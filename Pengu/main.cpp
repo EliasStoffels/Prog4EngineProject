@@ -40,8 +40,9 @@
 #include "EnemyComponent.h"
 #include "BreakCommand.h"
 #include "EnemyControllerComponent.h"
+#include "StartCommand.h"
 
-void load()
+void LoadPengo()
 {
 	const int GRID_WIDTH{ 13 };
 	const int GRID_HEIGHT{ 15 };
@@ -49,7 +50,7 @@ void load()
 	const glm::vec2 GRID_OFSETT{ 24,106 };
 
 	auto& input = dae::InputManager::GetInstance();
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Pengo");
+	auto& scene = dae::SceneManager::GetInstance().GetScene("Pengo");
 
 	//fonts
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
@@ -144,7 +145,7 @@ void load()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);*/
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
-	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
+	/*input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);*/
 	//go->AddObserver(observer2);
 	//go->AddObserver(observerAch);
 	scene.Add(go);
@@ -178,13 +179,59 @@ void load()
 	//scene.Add(go2);
 }
 
+void LoadMain()
+{
+	const int TILE_WIDTH{ 48 };
+	const glm::vec2 GRID_OFSETT{ 24,106 };
+
+	auto& input = dae::InputManager::GetInstance();
+	auto& scene = dae::SceneManager::GetInstance().GetScene("Main");
+
+	auto go = std::make_shared<dae::GameObject>();
+	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
+	textureMovable->SetTexture("Pengo_snobee_noBG.png");
+	textureMovable->SetSourceRect(0, 0, 16, 16);
+	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
+	//go->AddComponent<dae::HealthComponent>(100.f, 3);
+	//go->AddComponent<dae::ScoreComponent>();
+	//auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
+	//go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,1,0 }, pengoC);
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ -1,0,0 }, pengoC);
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 1,0,0 }, pengoC);/*
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
+	//input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);*/
+	//input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
+	//input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
+	//go->AddObserver(observer2);
+	//go->AddObserver(observerAch);
+	scene.Add(go);
+
+	input.AddBinding<dae::StartCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0);
+
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+
+	go = std::make_shared<dae::GameObject>();
+	auto text = go->AddComponent<dae::TextComponent>(font);
+	text->SetText("controls: WASD and E or D-PAD and South button");
+	scene.Add(go);
+}
+
 int main(int, char* []) {
+
+	dae::SceneManager::GetInstance().CreateScene("Main", LoadMain);
+	dae::SceneManager::GetInstance().CreateScene("Pengo", LoadPengo);
+
 	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::MixerSoundSystem>());
 
 	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadMusic(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), "../Data/PengoSoundFX/Main_BGM_Popcorn.mp3");
 	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 30.f,-1);
 
 	dae::Minigin engine("../Data/");
-	engine.Run(load);
+	engine.Run(LoadMain);
+
 	return 0;
 }
