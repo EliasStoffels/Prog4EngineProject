@@ -3,7 +3,7 @@
 #include <memory>
 #include "../Pengu/Enums.h"
 #include "../Pengu/PengoComponent.h"
-#include "../Pengu/EnemyComponent.h"
+#include "../Pengu/EnemyControllerComponent.h"
 #include "GameObject.h"
 namespace dae
 {

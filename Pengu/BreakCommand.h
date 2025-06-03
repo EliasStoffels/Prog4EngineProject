@@ -4,14 +4,14 @@
 
 namespace dae
 {
-    class EnemyComponent;
+    class EnemyControllerComponent;
     class BreakCommand : public GameObjectCommand
     {
     public:
-        BreakCommand(GameObject* gameObject, EnemyComponent* snobee);
+        BreakCommand(GameObject* gameObject, EnemyControllerComponent* snobee);
         void Execute() override;
 
     private:
-        EnemyComponent* m_SnobeePtr;
+        EnemyControllerComponent* m_SnobeeControllerPtr;
     };
 }

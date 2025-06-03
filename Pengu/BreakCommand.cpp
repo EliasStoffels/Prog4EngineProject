@@ -1,15 +1,15 @@
 #include "BreakCommand.h"
-#include "EnemyComponent.h"
+#include "EnemyControllerComponent.h"
 
 namespace dae
 {
-	BreakCommand::BreakCommand(GameObject* gameObject, EnemyComponent* snobee)
-		: GameObjectCommand{ gameObject }, m_SnobeePtr{ snobee }
+	BreakCommand::BreakCommand(GameObject* gameObject, EnemyControllerComponent* snobee)
+		: GameObjectCommand{ gameObject }, m_SnobeeControllerPtr{ snobee }
 	{
 	}
 	void BreakCommand::Execute()
 	{
 		if (m_buttonState.PressedThisFrame)
-			m_SnobeePtr->Break();
+			m_SnobeeControllerPtr->Break();
 	}
 }

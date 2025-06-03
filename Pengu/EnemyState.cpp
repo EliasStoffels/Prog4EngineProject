@@ -29,7 +29,7 @@ namespace dae
 		{
 			m_TexturePtr->SetSourceRect(0, 160);
 		}
-		std::cout << "walking state\n";
+
 		m_TargetPosition = snobee->GetOwner()->GetWorldPosition();
 	}
 

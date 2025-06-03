@@ -138,12 +138,11 @@ void load()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,1,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 1,0,0 }, pengoC);/*
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
-	//input.AddBinding<dae::DieCommand>(SDL_SCANCODE_Q, dae::InputType::Keyboard, go.get());
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);*/
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
 	//go->AddObserver(observer2);
@@ -151,7 +150,13 @@ void load()
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>();
-	/*auto enemyController = */go->AddComponent<dae::EnemyControllerComponent>(gridC);
+	auto enemyController = go->AddComponent<dae::EnemyControllerComponent>(gridC);
+	enemyController->AddPengo(pengoC);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,-1,0 }, enemyController);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,1,0 }, enemyController);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, enemyController);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, enemyController);
+	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), enemyController);
 	scene.Add(go);
 
 	/*auto go2 = std::make_shared<dae::GameObject>();

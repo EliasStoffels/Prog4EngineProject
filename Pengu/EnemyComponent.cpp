@@ -38,7 +38,6 @@ namespace dae
 	}
 	void EnemyComponent::ChangeState(std::unique_ptr<EnemyState> newState)
 	{
-		std::cout << "changed state\n";
 		m_CurrentState->Exit(this);
 		m_CurrentState = std::move(newState);
 		m_CurrentState->Enter(this);
