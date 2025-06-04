@@ -48,8 +48,11 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-dae::Minigin::Minigin(const std::string &dataPath)
+dae::Minigin::Minigin(const std::string &dataPath, int x, int y)
 {
+	m_ScreenX = x;
+	m_ScreenY = y;
+
 	PrintSDLVersion();
 	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
@@ -61,8 +64,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		672,
-		840,
+		m_ScreenX,
+		m_ScreenY,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr) 

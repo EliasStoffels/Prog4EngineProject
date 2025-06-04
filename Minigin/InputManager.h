@@ -15,18 +15,21 @@ namespace dae
 
         class inputImpl;
         std::unique_ptr<inputImpl> implPtr;
-
+        bool m_ClearedCommands = true;
 
         std::vector<std::pair<unsigned int, std::unique_ptr<Command>>> m_commands;
+        std::vector<std::pair<unsigned int, std::unique_ptr<Command>>> m_commandsBuffer;
     public:
         template <typename CommandType, typename... Args>
-        void AddBinding(unsigned int button, InputType inputType, int controllerIndex, Args&&... args)
+        CommandType* AddBinding(unsigned int button, InputType inputType, int controllerIndex, Args&&... args)
         {
             std::unique_ptr<Command> command = std::make_unique<CommandType>(std::forward<Args>(args)...);
             command->m_InputType = inputType;
             command->m_ControllerIndex = controllerIndex;
 
-            m_commands.emplace_back(button, std::move(command));
+            m_commandsBuffer.emplace_back(button, std::move(command));
+
+            return static_cast<CommandType*>(m_commandsBuffer[m_commandsBuffer.size() - 1].second.get());
         }
 
         bool ProcessInput();

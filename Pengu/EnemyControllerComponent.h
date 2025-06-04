@@ -23,6 +23,7 @@ namespace dae
 
         void Move(const glm::vec3 direction);
         void Break();
+        void PlayerControlled(bool playerControlled);
 
     private:
         EnemyControllerComponent(GridComponent* grid);
@@ -36,7 +37,7 @@ namespace dae
         int m_SnobeeTargetPosIdx[MAXIMUM_SNOBEES]{};
         int m_AttackingSnobees = 0;
         int m_NextAttackingSnobees = 0;
-        bool m_PlayerControlled = true;
+        bool m_PlayerControlled = false;
         int m_SnobeesAlive = 0;
         int m_SnobeesDead = 0;
 

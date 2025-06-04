@@ -116,7 +116,7 @@ namespace dae
 
 	void EnemyControllerComponent::SpawnEnemy(const glm::vec2& position)
 	{
-		auto& scene = dae::SceneManager::GetInstance().GetScene("Pengo");
+		auto& scene = dae::SceneManager::GetInstance().GetScene();
 
 		auto go = std::make_shared<dae::GameObject>();
 		auto textureMovable = go->AddComponent<dae::TextureComponent>();
@@ -149,6 +149,11 @@ namespace dae
 	void EnemyControllerComponent::Break()
 	{
 		m_Snobees[m_ControlledSnobee]->Break();
+	}
+
+	void EnemyControllerComponent::PlayerControlled(bool playerControlled)
+	{
+		m_PlayerControlled = playerControlled;
 	}
 
 	EnemyControllerComponent::EnemyControllerComponent(GridComponent* grid): 

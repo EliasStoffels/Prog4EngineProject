@@ -7,7 +7,7 @@ namespace dae
 	class Minigin
 	{
 	public:
-		explicit Minigin(const std::string& dataPath);
+		explicit Minigin(const std::string& dataPath, int x, int y);
 		~Minigin();
 		void RunOneFrame();
 		void Run(const std::function<void()>& load);
@@ -20,7 +20,8 @@ namespace dae
 	private:
 		int msPerFrame{16};
 		float fixedTimeStep{ 1.f / 60.f };
-
+		int m_ScreenX = 800;
+		int m_ScreenY = 600;
 
 	};
 }

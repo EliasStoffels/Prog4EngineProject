@@ -53,6 +53,16 @@ namespace dae
             }
         }
 
+        if (m_ClearedCommands)
+        {
+            m_commands.clear();
+            for (auto& pair : m_commandsBuffer) {
+                m_commands.emplace_back(pair.first, std::move(pair.second));
+            }
+            m_commandsBuffer.clear();
+            m_ClearedCommands = false;
+        }
+
         implPtr->ProcessInput(m_commands);
         return true;
     }
@@ -68,6 +78,7 @@ namespace dae
 
     void InputManager::ClearCommands()
     {
-        m_commands.clear();
+        m_ClearedCommands = true;
+        //m_commands.clear();
     }
 }

@@ -30,6 +30,11 @@ namespace dae
 		return false;
 	}
 
+	bool TileComponent::IsSliding()
+	{
+		return m_BlockState == BlockState::Sliding;
+	}
+
 	void TileComponent::Update(float deltaTime)
 	{
 		switch (m_BlockState)

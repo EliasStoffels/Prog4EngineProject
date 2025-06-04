@@ -166,6 +166,7 @@
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EnemyControllerComponent.cpp" />
     <ClCompile Include="EnemyState.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoState.cpp" />
     <ClCompile Include="PushCommand.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="EnemyControllerComponent.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="PengoComponent.h" />
     <ClInclude Include="PengoState.h" />
     <ClInclude Include="PushCommand.h" />

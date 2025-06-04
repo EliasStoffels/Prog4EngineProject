@@ -15,6 +15,7 @@ namespace dae
 	public:
 		void Slide(const glm::vec3& direction);
 		bool Destroy();
+		bool IsSliding();
 
 		void Update(float elapsedSec) override;
 

@@ -271,7 +271,7 @@ namespace dae
 		
 		RandomiseSnobee();
 
-		auto& scene = dae::SceneManager::GetInstance().GetScene("Pengo");
+		auto& scene = dae::SceneManager::GetInstance().GetScene();
 
 		for (unsigned int idx{}; idx < m_GridPtr->size(); ++idx)
 		{
@@ -454,6 +454,11 @@ namespace dae
 			auto it = FindInVector(m_Blocks, idx);
 			if (it != m_Blocks.end() && it->second->Destroy())
 			{
+				if(it->second->IsSliding())
+				{
+					return BlockState::Sliding;
+				}
+
 				m_GridPtr->at(idx) = Tile::Empty;
 				m_Blocks.erase(it);
 				return BlockState::Breaking;
