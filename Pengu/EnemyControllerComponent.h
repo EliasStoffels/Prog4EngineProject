@@ -1,5 +1,6 @@
 #pragma once
 #include "CppBehaviour.h"
+#include "BaseObserver.h"
 #include "glm.hpp"
 #include <vector>
 #include "enums.h"
@@ -10,10 +11,11 @@ namespace dae
     class GridComponent;
     class EnemyComponent;
     class PengoComponent;
-    class EnemyControllerComponent : public CppBehaviour
+    class EnemyControllerComponent : public CppBehaviour, public Observer
     {
         friend class GameObject;
     public:
+        void Notify(const Event& event, GameObject* object) override;
 
         void Start() override;
         void Update(float deltaTime) override;

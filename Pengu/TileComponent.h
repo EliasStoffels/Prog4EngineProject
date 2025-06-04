@@ -13,6 +13,7 @@ namespace dae
 	{
 		friend class GameObject;
 	public:
+		void Start() override;
 		void Slide(const glm::vec3& direction);
 		bool Destroy();
 		bool IsSliding();
@@ -26,7 +27,7 @@ namespace dae
 		TileComponent& operator=(TileComponent&& other) = delete;
 
 	private:
-		TileComponent(Tile tileType, float x, float y, float tileSize, GridComponent* grid);
+		TileComponent(Tile tileType, float x, float y,  GridComponent* grid);
 		// sliding
 		GridComponent* m_GridPtr = nullptr;
 		glm::vec3 m_TargetPosition{FLT_MAX,FLT_MAX,0};
@@ -34,7 +35,6 @@ namespace dae
 		// blockType
 		TextureComponent* m_Texture = nullptr;
 		Tile m_TileType;
-		bool m_TileSet = false;
 
 		// animate 
 		const float FRAME_DELAY;
@@ -45,6 +45,5 @@ namespace dae
 		BlockState m_BlockState;
 		glm::vec3 m_Pos;
 		glm::vec3 m_SlideDirection{};
-		const float TILE_SIZE;
 	};
 }

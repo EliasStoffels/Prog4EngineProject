@@ -1,7 +1,6 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include <algorithm>
-#include <iostream>
 #include "TimeSingleton.h"
 
 const glm::vec3& dae::Transform::GetLocalPosition() const

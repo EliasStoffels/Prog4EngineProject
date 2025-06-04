@@ -8,6 +8,7 @@
 #include "Scene.h"
 #include "WallComponent.h"
 #include <random>
+#include "EnemyControllerComponent.h"
 
 namespace dae
 {
@@ -255,7 +256,7 @@ namespace dae
 		file.close();
 	}
 
-	void GridComponent::LoadLevel(int )
+	void GridComponent::LoadLevel(EnemyControllerComponent* enemyController, int )
 	{
 		const size_t numTiles = WIDTH * HEIGHT;
 		m_GridPtr->resize(numTiles);
@@ -280,7 +281,30 @@ namespace dae
 			{
 				auto go = std::make_shared<dae::GameObject>();
 				auto tilePos = IdxToPoint(idx);
-				auto tileC = go->AddComponent<TileComponent>(tileType, tilePos.x, tilePos.y, static_cast<float>(TILE_WIDTH), this);
+				auto tileC = go->AddComponent<TileComponent>(tileType, tilePos.x, tilePos.y, this);
+				switch (tileType)
+				{
+				case Tile::Sno_Bee:
+				case Tile::Breakable:
+				{
+					auto texture = go->AddComponent<TextureComponent>();
+					texture->SetTexture("Blocks.png");
+					texture->SetSourceRect(0, 0, 16, 16);
+					texture->SetWidthAndHeight(static_cast<float>(TILE_WIDTH), static_cast<float>(TILE_WIDTH));
+				}
+				break;
+				case Tile::Unbreakable:
+				{
+					auto texture = go->AddComponent<TextureComponent>();
+					texture->SetTexture("Blocks.png");
+					texture->SetSourceRect(0, 16, 16, 16);
+					texture->SetWidthAndHeight(static_cast<float>(TILE_WIDTH), static_cast<float>(TILE_WIDTH));
+				}
+				break;
+				}
+				go->SetLocalPosition(tilePos.x, tilePos.y);
+				go->AddObserver(enemyController);
+
 				m_Blocks.emplace_back(std::pair<int, TileComponent*>(idx, tileC));
 				scene.Add(go);
 			}

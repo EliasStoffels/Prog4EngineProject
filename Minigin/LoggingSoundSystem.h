@@ -1,6 +1,5 @@
 #pragma once
 #include "SoundSystem.h"
-#include <iostream>
 
 namespace dae {
     class LoggingSoundSystem : public SoundSystem {

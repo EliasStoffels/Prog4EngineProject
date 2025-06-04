@@ -193,6 +193,7 @@
     <ClInclude Include="EnemyControllerComponent.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="EventArgs.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="PengoComponent.h" />
     <ClInclude Include="PengoState.h" />

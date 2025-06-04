@@ -1,5 +1,5 @@
 #include "LoggingSoundSystem.h"
-
+#include <iostream>
 namespace dae
 {
     void LoggingSoundSystem::Play(const sound_id id, const float volume = 128)

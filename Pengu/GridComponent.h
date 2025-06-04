@@ -10,13 +10,14 @@ namespace dae
 	class WallComponent;
 	class TextureComponent;
 	class TileComponent;
+	class EnemyControllerComponent;
 	class GridComponent : public CppBehaviour
 	{
 		friend class GameObject;
 
 	public:
 		void SaveLevel();
-		void LoadLevel(int level);
+		void LoadLevel(EnemyControllerComponent* enemyController, int level);
 		glm::vec3 RequestMove(const glm::vec3& currentPos, glm::vec3& direction, bool isBlock =false);
 		BlockState RequestPush(const glm::vec3& currentPos, const glm::vec3& direction);
 		BlockState RequestBreak(const glm::vec3& currentPos, const glm::vec3& direction);

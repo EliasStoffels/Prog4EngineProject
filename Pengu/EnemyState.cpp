@@ -234,7 +234,8 @@ namespace dae
 		return nullptr;
 	}
 
-	//spawning
+	// Spawning State
+	//============================================================================================================================================================================================
 	void EnemySpawningState::Enter(EnemyComponent* snobee)
 	{
 		m_TexturePtr = snobee->GetTexture();
@@ -273,6 +274,31 @@ namespace dae
 		return nullptr;
 	}
 	std::unique_ptr<EnemyState> EnemySpawningState::Break(EnemyComponent* )
+	{
+		return nullptr;
+	}
+
+	// Stunned State
+	//============================================================================================================================================================================================
+	void EnemyStunnedState::Enter(EnemyComponent* )
+	{
+
+	}
+	std::unique_ptr<EnemyState> EnemyStunnedState::Update(EnemyComponent* , float )
+	{
+		return std::unique_ptr<EnemyState>();
+	}
+	void EnemyStunnedState::Animate(EnemyComponent* , float )
+	{
+	}
+	void EnemyStunnedState::Exit(EnemyComponent* )
+	{
+	}
+	std::unique_ptr<EnemyState> EnemyStunnedState::OnMove(EnemyComponent* )
+	{
+		return nullptr;
+	}
+	std::unique_ptr<EnemyState> EnemyStunnedState::Break(EnemyComponent* )
 	{
 		return nullptr;
 	}

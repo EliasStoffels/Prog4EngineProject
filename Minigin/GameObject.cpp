@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
-#include <iostream>
 
 
 dae::GameObject::~GameObject() = default;

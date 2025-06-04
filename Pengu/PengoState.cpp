@@ -123,7 +123,7 @@ namespace dae
         }
         else if (blockState == BlockState::Breaking)
         {
-            return std::make_unique<PengoPushingState>(6);
+            return std::make_unique<PengoPushingState>(7);
         }
 
         return nullptr;

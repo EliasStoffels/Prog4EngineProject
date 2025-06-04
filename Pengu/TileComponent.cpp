@@ -1,15 +1,19 @@
 #include "TileComponent.h"
 #include "GameObject.h"
 #include <iostream>
+#include "EventArgs.h"
 
 namespace dae
 {
-	TileComponent::TileComponent(Tile tileType, float x, float y, float tileSize, GridComponent* grid):
-		m_Pos{x,y,0}, TILE_SIZE{tileSize}, FRAME_DELAY{0.1f}, m_BlockState{BlockState::Still}, m_TileType{tileType}, m_GridPtr{grid}, m_SlideSpeed{700.f}
+	TileComponent::TileComponent(Tile tileType, float x, float y, GridComponent* grid):
+		m_Pos{x,y,0}, FRAME_DELAY{0.1f}, m_BlockState{BlockState::Still}, m_TileType{tileType}, m_GridPtr{grid}, m_SlideSpeed{700.f}
 	{
-		m_TileType = tileType;
 	}
 
+	void TileComponent::Start()
+	{
+		m_Texture = m_OwningGameObject->GetComponent<dae::TextureComponent>();
+	}
 
 	void TileComponent::Slide(const glm::vec3& direction)
 	{
@@ -22,7 +26,8 @@ namespace dae
 		if (m_TileType != Tile::Unbreakable)
 		{
 			m_BlockState = BlockState::Breaking;
-			m_Texture->SetSourceRect(0, 48);
+			if(m_Texture)
+				m_Texture->SetSourceRect(0, 48);
 			m_TotalDT = 0.f;
 			m_CurrentFrame = 0;
 			return true;
@@ -41,31 +46,6 @@ namespace dae
 		{
 		case BlockState::Still:
 		{
-			if (!m_TileSet)
-			{
-				switch (m_TileType)
-				{
-				case Tile::Sno_Bee:
-				case Tile::Breakable:
-				{
-					m_Texture = m_OwningGameObject->AddComponent<TextureComponent>();
-					m_Texture->SetTexture("Blocks.png");
-					m_Texture->SetSourceRect(0, 0, 16, 16);
-					m_Texture->SetWidthAndHeight(TILE_SIZE, TILE_SIZE);
-				}
-				break;
-				case Tile::Unbreakable:
-				{
-					m_Texture = m_OwningGameObject->AddComponent<TextureComponent>();
-					m_Texture->SetTexture("Blocks.png");
-					m_Texture->SetSourceRect(0, 16, 16, 16);
-					m_Texture->SetWidthAndHeight(TILE_SIZE, TILE_SIZE);
-				}
-				break;
-				}
-				m_OwningGameObject->SetLocalPosition(m_Pos.x, m_Pos.y);
-				m_TileSet = true;
-			}
 			if (m_TileType == Tile::Sno_Bee)
 			{
 				m_TotalDT += deltaTime;
@@ -92,7 +72,7 @@ namespace dae
 				++m_CurrentFrame;
 
 				m_Texture->SetSourceRect(16 * m_CurrentFrame, 48);
-				if (m_CurrentFrame > 8)
+				if (m_CurrentFrame > 6)
 				{
 					m_OwningGameObject->Destroy();
 				}
@@ -104,10 +84,15 @@ namespace dae
 			m_Pos = m_OwningGameObject->GetWorldPosition();
 			if (m_Pos == m_TargetPosition || m_TargetPosition.x == FLT_MAX)
 			{
-				glm::vec3 requestResult = m_TargetPosition = m_GridPtr->RequestMove(m_Pos, m_SlideDirection, true);
+				m_TargetPosition = m_GridPtr->RequestMove(m_Pos, m_SlideDirection, true);
 
-				if (requestResult == m_Pos)
+				if (m_TargetPosition == m_Pos)
 					m_BlockState = BlockState::Still;
+				else
+				{
+					TileMoveArg args = TileMoveArg{ this, m_Pos, m_TargetPosition - m_Pos };
+					m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("TileMoved"), &args });
+				}
 			}
 			else
 			{

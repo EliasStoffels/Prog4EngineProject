@@ -66,5 +66,20 @@ namespace dae
 
     private:
     };
+
+    class EnemyStunnedState : public EnemyState
+    {
+        glm::vec3 m_TargetPosition{ FLT_MAX,FLT_MAX,FLT_MAX };
+    public:
+        void Enter(EnemyComponent* snobee) override;
+        std::unique_ptr<EnemyState> Update(EnemyComponent* snobee, float deltaTime) override;
+        void Animate(EnemyComponent* snobee, float deltaTime) override;
+        void Exit(EnemyComponent* snobee) override;
+
+        std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) override;
+        std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;
+
+    private:
+    };
 }
 

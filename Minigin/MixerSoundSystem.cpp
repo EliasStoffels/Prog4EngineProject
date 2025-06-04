@@ -77,7 +77,6 @@ namespace dae
         void PlayLooping(const sound_id id, const float volume = 128, int loops = -1)
         {
             std::lock_guard<std::mutex> lock(m_QueueMutex);
-            std::cout << volume << "\n";
             m_EventQueue.push({ SoundEventType::LOOP, id, loops, volume, "" });
             m_Condition.notify_one();
         }
@@ -212,7 +211,6 @@ namespace dae
 
         void HandleLoopEvent(const SoundEvent& event)
         {
-            std::cout << event.volume << "\n";
             auto it = m_SoundChunks.find(event.id);
             if (it != m_SoundChunks.end())
             {
@@ -272,7 +270,6 @@ namespace dae
     void MixerSoundSystem::PlayLooping(const sound_id id, const float volume, int loops)
     {
         m_Impl->PlayLooping(id, volume, loops);
-        std::cout << volume << "\n";
     }
 
 	void MixerSoundSystem::Stop(const sound_id id)

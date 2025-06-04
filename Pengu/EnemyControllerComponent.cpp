@@ -12,6 +12,14 @@
 
 namespace dae
 {
+	void EnemyControllerComponent::Notify(const Event& event, GameObject* )
+	{
+		if (event.id == make_sdbm_hash("TileMoved"))
+		{
+			std::cout << "tile moved\n";
+		}
+	}
+	
 	void EnemyControllerComponent::Start()
 	{
 		m_GridLayoutPtr = m_GridPtr->GetGridLayout();

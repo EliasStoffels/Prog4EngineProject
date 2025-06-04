@@ -79,7 +79,6 @@ void LoadPengo()
 	go = std::make_shared<dae::GameObject>();
 	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT, wallComp);
 	//gridC->SaveLevel();
-	gridC->LoadLevel(4);
 	scene.Add(go);
 
 	//text
@@ -87,25 +86,6 @@ void LoadPengo()
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("controls: WASD and E or D-PAD and South button");
 	scene.Add(go);
-
-	//UiGo
-	//auto observerGo = std::make_shared<dae::GameObject>();
-	//observerGo->SetLocalPosition(10, 120);
-	//auto observer = observerGo->AddComponent<dae::UiObserverComponent>(
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	//scene.Add(observerGo);
-	//
-	//observerGo = std::make_shared<dae::GameObject>();
-	//observerGo->SetLocalPosition(10, 160);
-	//auto observer2 = observerGo->AddComponent<dae::UiObserverComponent>(
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	//scene.Add(observerGo);
-	//
-	//observerGo = std::make_shared<dae::GameObject>();
-	//auto observerAch = observerGo->AddComponent<dae::AchievementComponent>();
-	//scene.Add(observerGo);
 	
 	go = std::make_shared<dae::GameObject>();
 	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
@@ -126,8 +106,6 @@ void LoadPengo()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
-	//go->AddObserver(observer2);
-	//go->AddObserver(observerAch);
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>();
@@ -135,6 +113,9 @@ void LoadPengo()
 	enemyController->AddPengo(pengoC);
 	enemyController->PlayerControlled(false);
 	scene.Add(go);
+
+
+	gridC->LoadLevel(enemyController, 4);
 }
 
 void LoadVersus()
@@ -174,7 +155,6 @@ void LoadVersus()
 	go = std::make_shared<dae::GameObject>();
 	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, GRID_OFSETT, wallComp);
 	//gridC->SaveLevel();
-	gridC->LoadLevel(4);
 	scene.Add(go);
 
 	//text
@@ -182,25 +162,6 @@ void LoadVersus()
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("controls: WASD and E or D-PAD and South button");
 	scene.Add(go);
-
-	//UiGo
-	//auto observerGo = std::make_shared<dae::GameObject>();
-	//observerGo->SetLocalPosition(10, 120);
-	//auto observer = observerGo->AddComponent<dae::UiObserverComponent>(
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	//scene.Add(observerGo);
-	//
-	//observerGo = std::make_shared<dae::GameObject>();
-	//observerGo->SetLocalPosition(10, 160);
-	//auto observer2 = observerGo->AddComponent<dae::UiObserverComponent>(
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	//scene.Add(observerGo);
-	//
-	//observerGo = std::make_shared<dae::GameObject>();
-	//auto observerAch = observerGo->AddComponent<dae::AchievementComponent>();
-	//scene.Add(observerGo);
 
 	go = std::make_shared<dae::GameObject>();
 	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
@@ -221,8 +182,6 @@ void LoadVersus()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
-	//go->AddObserver(observer2);
-	//go->AddObserver(observerAch);
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>();
@@ -235,6 +194,8 @@ void LoadVersus()
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, go.get(), glm::vec3{ 1,0,0 }, enemyController);
 	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), enemyController);
 	scene.Add(go);
+
+	gridC->LoadLevel(enemyController,4);
 }
 
 void LoadCoop()
@@ -273,8 +234,6 @@ void LoadCoop()
 	//grid
 	go = std::make_shared<dae::GameObject>();
 	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, GRID_OFSETT, wallComp);
-	//gridC->SaveLevel();
-	gridC->LoadLevel(4);
 	scene.Add(go);
 
 	//text
@@ -282,25 +241,6 @@ void LoadCoop()
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("controls: WASD and E or D-PAD and South button");
 	scene.Add(go);
-
-	//UiGo
-	//auto observerGo = std::make_shared<dae::GameObject>();
-	//observerGo->SetLocalPosition(10, 120);
-	//auto observer = observerGo->AddComponent<dae::UiObserverComponent>(
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	//scene.Add(observerGo);
-	//
-	//observerGo = std::make_shared<dae::GameObject>();
-	//observerGo->SetLocalPosition(10, 160);
-	//auto observer2 = observerGo->AddComponent<dae::UiObserverComponent>(
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont),
-	//	observerGo->AddComponent<dae::TextComponent>(smallFont, "", glm::vec3{ 0.f,20.f,0.f }));
-	//scene.Add(observerGo);
-	//
-	//observerGo = std::make_shared<dae::GameObject>();
-	//auto observerAch = observerGo->AddComponent<dae::AchievementComponent>();
-	//scene.Add(observerGo);
 
 	go = std::make_shared<dae::GameObject>();
 	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
@@ -321,8 +261,6 @@ void LoadCoop()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
-	//go->AddObserver(observer2);
-	//go->AddObserver(observerAch);
 	scene.Add(go);
 
 
@@ -340,8 +278,6 @@ void LoadCoop()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, go.get(), glm::vec3{ -1,0,0 }, pengoC2);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, go.get(), glm::vec3{ 1,0,0 }, pengoC2);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, go.get(), pengoC2);
-	//go->AddObserver(observer2);
-	//go->AddObserver(observerAch);
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>();
@@ -350,6 +286,9 @@ void LoadCoop()
 	enemyController->AddPengo(pengoC2);
 	enemyController->PlayerControlled(false);
 	scene.Add(go);
+
+
+	gridC->LoadLevel(enemyController, 4);
 }
 
 void LoadMain()
