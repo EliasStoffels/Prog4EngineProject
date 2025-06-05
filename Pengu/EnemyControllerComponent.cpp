@@ -113,6 +113,14 @@ namespace dae
 			}
 		}
 
+		//score
+		if(m_PrevSnobeesDead != m_SnobeesDead)
+		{
+			ScoreChangedArgs args{ 500 * (m_SnobeesDead - m_PrevSnobeesDead) };
+			GetOwner()->NotifyObservers(Event{ make_sdbm_hash("ScoreChanged"), &args });
+			m_PrevSnobeesDead = m_SnobeesDead;
+		}
+
 		//spawning
 		while (m_SnobeesAlive < MAXIMUM_SNOBEES && m_SnobeesDead < 4)
 		{

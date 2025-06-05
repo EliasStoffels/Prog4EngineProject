@@ -82,6 +82,14 @@ void LoadPengo()
 	scene.Add(go);
 	
 	go = std::make_shared<dae::GameObject>();
+	auto textLives = go->AddComponent<dae::TextComponent>(font);
+	auto textScore = go->AddComponent<dae::TextComponent>(font);
+	textScore->SetRenderOfSet(glm::vec3{ 100,40,0 });
+	auto uiObserver = go->AddComponent<dae::UIObserverComponent>(textLives, textScore);
+	scene.Add(go);
+
+	//pengo
+	go = std::make_shared<dae::GameObject>();
 	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
@@ -100,13 +108,15 @@ void LoadPengo()
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
 	scene.Add(go);
 
+	//enemies
 	go = std::make_shared<dae::GameObject>();
 	auto enemyController = go->AddComponent<dae::EnemyControllerComponent>(gridC);
 	enemyController->AddPengo(pengoC);
 	enemyController->PlayerControlled(false);
+	go->AddObserver(uiObserver);
 	scene.Add(go);
 
-
+	//load
 	gridC->LoadLevel(enemyController, 4);
 }
 

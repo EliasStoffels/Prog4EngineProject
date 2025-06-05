@@ -10,10 +10,8 @@ namespace dae
 
 	}
 
-	UIObserverComponent::UIObserverComponent(TextComponent* livesText, TextComponent* pointsText) :m_CharacterHealth{ 3 }
+	UIObserverComponent::UIObserverComponent(TextComponent* livesText, TextComponent* pointsText) :m_CharacterHealth{ 3 }, m_TextLives{livesText}, m_TextPoints{pointsText}
 	{
-		m_TextLives = livesText;
-		m_TextPoints = pointsText;
 	}
 
 	void UIObserverComponent::Start()
@@ -31,7 +29,9 @@ namespace dae
 		}
 		else if (event.id == make_sdbm_hash("ScoreChanged"))
 		{
-			m_TextPoints->SetText("score: " + std::to_string(reinterpret_cast<ScoreChangedArgs*>(event.arg)->amount));
+			ScoreChangedArgs* args = reinterpret_cast<ScoreChangedArgs*>(event.arg);
+			m_Score += args->amount;
+			m_TextPoints->SetText("score: " + std::to_string(m_Score));
 		}
 	}
 }

@@ -42,6 +42,7 @@ namespace dae
         bool m_PlayerControlled = false;
         int m_SnobeesAlive = 0;
         int m_SnobeesDead = 0;
+        int m_PrevSnobeesDead = 0;
 
         float m_TotalDT = 0.f;
         float m_AttackInterval = 10.f;
