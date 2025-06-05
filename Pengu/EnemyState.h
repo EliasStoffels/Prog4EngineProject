@@ -6,6 +6,7 @@ namespace dae
 {
     class TextureComponent;
     class EnemyComponent;
+    class GameObject;
     class EnemyState
     {
     protected:
@@ -24,6 +25,7 @@ namespace dae
 
         virtual std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) = 0;
         virtual std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) = 0;
+        virtual std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) = 0;
     };
 
     class EnemySpawningState : public EnemyState
@@ -37,6 +39,7 @@ namespace dae
 
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* pengo) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* pengo) override;
+        std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
     };
 
     class EnemyWalkingState : public EnemyState
@@ -50,6 +53,9 @@ namespace dae
 
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* pengo) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* pengo) override;
+        std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
+
+
     };
 
     class EnemyBreakingState : public EnemyState
@@ -62,7 +68,10 @@ namespace dae
         void Exit(EnemyComponent* snobee) override;
 
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) override;
-        std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;
+        std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;        
+        std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
+
+
 
     private:
     };
@@ -78,6 +87,26 @@ namespace dae
 
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;
+        std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
+
+
+    private:
+    };
+
+    class TileComponent;
+    class EnemySlidingState : public EnemyState
+    {
+        glm::vec3 m_TargetPosition{ FLT_MAX,FLT_MAX,FLT_MAX };
+        TileComponent* m_TilePtr = nullptr;
+    public:
+        void Enter(EnemyComponent* snobee) override;
+        std::unique_ptr<EnemyState> Update(EnemyComponent* snobee, float deltaTime) override;
+        void Animate(EnemyComponent* snobee, float deltaTime) override;
+        void Exit(EnemyComponent* snobee) override;
+
+        std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) override;
+        std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;
+        std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
 
     private:
     };

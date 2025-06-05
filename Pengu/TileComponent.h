@@ -17,6 +17,7 @@ namespace dae
 		void Slide(const glm::vec3& direction);
 		bool Destroy();
 		bool IsSliding();
+		bool IsBreaking();
 
 		void Update(float elapsedSec) override;
 

@@ -9,14 +9,44 @@
 #include "GridComponent.h"
 #include "PengoComponent.h"
 #include <iostream>
+#include "EventArgs.h"
 
 namespace dae
 {
-	void EnemyControllerComponent::Notify(const Event& event, GameObject* )
+	void EnemyControllerComponent::Notify(const Event& event, GameObject* gameObject)
 	{
 		if (event.id == make_sdbm_hash("TileMoved"))
 		{
-			std::cout << "tile moved\n";
+			std::cout << "sliding\n";
+			TileMoveArg* args = reinterpret_cast<TileMoveArg*>(event.arg);
+
+			int tileWidth{ 48 };
+
+			std::vector<EnemyComponent*> snobeesToRemove;
+
+			for (auto snobee : m_Snobees)
+			{
+				glm::vec3 snobeePos = snobee->GetOwner()->GetWorldPosition();
+				glm::vec3 tilePos = args->position + args->direction;
+
+				if (snobeePos.x >= tilePos.x && snobeePos.x < tilePos.x + tileWidth &&
+					snobeePos.y >= tilePos.y && snobeePos.y < tilePos.y + tileWidth)
+				{
+					snobee->GetHit(gameObject);
+					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(TILE_WIDTH));
+					snobeesToRemove.push_back(snobee);
+				}
+			}
+
+			m_Snobees.erase(
+				std::remove_if(
+					m_Snobees.begin(),
+					m_Snobees.end(),
+					[&snobeesToRemove](EnemyComponent* snobee) {
+						return std::find(snobeesToRemove.begin(), snobeesToRemove.end(), snobee) != snobeesToRemove.end();
+					}),
+				m_Snobees.end()
+			);
 		}
 	}
 	
@@ -134,13 +164,6 @@ namespace dae
 		auto enemyC = go->AddComponent<dae::EnemyComponent>(200.f, m_GridPtr);
 		m_Snobees.emplace_back(enemyC);
 		go->SetLocalPosition(position.x,position.y);
-		/*input.AddBinding<dae::MoveCommand<dae::EnemyComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 1, go2.get(), glm::vec3{ 0,-1,0 }, pengoC2);
-		input.AddBinding<dae::MoveCommand<dae::EnemyComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 1, go2.get(), glm::vec3{ 0,1,0 }, pengoC2);
-		input.AddBinding<dae::MoveCommand<dae::EnemyComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, go2.get(), glm::vec3{ -1,0,0 }, pengoC2);
-		input.AddBinding<dae::MoveCommand<dae::EnemyComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, go2.get(), glm::vec3{ 1,0,0 }, pengoC2);
-		input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, go2.get(), pengoC2);*/
-		//go->AddObserver(observer2);
-		//go->AddObserver(observerAch);
 		scene.Add(go);
 	}
 

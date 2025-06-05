@@ -12,9 +12,12 @@ namespace dae
 
 	public:
 		const glm::vec3& GetLocalPosition() const;
+		void SetWorldPosition(float x, float y, float z);
+		void SetWorldPosition(glm::vec3 pos);
 		void SetLocalPosition(float x, float y, float z);
 		void SetLocalPosition(glm::vec3 pos);
 
+		GameObject* GetParent();
 		const glm::vec3& GetWorldPosition();
 		void Move(glm::vec3 direction);
 

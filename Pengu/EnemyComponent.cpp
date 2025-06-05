@@ -36,6 +36,12 @@ namespace dae
 		if (newState)
 			ChangeState(std::move(newState));
 	}
+	void EnemyComponent::GetHit(GameObject* block)
+	{
+		auto newState = m_CurrentState->GetHit(this, block);
+		if (newState)
+			ChangeState(std::move(newState));
+	}
 	void EnemyComponent::ChangeState(std::unique_ptr<EnemyState> newState)
 	{
 		m_CurrentState->Exit(this);

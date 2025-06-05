@@ -19,13 +19,16 @@ namespace dae
 		void LateUpdate(float deltaTime);
 		void Render() const;
 
-		void SetLocalPosition(float x, float y);
+		void SetWorldPosition(float x, float y, float z = 0.f);
+		void SetWorldPosition(glm::vec3 pos);
+		void SetLocalPosition(float x, float y, float z = 0.f);
 		void SetLocalPosition(glm::vec3 pos);
 		glm::vec3 GetWorldPosition();
 		glm::vec3 GetLocalPosition();
 
 		void Destroy();
 
+		GameObject* GetParent();
 		void SetParent(GameObject* parent, bool keepWorldPosition);
 		bool IsChild(GameObject* otherObject);
 		std::vector<GameObject*>* GetChildren();

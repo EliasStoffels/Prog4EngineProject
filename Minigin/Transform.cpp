@@ -2,10 +2,23 @@
 #include "GameObject.h"
 #include <algorithm>
 #include "TimeSingleton.h"
+#include <iostream>
 
 const glm::vec3& dae::Transform::GetLocalPosition() const
 {
 	return m_localPosition;
+}
+
+void dae::Transform::SetWorldPosition(float x, float y, float z)
+{
+	SetWorldPosition(glm::vec3{x,y,z});
+}
+
+void dae::Transform::SetWorldPosition(glm::vec3 pos)
+{
+	auto parentPos = m_parent->GetWorldPosition();
+	auto difference = pos - parentPos;
+	SetLocalPosition(difference);
 }
 
 void dae::Transform::SetLocalPosition(const float x, const float y, const float z)
@@ -24,6 +37,11 @@ void dae::Transform::SetLocalPosition(glm::vec3 pos)
 	m_localPosition.z = pos.z;
 
 	SetPositionDirty();
+}
+
+dae::GameObject* dae::Transform::GetParent()
+{
+	return m_parent;
 }
 
 const glm::vec3& dae::Transform::GetWorldPosition()
@@ -58,6 +76,6 @@ void dae::Transform::SetPositionDirty()
 	m_positionDirty = true;
 	 
 	if(m_childObjects)
-	std::for_each(m_childObjects->begin(), m_childObjects->end(), [](dae::GameObject* child) {child->GetTransform()->SetPositionDirty(); });
+		std::for_each(m_childObjects->begin(), m_childObjects->end(), [](dae::GameObject* child) {child->GetTransform()->SetPositionDirty(); std::cout << "chanigng children\n"; });
 }
 

@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "GridComponent.h"
 #include <iostream>
+#include <algorithm>
+#include "TileComponent.h"
 
 namespace dae
 {
@@ -128,6 +130,12 @@ namespace dae
 		return nullptr;
 	}
 
+	std::unique_ptr<EnemyState> EnemyWalkingState::GetHit(EnemyComponent* snobee, GameObject* block)
+	{
+		snobee->GetOwner()->SetParent(block, false);
+		return std::make_unique<EnemySlidingState>();
+	}
+
 	// Breaking State
 	//============================================================================================================================================================================================
 	void EnemyBreakingState::Enter(EnemyComponent* snobee)
@@ -221,7 +229,7 @@ namespace dae
 
 	void EnemyBreakingState::Exit(EnemyComponent* snobee)
 	{
-		snobee->GetOwner()->SetLocalPosition(m_TargetPosition - snobee->GetOwner()->GetWorldPosition() + snobee->GetOwner()->GetLocalPosition());
+		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->PointToGridPos(snobee->GetOwner()->GetWorldPosition()) - snobee->GetOwner()->GetWorldPosition() + snobee->GetOwner()->GetLocalPosition());
 	}
 
 	std::unique_ptr<EnemyState> EnemyBreakingState::OnMove(EnemyComponent* )
@@ -232,6 +240,12 @@ namespace dae
 	std::unique_ptr<EnemyState> EnemyBreakingState::Break(EnemyComponent* )
 	{
 		return nullptr;
+	}
+
+	std::unique_ptr<EnemyState> EnemyBreakingState::GetHit(EnemyComponent* snobee, GameObject* block)
+	{
+		snobee->GetOwner()->SetParent(block, false);
+		return std::make_unique<EnemySlidingState>();
 	}
 
 	// Spawning State
@@ -278,27 +292,86 @@ namespace dae
 		return nullptr;
 	}
 
+	std::unique_ptr<EnemyState> EnemySpawningState::GetHit(EnemyComponent* , GameObject* )
+	{
+		return nullptr;
+	}
+
 	// Stunned State
 	//============================================================================================================================================================================================
 	void EnemyStunnedState::Enter(EnemyComponent* )
 	{
 
 	}
+
 	std::unique_ptr<EnemyState> EnemyStunnedState::Update(EnemyComponent* , float )
 	{
 		return std::unique_ptr<EnemyState>();
 	}
+
 	void EnemyStunnedState::Animate(EnemyComponent* , float )
 	{
+
 	}
+
 	void EnemyStunnedState::Exit(EnemyComponent* )
 	{
+
 	}
+
 	std::unique_ptr<EnemyState> EnemyStunnedState::OnMove(EnemyComponent* )
 	{
 		return nullptr;
 	}
+
 	std::unique_ptr<EnemyState> EnemyStunnedState::Break(EnemyComponent* )
+	{
+		return nullptr;
+	}
+
+	std::unique_ptr<EnemyState> EnemyStunnedState::GetHit(EnemyComponent* snobee, GameObject* block)
+	{
+		snobee->GetOwner()->SetParent(block, false);
+		return std::make_unique<EnemySlidingState>();
+	}
+
+	// Sliding State
+	//============================================================================================================================================================================================
+	void EnemySlidingState::Enter(EnemyComponent* snobee)
+	{
+		m_TilePtr = snobee->GetOwner()->GetParent()->GetComponent<TileComponent>();
+	}
+
+	std::unique_ptr<EnemyState> EnemySlidingState::Update(EnemyComponent* snobee, float)
+	{
+		if (!m_TilePtr->IsSliding())
+		{
+			snobee->GetOwner()->Destroy();
+		}
+
+		return nullptr;
+	}
+
+	void EnemySlidingState::Animate(EnemyComponent* , float)
+	{
+
+	}
+
+	void EnemySlidingState::Exit(EnemyComponent* )
+	{
+		
+	}
+
+	std::unique_ptr<EnemyState> EnemySlidingState::OnMove(EnemyComponent* )
+	{
+		return nullptr;
+	}
+
+	std::unique_ptr<EnemyState> EnemySlidingState::Break(EnemyComponent* )
+	{
+		return nullptr;
+	}
+	std::unique_ptr<EnemyState> EnemySlidingState::GetHit(EnemyComponent* , GameObject* )
 	{
 		return nullptr;
 	}

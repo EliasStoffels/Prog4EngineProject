@@ -8,6 +8,7 @@ namespace dae
 {
     class TextureComponent;
     class GridComponent;
+    class GameObject;
     class EnemyComponent : public CppBehaviour
     {
         friend class GameObject;
@@ -18,6 +19,7 @@ namespace dae
 
         void Move(const glm::vec3& direction);
         void Break();
+        void GetHit(GameObject* block);
 
         // Getters for states
         TextureComponent* GetTexture() const { return m_TexturePtr; }

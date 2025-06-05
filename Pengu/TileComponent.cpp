@@ -40,6 +40,11 @@ namespace dae
 		return m_BlockState == BlockState::Sliding;
 	}
 
+	bool TileComponent::IsBreaking()
+	{
+		return m_BlockState == BlockState::Breaking;
+	}
+
 	void TileComponent::Update(float deltaTime)
 	{
 		switch (m_BlockState)
@@ -81,6 +86,9 @@ namespace dae
 		break;
 		case BlockState::Sliding:
 		{
+			TileMoveArg args = TileMoveArg{ this, m_Pos, m_SlideDirection };
+			m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("TileMoved"), &args });
+
 			m_Pos = m_OwningGameObject->GetWorldPosition();
 			if (m_Pos == m_TargetPosition || m_TargetPosition.x == FLT_MAX)
 			{
@@ -88,11 +96,6 @@ namespace dae
 
 				if (m_TargetPosition == m_Pos)
 					m_BlockState = BlockState::Still;
-				else
-				{
-					TileMoveArg args = TileMoveArg{ this, m_Pos, m_TargetPosition - m_Pos };
-					m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("TileMoved"), &args });
-				}
 			}
 			else
 			{
@@ -114,7 +117,6 @@ namespace dae
 
 					m_OwningGameObject->GetTransform()->Move(direction);
 				}
-
 			}
 		}
 		break;

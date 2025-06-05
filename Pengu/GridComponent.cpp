@@ -314,7 +314,7 @@ namespace dae
 
 	}
 
-	glm::vec3 GridComponent::RequestMove(const glm::vec3& currentPos,glm::vec3& direction, bool isBlock)
+	glm::vec3 GridComponent::RequestMove(const glm::vec3& currentPos,const glm::vec3& direction, bool isBlock)
 	{
 		int origIdx = PointToIdx(glm::vec3{ currentPos.x + (TILE_WIDTH / 2),currentPos.y + (TILE_WIDTH / 2),0 });
 		int idx = origIdx;
@@ -335,7 +335,16 @@ namespace dae
 			idx += WIDTH;
 		}
 
-		if (m_GridPtr->at(idx) == Tile::Empty)
+		auto blockBreakingCheck = [this, idx]() {
+				auto it = FindInVector(m_Blocks, idx);
+				if (it != m_Blocks.end())
+				{
+					return it->second->IsBreaking();
+				}
+				return false;
+			};
+
+		if (m_GridPtr->at(idx) == Tile::Empty || (isBlock && blockBreakingCheck()))
 		{
 			if (isBlock)
 			{
@@ -476,13 +485,8 @@ namespace dae
 		if (m_GridPtr->at(idx) != Tile::Unbreakable)
 		{
 			auto it = FindInVector(m_Blocks, idx);
-			if (it != m_Blocks.end() && it->second->Destroy())
+			if (it != m_Blocks.end() && !it->second->IsSliding() && it->second->Destroy())
 			{
-				if(it->second->IsSliding())
-				{
-					return BlockState::Sliding;
-				}
-
 				m_GridPtr->at(idx) = Tile::Empty;
 				m_Blocks.erase(it);
 				return BlockState::Breaking;
@@ -512,6 +516,12 @@ namespace dae
 		return { GRID_OFSETT.x + static_cast<float>(TILE_WIDTH * (idx % WIDTH)),
 				 GRID_OFSETT.y + static_cast<float>(TILE_WIDTH * (idx / WIDTH)),
 				 0 };
+	}
+
+	glm::vec3 GridComponent::PointToGridPos(const glm::vec3 position)
+	{
+		int idx = PointToIdx(position);
+		return IdxToPoint(idx);
 	}
 
 	void GridComponent::RandomiseSnobee()

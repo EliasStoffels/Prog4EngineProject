@@ -8,6 +8,7 @@ dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Start()
 {
+	m_transform.m_childObjects = &m_childObjects;
 	for (const auto& component : m_OwnedComponents)
 	{
 		component->m_StartWasCalled = true;
@@ -57,9 +58,19 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::SetLocalPosition(float x, float y)
+void dae::GameObject::SetWorldPosition(float x, float y, float z)
 {
-	m_transform.SetLocalPosition(x, y, 0.0f);
+	m_transform.SetWorldPosition(x, y, z);
+}
+
+void dae::GameObject::SetWorldPosition(glm::vec3 pos)
+{
+	m_transform.SetWorldPosition(pos);
+}
+
+void dae::GameObject::SetLocalPosition(float x, float y, float z)
+{
+	m_transform.SetLocalPosition(x, y, z);
 }
 
 void dae::GameObject::SetLocalPosition(glm::vec3 pos)
@@ -87,6 +98,11 @@ void dae::GameObject::Destroy()
 	}
 }
 
+dae::GameObject* dae::GameObject::GetParent()
+{
+	return m_transform.GetParent();
+}
+
 void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
 	if (IsChild(parent) || parent == this || m_parent == parent)
@@ -110,7 +126,6 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 		m_parent->m_childObjects.push_back(this);
 	}
 	m_transform.m_parent = m_parent;
-	m_transform.m_childObjects = &m_childObjects;
 }
 
 bool dae::GameObject::IsChild(GameObject* otherObject)
