@@ -21,7 +21,7 @@ namespace dae
 		void SetFont(std::shared_ptr<Font> font);
 		void SetRenderOfSet(const glm::vec3& ofsett);
 		void SetColor(const SDL_Color& color);
-		void SetColor(int r, int g, int b, int a=255);
+		void SetColor(int r, int g, int b, int a = 255);
 
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;

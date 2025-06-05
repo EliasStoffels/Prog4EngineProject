@@ -11,4 +11,9 @@ namespace dae
 		glm::vec3 direction;
 	};
 
+	struct ScoreChangedArgs
+	{
+		int amount;
+	};
+
 }

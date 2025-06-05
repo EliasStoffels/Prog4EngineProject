@@ -1,7 +1,7 @@
 #pragma once
 #include "CppBehaviour.h"
 #include <glm.hpp>
-#include <TextureComponent.h>
+#include "TextureComponent.h"
 #include "Enums.h"
 #include "GridComponent.h"
 

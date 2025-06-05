@@ -36,39 +36,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\AchievementObserver.cpp">
-      <Filter>Source Files\ObserverCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\UiObserver.cpp">
-      <Filter>Source Files\ObserverCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\FpsComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\HealthComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\RotateComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\ScoreComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\TextComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\TextureComponent.cpp">
-      <Filter>Source Files\ComponentCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\DieCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\KillEnemyCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\MoveCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
-    </ClCompile>
     <ClCompile Include="GridComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
@@ -105,41 +72,20 @@
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObserver.cpp">
+      <Filter>Source Files\ObserverCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Minigin\DieCommand.h">
-      <Filter>Header Files\CommandHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\KillEnemyCommand.h">
-      <Filter>Header Files\CommandHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\MoveCommand.h">
-      <Filter>Header Files\CommandHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\FpsComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\HealthComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\RotateComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\ScoreComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\TextComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\TextureComponent.h">
-      <Filter>Header Files\ComponentHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\AchievementObserver.h">
-      <Filter>Header Files\ObserverHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\UiObserver.h">
-      <Filter>Header Files\ObserverHeaders</Filter>
-    </ClInclude>
     <ClInclude Include="GridComponent.h">
       <Filter>Header Files\ComponentHeaders</Filter>
     </ClInclude>
@@ -181,6 +127,18 @@
     </ClInclude>
     <ClInclude Include="EventArgs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObserver.h">
+      <Filter>Header Files\ObserverHeaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

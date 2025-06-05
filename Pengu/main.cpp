@@ -19,17 +19,11 @@
 #include "Scene.h"
 #include "TextComponent.h"
 #include "TextureComponent.h"
-#include "FpsComponent.h"
 #include <iostream>
-#include "RotateComponent.h"
 #include "InputManager.h"
 #include "MoveCommand.h"
-#include "HealthComponent.h"
-#include "DieCommand.h"
 #include "UiObserver.h"
-#include "KillEnemyCommand.h"
 #include <SteamAchievements.h>
-#include <AchievementObserver.h>
 #include "ServiceLocator.h"
 #include "mixerSoundSystem.h"
 #include "LoggingSoundSystem.h"
@@ -92,8 +86,6 @@ void LoadPengo()
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
 	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
-	go->AddComponent<dae::HealthComponent>(100.f, 3);
-	go->AddComponent<dae::ScoreComponent>();
 	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
 	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
@@ -168,8 +160,6 @@ void LoadVersus()
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
 	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
-	go->AddComponent<dae::HealthComponent>(100.f, 3);
-	go->AddComponent<dae::ScoreComponent>();
 	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
 	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
@@ -247,8 +237,6 @@ void LoadCoop()
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
 	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
-	go->AddComponent<dae::HealthComponent>(100.f, 3);
-	go->AddComponent<dae::ScoreComponent>();
 	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
 	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
@@ -269,8 +257,6 @@ void LoadCoop()
 	textureMovable2->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable2->SetSourceRect(0, 0, 16, 16);
 	textureMovable2->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
-	go->AddComponent<dae::HealthComponent>(100.f, 3);
-	go->AddComponent<dae::ScoreComponent>();
 	auto pengoC2 = go->AddComponent<dae::PengoComponent>(200.f, gridC);
 	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH) - TILE_WIDTH, (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 1, go.get(), glm::vec3{ 0,-1,0 }, pengoC2);

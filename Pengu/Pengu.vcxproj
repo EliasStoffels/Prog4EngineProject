@@ -151,43 +151,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Minigin\AchievementObserver.cpp" />
-    <ClCompile Include="..\Minigin\DieCommand.cpp" />
-    <ClCompile Include="..\Minigin\FpsComponent.cpp" />
-    <ClCompile Include="..\Minigin\HealthComponent.cpp" />
-    <ClCompile Include="..\Minigin\KillEnemyCommand.cpp" />
-    <ClCompile Include="..\Minigin\MoveCommand.cpp" />
-    <ClCompile Include="..\Minigin\RotateComponent.cpp" />
-    <ClCompile Include="..\Minigin\ScoreComponent.cpp" />
-    <ClCompile Include="..\Minigin\TextComponent.cpp" />
-    <ClCompile Include="..\Minigin\TextureComponent.cpp" />
-    <ClCompile Include="..\Minigin\UiObserver.cpp" />
     <ClCompile Include="BreakCommand.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EnemyControllerComponent.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoState.cpp" />
     <ClCompile Include="PushCommand.cpp" />
     <ClCompile Include="StartCommand.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
+    <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="UIObserver.cpp" />
     <ClCompile Include="WallComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Minigin\AchievementObserver.h" />
-    <ClInclude Include="..\Minigin\DieCommand.h" />
-    <ClInclude Include="..\Minigin\FpsComponent.h" />
-    <ClInclude Include="..\Minigin\HealthComponent.h" />
-    <ClInclude Include="..\Minigin\KillEnemyCommand.h" />
-    <ClInclude Include="..\Minigin\MoveCommand.h" />
-    <ClInclude Include="..\Minigin\RotateComponent.h" />
-    <ClInclude Include="..\Minigin\ScoreComponent.h" />
-    <ClInclude Include="..\Minigin\TextComponent.h" />
-    <ClInclude Include="..\Minigin\TextureComponent.h" />
-    <ClInclude Include="..\Minigin\UiObserver.h" />
     <ClInclude Include="BreakCommand.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyControllerComponent.h" />
@@ -195,12 +177,16 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="EventArgs.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="PengoComponent.h" />
     <ClInclude Include="PengoState.h" />
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="StartCommand.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="GridComponent.h" />
+    <ClInclude Include="UIObserver.h" />
     <ClInclude Include="WallComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

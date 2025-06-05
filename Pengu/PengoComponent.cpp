@@ -1,4 +1,3 @@
-// PengoComponent.cpp
 #include "PengoComponent.h"
 #include "PengoState.h"
 #include "GameObject.h"
