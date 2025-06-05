@@ -292,9 +292,10 @@ namespace dae
 		return nullptr;
 	}
 
-	std::unique_ptr<EnemyState> EnemySpawningState::GetHit(EnemyComponent* , GameObject* )
+	std::unique_ptr<EnemyState> EnemySpawningState::GetHit(EnemyComponent* snobee, GameObject* block)
 	{
-		return nullptr;
+		snobee->GetOwner()->SetParent(block, false);
+		return std::make_unique<EnemySlidingState>();
 	}
 
 	// Stunned State

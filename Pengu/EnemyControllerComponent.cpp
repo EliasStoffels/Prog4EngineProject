@@ -35,6 +35,8 @@ namespace dae
 					snobee->GetHit(gameObject);
 					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(TILE_WIDTH));
 					snobeesToRemove.push_back(snobee);
+					--m_SnobeesAlive;
+					++m_SnobeesDead;
 				}
 			}
 
@@ -74,6 +76,7 @@ namespace dae
 
 	void EnemyControllerComponent::Update(float deltaTime)
 	{
+		// attack / explore mode
 		m_TotalDT += deltaTime;
 		if (m_TotalDT > m_AttackInterval)
 		{
@@ -100,6 +103,7 @@ namespace dae
 			}
 		}
 
+		//spawning
 		while (m_SnobeesAlive < MAXIMUM_SNOBEES && m_SnobeesDead < 4)
 		{
 			int idx = std::distance(m_GridLayoutPtr->begin(), std::find_if(m_GridLayoutPtr->begin(), m_GridLayoutPtr->end(), [](const Tile& tile) {return tile == Tile::Sno_Bee; }));
@@ -109,7 +113,7 @@ namespace dae
 			++m_SnobeesAlive;
 		}
 
-
+		// movement 
 		for (int idx{}; idx < static_cast<int>(m_Snobees.size()); ++idx)
 		{
 			if (m_PlayerControlled && idx == m_ControlledSnobee)
@@ -129,7 +133,7 @@ namespace dae
 			}
 			else
 			{
-				targetPos = m_PengosPtr[0]->GetOwner()->GetWorldPosition();
+				targetPos = m_PengosPtr[idx%m_PengosPtr.size()]->GetOwner()->GetWorldPosition();
 			}
 
 			glm::vec3 direction = targetPos - snobeePos;
