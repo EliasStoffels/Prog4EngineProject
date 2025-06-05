@@ -347,6 +347,7 @@ namespace dae
 	{
 		if (!m_TilePtr->IsSliding())
 		{
+			snobee->GetOwner()->NotifyObservers(Event{make_sdbm_hash("EnemyDied"), nullptr});
 			snobee->GetOwner()->Destroy();
 		}
 

@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include <algorithm>
 #include "TimeSingleton.h"
-#include <iostream>
 
 const glm::vec3& dae::Transform::GetLocalPosition() const
 {
@@ -76,6 +75,6 @@ void dae::Transform::SetPositionDirty()
 	m_positionDirty = true;
 	 
 	if(m_childObjects)
-		std::for_each(m_childObjects->begin(), m_childObjects->end(), [](dae::GameObject* child) {child->GetTransform()->SetPositionDirty(); std::cout << "chanigng children\n"; });
+		std::for_each(m_childObjects->begin(), m_childObjects->end(), [](dae::GameObject* child) {child->GetTransform()->SetPositionDirty();});
 }
 

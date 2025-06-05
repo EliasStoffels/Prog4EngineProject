@@ -8,8 +8,8 @@
 #include "GameObject.h"
 #include "GridComponent.h"
 #include "PengoComponent.h"
-#include <iostream>
 #include "EventArgs.h"
+#include <algorithm>
 
 namespace dae
 {
@@ -17,7 +17,6 @@ namespace dae
 	{
 		if (event.id == make_sdbm_hash("TileMoved"))
 		{
-			std::cout << "sliding\n";
 			TileMoveArg* args = reinterpret_cast<TileMoveArg*>(event.arg);
 
 			int tileWidth{ 48 };
@@ -27,16 +26,22 @@ namespace dae
 			for (auto snobee : m_Snobees)
 			{
 				glm::vec3 snobeePos = snobee->GetOwner()->GetWorldPosition();
-				glm::vec3 tilePos = args->position + args->direction;
+				glm::vec3 nextTilePos = args->position + args->direction;
+				glm::vec3 currentTilePos = args->position;
 
-				if (snobeePos.x >= tilePos.x && snobeePos.x < tilePos.x + tileWidth &&
-					snobeePos.y >= tilePos.y && snobeePos.y < tilePos.y + tileWidth)
+				bool isOnCurrentTile =
+					(snobeePos.x >= currentTilePos.x && snobeePos.x < currentTilePos.x + tileWidth &&
+						snobeePos.y >= currentTilePos.y && snobeePos.y < currentTilePos.y + tileWidth);
+
+				bool isOnNextTile =
+					(snobeePos.x >= nextTilePos.x && snobeePos.x < nextTilePos.x + tileWidth &&
+						snobeePos.y >= nextTilePos.y && snobeePos.y < nextTilePos.y + tileWidth);
+
+				if (isOnCurrentTile || isOnNextTile)
 				{
 					snobee->GetHit(gameObject);
 					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(TILE_WIDTH));
 					snobeesToRemove.push_back(snobee);
-					--m_SnobeesAlive;
-					++m_SnobeesDead;
 				}
 			}
 
@@ -50,6 +55,12 @@ namespace dae
 				m_Snobees.end()
 			);
 		}
+		else if (event.id == make_sdbm_hash("EnemyDied"))
+		{
+			++m_SnobeesDead;
+			--m_SnobeesAlive;
+		}
+
 	}
 	
 	void EnemyControllerComponent::Start()
@@ -59,7 +70,6 @@ namespace dae
 		{
 			idx = rand() % 195;
 		}
-		std::cout << "called this\n";
 	}
 
 	glm::vec3 getClosestCardinalDirection(const glm::vec3& direction) {
@@ -146,6 +156,7 @@ namespace dae
 
 			int nextIdx = m_GridPtr->PointToIdx(snobeePos + glm::vec3{ finalDirection.x * TILE_WIDTH, finalDirection.y * TILE_WIDTH,0.f });
 			
+			nextIdx = std::clamp(nextIdx, 0, 195);
 			if (m_GridLayoutPtr->at(nextIdx) == Tile::Unbreakable || m_GridLayoutPtr->at(nextIdx) == Tile::Sno_Bee)
 			{
 				finalDirection = { -finalDirection.y,finalDirection.x,0.f };
@@ -168,6 +179,7 @@ namespace dae
 		auto enemyC = go->AddComponent<dae::EnemyComponent>(200.f, m_GridPtr);
 		m_Snobees.emplace_back(enemyC);
 		go->SetLocalPosition(position.x,position.y);
+		go->AddObserver(this);
 		scene.Add(go);
 	}
 
