@@ -99,7 +99,7 @@ namespace dae
 				{
 					m_NextAttackingSnobees = rand() % 3 + 1;
 				}
-				m_AttackInterval = 5.f;
+				m_AttackInterval = 2.f;
 			}
 			else
 			{
@@ -184,11 +184,14 @@ namespace dae
 		textureMovable->SetTexture("Pengo_snobee_noBG.png");
 		textureMovable->SetSourceRect(0, 160, 16, 16);
 		textureMovable->SetWidthAndHeight(static_cast<float>(TILE_WIDTH), static_cast<float>(TILE_WIDTH));
-		auto enemyC = go->AddComponent<dae::EnemyComponent>(200.f, m_GridPtr);
+		auto enemyC = go->AddComponent<dae::EnemyComponent>(150.f, m_GridPtr);
 		m_Snobees.emplace_back(enemyC);
 		go->SetLocalPosition(position.x,position.y);
 		go->AddObserver(this);
 		scene.Add(go);
+
+		GetOwner()->NotifyObservers(Event{ make_sdbm_hash("SnobeeHatched"), nullptr });
+
 	}
 
 	void EnemyControllerComponent::AddPengo(PengoComponent* pengo)

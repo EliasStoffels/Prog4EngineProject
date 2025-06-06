@@ -19,6 +19,9 @@ namespace dae
 		void SetWidthAndHeight(float width, float height) { m_Width = width; m_Height = height; }
 		void SetSourceRect(int x, int y, int widht = -1, int height = -1);
 		void SetSourceRect(const SDL_Rect& rect);
+		void SetRepeats(int repeats);
+		void SetRepeatOfsett(const glm::vec3& ofset);
+		void SetRenderOfsett(const glm::vec3& ofset);
 		void IsActive(bool isActive);
 
 		SDL_Rect GetSourceRect() { return m_SourceRect; }
@@ -35,5 +38,8 @@ namespace dae
 		float m_Height = FLT_MAX;
 		SDL_Rect m_SourceRect{ INT_MAX,INT_MAX,INT_MAX,INT_MAX };
 		bool m_Render = true;
+		int m_Repeats = 1;
+		glm::vec3 m_RepeatOfsett{};
+		glm::vec3 m_RenderOfsett{};
 	};
 }

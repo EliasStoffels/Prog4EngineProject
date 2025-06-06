@@ -5,6 +5,7 @@
 namespace dae
 {
 	class TextComponent;
+	class TextureComponent;
 	class UIObserverComponent : public CppBehaviour, public Observer
 	{
 		friend class GameObject;
@@ -21,11 +22,11 @@ namespace dae
 
 	private:
 		UIObserverComponent();
-		UIObserverComponent(TextComponent* livesText, TextComponent* pointsText);
-		int m_CharacterHealth;
-		TextComponent* m_TextLives = nullptr;
+		UIObserverComponent(TextureComponent* livesTexture, TextComponent* pointsText);
+		int m_CharacterHealth = 3;
+		TextureComponent* m_TextureLives = nullptr;
 		TextComponent* m_TextPoints = nullptr;
-
+		int m_SnobeeEggs = 6;
 		int m_Score = 0;
 	};
 }

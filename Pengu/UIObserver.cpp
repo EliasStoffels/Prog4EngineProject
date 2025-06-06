@@ -2,36 +2,33 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 #include "EventArgs.h"
+#include "TextureComponent.h"
 
 namespace dae
 {
-	UIObserverComponent::UIObserverComponent() :m_CharacterHealth{ 3 }
-	{
-
-	}
-
-	UIObserverComponent::UIObserverComponent(TextComponent* livesText, TextComponent* pointsText) :m_CharacterHealth{ 3 }, m_TextLives{livesText}, m_TextPoints{pointsText}
+	UIObserverComponent::UIObserverComponent(TextureComponent* livesTexture, TextComponent* pointsText) : m_TextureLives{livesTexture}, m_TextPoints{pointsText}
 	{
 	}
 
 	void UIObserverComponent::Start()
 	{
-		m_TextLives->SetText("# Lives: " + std::to_string(m_CharacterHealth));
-		m_TextPoints->SetText("score: 0");
+		m_TextPoints->SetText("0");
 	}
 
 	void UIObserverComponent::Notify(const Event& event, GameObject*)
 	{
-		if (event.id == make_sdbm_hash("CharacterDied") && m_CharacterHealth > 0)
+		if (event.id == make_sdbm_hash("SnobeeHatched"))
 		{
-			--m_CharacterHealth;
-			m_TextLives->SetText("# Lives: " + std::to_string(m_CharacterHealth));
+			--m_SnobeeEggs;
+			m_TextureLives->SetRepeats(m_SnobeeEggs);
 		}
 		else if (event.id == make_sdbm_hash("ScoreChanged"))
 		{
 			ScoreChangedArgs* args = reinterpret_cast<ScoreChangedArgs*>(event.arg);
 			m_Score += args->amount;
-			m_TextPoints->SetText("score: " + std::to_string(m_Score));
+			m_TextPoints->SetText(std::to_string(m_Score));
+			m_TextPoints->SetRenderOfSet(glm::vec3{ 210 - m_TextPoints->GetSize().x , 2, 0 });
+
 		}
 	}
 }

@@ -23,6 +23,8 @@ namespace dae
 		void SetColor(const SDL_Color& color);
 		void SetColor(int r, int g, int b, int a = 255);
 
+		glm::vec2 GetSize() const;
+
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;

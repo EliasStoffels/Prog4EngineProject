@@ -66,6 +66,11 @@ void dae::TextComponent::SetColor(int r, int g, int b, int a)
 	m_Color = SDL_Color{ static_cast<unsigned char>(r),static_cast<unsigned char>(g),static_cast<unsigned char>(b),static_cast<unsigned char>(a) };
 }
 
+glm::vec2 dae::TextComponent::GetSize() const
+{
+	return m_textTexture->GetSize();
+}
+
 // This implementation uses the "dirty flag" pattern
 void dae::TextComponent::SetText(const std::string& text)
 {

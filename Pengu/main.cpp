@@ -47,7 +47,7 @@ void LoadPengo()
 	auto& scene = dae::SceneManager::GetInstance().GetScene("Pengo");
 
 	//fonts
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
 	//auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
 	//background
@@ -75,17 +75,25 @@ void LoadPengo()
 	//gridC->SaveLevel();
 	scene.Add(go);
 
-	//text
+	//static ui
 	go = std::make_shared<dae::GameObject>();
-	auto text = go->AddComponent<dae::TextComponent>(font);
-	text->SetText("controls: WASD and E or D-PAD and South button");
+	dae::TextureComponent* textureSaticUi = go->AddComponent<dae::TextureComponent>();
+	textureSaticUi->SetTexture("StaticUi.png");
+	textureSaticUi->SetWidthAndHeight(672, 20);
 	scene.Add(go);
 	
+	// dynamic ui
 	go = std::make_shared<dae::GameObject>();
-	auto textLives = go->AddComponent<dae::TextComponent>(font);
 	auto textScore = go->AddComponent<dae::TextComponent>(font);
-	textScore->SetRenderOfSet(glm::vec3{ 100,40,0 });
-	auto uiObserver = go->AddComponent<dae::UIObserverComponent>(textLives, textScore);
+	textScore->SetRenderOfSet(glm::vec3{ 220,2,0 });
+	auto textureSnobeeEggs = go->AddComponent<dae::TextureComponent>();
+	textureSnobeeEggs->SetTexture("Misc.png");
+	textureSnobeeEggs->SetWidthAndHeight(18, 18);
+	textureSnobeeEggs->SetSourceRect(80,82,8,8);
+	textureSnobeeEggs->SetRepeats(6);
+	textureSnobeeEggs->SetRepeatOfsett(glm::vec3{-20,0,0});
+	textureSnobeeEggs->SetRenderOfsett(glm::vec3{ 400,60,0 });
+	auto uiObserver = go->AddComponent<dae::UIObserverComponent>(textureSnobeeEggs,textScore);
 	scene.Add(go);
 
 	//pengo
