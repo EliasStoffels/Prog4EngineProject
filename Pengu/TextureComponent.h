@@ -32,7 +32,7 @@ namespace dae
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 	private:
-		TextureComponent();
+		TextureComponent(GameObject* owner);
 		std::shared_ptr<Texture2D> m_texture = nullptr;
 		float m_Width = FLT_MAX;
 		float m_Height = FLT_MAX;

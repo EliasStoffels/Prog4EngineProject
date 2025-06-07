@@ -22,6 +22,8 @@ namespace dae
         virtual std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) = 0;
         virtual void Animate(PengoComponent* pengo, float deltaTime) = 0;
         virtual void Exit(PengoComponent* pengo) = 0;
+        virtual std::unique_ptr<PengoState> Die(PengoComponent* pengo) = 0;
+        virtual std::unique_ptr<PengoState> Respawn(PengoComponent* pengo) = 0;
 
         virtual std::unique_ptr<PengoState>  OnMove(PengoComponent* pengo) = 0;
         virtual std::unique_ptr<PengoState>  OnPush(PengoComponent* pengo) = 0;
@@ -36,6 +38,8 @@ namespace dae
         std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) override;
         void Animate(PengoComponent* pengo, float deltaTime) override;
         void Exit(PengoComponent* pengo) override;
+        std::unique_ptr<PengoState> Die(PengoComponent* pengo) override;
+        std::unique_ptr<PengoState> Respawn(PengoComponent* pengo) override;
 
         std::unique_ptr<PengoState> OnMove(PengoComponent* pengo) override;
         std::unique_ptr<PengoState> OnPush(PengoComponent* pengo) override;
@@ -50,6 +54,9 @@ namespace dae
         std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) override;
         void Animate(PengoComponent* pengo, float deltaTime) override;
         void Exit(PengoComponent* pengo) override;
+        std::unique_ptr<PengoState> Die(PengoComponent* pengo) override;
+        std::unique_ptr<PengoState> Respawn(PengoComponent* pengo) override;
+
 
         std::unique_ptr<PengoState> OnMove(PengoComponent* pengo) override;
         std::unique_ptr<PengoState> OnPush(PengoComponent* pengo) override;
@@ -65,6 +72,9 @@ namespace dae
         std::unique_ptr<PengoState> Update(PengoComponent* pengo, float deltaTime) override;
         void Animate(PengoComponent* pengo, float deltaTime) override;
         void Exit(PengoComponent* pengo) override;
+        std::unique_ptr<PengoState> Die(PengoComponent* pengo) override;
+        std::unique_ptr<PengoState> Respawn(PengoComponent* pengo) override;
+
 
         std::unique_ptr<PengoState> OnMove(PengoComponent* pengo) override;
         std::unique_ptr<PengoState> OnPush(PengoComponent* pengo) override;

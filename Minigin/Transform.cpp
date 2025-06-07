@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include <algorithm>
 #include "TimeSingleton.h"
+#include <SceneManager.h>
+#include "Scene.h"
 
 const glm::vec3& dae::Transform::GetLocalPosition() const
 {
@@ -24,7 +26,11 @@ void dae::Transform::SetLocalPosition(const float x, const float y, const float 
 {
 	m_localPosition.x = x;
 	m_localPosition.y = y;
-	m_localPosition.z = z;
+	if (m_localPosition.z != z)
+	{
+		m_localPosition.z = z;
+		SceneManager::GetInstance().GetScene().SetSortDirty();
+	}
 
 	SetPositionDirty();
 }
@@ -33,7 +39,11 @@ void dae::Transform::SetLocalPosition(glm::vec3 pos)
 {
 	m_localPosition.x = pos.x;
 	m_localPosition.y = pos.y;
-	m_localPosition.z = pos.z;
+	if (m_localPosition.z != pos.z)
+	{
+		m_localPosition.z = pos.z;
+		SceneManager::GetInstance().GetScene().SetSortDirty();
+	}
 
 	SetPositionDirty();
 }

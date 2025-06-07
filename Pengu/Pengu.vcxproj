@@ -160,6 +160,7 @@
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoState.cpp" />
     <ClCompile Include="PushCommand.cpp" />
+    <ClCompile Include="RespawnCommand.cpp" />
     <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="PengoComponent.h" />
     <ClInclude Include="PengoState.h" />
     <ClInclude Include="PushCommand.h" />
+    <ClInclude Include="RespawnCommand.h" />
     <ClInclude Include="StartCommand.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextureComponent.h" />

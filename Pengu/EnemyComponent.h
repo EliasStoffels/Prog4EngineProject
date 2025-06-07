@@ -20,6 +20,7 @@ namespace dae
         void Move(const glm::vec3& direction);
         void Break();
         void GetHit(GameObject* block);
+        void Reset(int idx);
 
         // Getters for states
         TextureComponent* GetTexture() const { return m_TexturePtr; }
@@ -28,7 +29,7 @@ namespace dae
         GridComponent* GetGrid() const { return m_GridPtr; }
 
     private:
-        EnemyComponent(float speed, GridComponent* grid);
+        EnemyComponent(GameObject* owner, float speed, GridComponent* grid);
         float m_Speed;
         GridComponent* m_GridPtr;
         TextureComponent* m_TexturePtr;

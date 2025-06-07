@@ -18,6 +18,8 @@ namespace dae
 
         void Move(const glm::vec3& direction);
         void Push();
+        void Die();
+        void Respawn();
 
         // Getters for states
         TextureComponent* GetTexture() const { return m_TexturePtr; }
@@ -27,7 +29,7 @@ namespace dae
 
     private:
 
-        PengoComponent(float speed, GridComponent* grid);
+        PengoComponent(GameObject* owner, float speed, GridComponent* grid);
         float m_Speed;
         GridComponent* m_GridPtr;
         TextureComponent* m_TexturePtr;

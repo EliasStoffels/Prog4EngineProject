@@ -26,6 +26,7 @@ namespace dae
         virtual std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) = 0;
         virtual std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) = 0;
         virtual std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) = 0;
+        virtual std::unique_ptr<EnemyState> Reset(EnemyComponent* snobee, int) = 0;
     };
 
     class EnemySpawningState : public EnemyState
@@ -40,6 +41,7 @@ namespace dae
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* pengo) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* pengo) override;
         std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
+        std::unique_ptr<EnemyState> Reset(EnemyComponent* snobee, int) override;
     };
 
     class EnemyWalkingState : public EnemyState
@@ -54,6 +56,8 @@ namespace dae
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* pengo) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* pengo) override;
         std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
+        std::unique_ptr<EnemyState> Reset(EnemyComponent* snobee, int) override;
+
 
 
     };
@@ -70,8 +74,7 @@ namespace dae
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;        
         std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
-
-
+        std::unique_ptr<EnemyState> Reset(EnemyComponent* snobee, int) override;
 
     private:
     };
@@ -88,8 +91,7 @@ namespace dae
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;
         std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
-
-
+        std::unique_ptr<EnemyState> Reset(EnemyComponent* snobee, int) override;
     private:
     };
 
@@ -107,8 +109,10 @@ namespace dae
         std::unique_ptr<EnemyState> OnMove(EnemyComponent* snobee) override;
         std::unique_ptr<EnemyState> Break(EnemyComponent* snobee) override;
         std::unique_ptr<EnemyState> GetHit(EnemyComponent* snobee, GameObject* block) override;
+        std::unique_ptr<EnemyState> Reset(EnemyComponent* snobee, int) override;
 
     private:
+        bool m_IsDead = false;
     };
 }
 

@@ -20,7 +20,7 @@ namespace dae
 		WallComponent& operator=(WallComponent&& other) = delete;
 
 	private:
-		WallComponent(const glm::vec2& gridOfsett, const glm::vec2& gridSize, TextureComponent* vertWallTex, TextureComponent* horWallTex);
+		WallComponent(GameObject* owner, const glm::vec2& gridOfsett, const glm::vec2& gridSize, TextureComponent* vertWallTex, TextureComponent* horWallTex);
 		TextureComponent* m_VertWallTex;
 		TextureComponent* m_HorWallTex;
 

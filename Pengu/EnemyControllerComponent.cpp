@@ -10,6 +10,7 @@
 #include "PengoComponent.h"
 #include "EventArgs.h"
 #include <algorithm>
+#include <iostream>
 
 namespace dae
 {
@@ -58,7 +59,6 @@ namespace dae
 		else if (event.id == make_sdbm_hash("EnemyDied"))
 		{
 			++m_SnobeesDead;
-			--m_SnobeesAlive;
 		}
 
 	}
@@ -86,6 +86,8 @@ namespace dae
 
 	void EnemyControllerComponent::Update(float deltaTime)
 	{
+		if (m_Freeze)
+			return;
 		// attack / explore mode
 		m_TotalDT += deltaTime;
 		if (m_TotalDT > m_AttackInterval)
@@ -122,13 +124,12 @@ namespace dae
 		}
 
 		//spawning
-		while (m_SnobeesAlive < MAXIMUM_SNOBEES && m_SnobeesDead < 4)
+		while (m_Snobees.size() < MAXIMUM_SNOBEES && m_SnobeesDead < 4)
 		{
 			int idx = std::distance(m_GridLayoutPtr->begin(), std::find_if(m_GridLayoutPtr->begin(), m_GridLayoutPtr->end(), [](const Tile& tile) {return tile == Tile::Sno_Bee; }));
 			glm::vec3 pos = m_GridPtr->IdxToPoint(idx);
 			m_GridPtr->RequestBreak(pos, {});
 			SpawnEnemy(pos);
-			++m_SnobeesAlive;
 		}
 
 		// movement 
@@ -164,7 +165,7 @@ namespace dae
 
 			int nextIdx = m_GridPtr->PointToIdx(snobeePos + glm::vec3{ finalDirection.x * TILE_WIDTH, finalDirection.y * TILE_WIDTH,0.f });
 			
-			nextIdx = std::clamp(nextIdx, 0, 195);
+			nextIdx = std::clamp(nextIdx, 0, 194);
 			if (m_GridLayoutPtr->at(nextIdx) == Tile::Unbreakable || m_GridLayoutPtr->at(nextIdx) == Tile::Sno_Bee)
 			{
 				finalDirection = { -finalDirection.y,finalDirection.x,0.f };
@@ -172,6 +173,30 @@ namespace dae
 
 			m_Snobees[idx]->Move(finalDirection);
 			m_Snobees[idx]->Break();
+		}
+
+		int tileWidth{ 48 };
+		// pengo hitchecks
+		for (auto pengo : m_PengosPtr)
+		{
+			auto pengoPos = pengo->GetOwner()->GetWorldPosition();
+			for (auto snobee : m_Snobees)
+			{
+				auto snobeePos = snobee->GetOwner()->GetWorldPosition();
+
+				if (snobeePos.x >= pengoPos.x && snobeePos.x < pengoPos.x + tileWidth &&
+					snobeePos.y >= pengoPos.y && snobeePos.y < pengoPos.y + tileWidth)
+				{
+					pengo->Die();
+					++m_PengosDead;
+					if (m_PengosDead == static_cast<int>(m_PengosPtr.size()))
+					{
+						GetOwner()->NotifyObservers(Event{ make_sdbm_hash("PengoDied"), nullptr });
+						m_Freeze = true;
+					}
+				}
+
+			}
 		}
 	}
 
@@ -194,6 +219,32 @@ namespace dae
 
 	}
 
+	void EnemyControllerComponent::ResetEnemyPos()
+	{
+		for (int idx{}; idx < static_cast<int>(m_Snobees.size()); ++idx)
+		{
+			switch (idx % static_cast<int>(m_Snobees.size()))
+			{
+			case 0:
+			{
+				m_Snobees[idx]->Reset(0);
+			}
+			break;
+			case 1:
+			{
+				m_Snobees[idx]->Reset(12);
+			}
+			break;
+			case 2:
+			{
+				m_Snobees[idx]->Reset(182);
+			}
+			break;
+			}
+		}
+		m_PengosDead = 0;
+	}
+
 	void EnemyControllerComponent::AddPengo(PengoComponent* pengo)
 	{
 		m_PengosPtr.emplace_back(pengo);
@@ -214,8 +265,8 @@ namespace dae
 		m_PlayerControlled = playerControlled;
 	}
 
-	EnemyControllerComponent::EnemyControllerComponent(GridComponent* grid): 
-		m_GridPtr{grid}
+	EnemyControllerComponent::EnemyControllerComponent(GameObject* owner,GridComponent* grid): 
+		CppBehaviour{owner}, m_GridPtr{grid}
 	{
 
 	}

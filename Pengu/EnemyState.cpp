@@ -136,6 +136,13 @@ namespace dae
 		return std::make_unique<EnemySlidingState>();
 	}
 
+	std::unique_ptr<EnemyState> EnemyWalkingState::Reset(EnemyComponent* snobee, int idx)
+	{
+		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->IdxToPoint(idx));
+		m_TargetPosition = snobee->GetOwner()->GetWorldPosition();
+		return nullptr;
+	}
+
 	// Breaking State
 	//============================================================================================================================================================================================
 	void EnemyBreakingState::Enter(EnemyComponent* snobee)
@@ -248,6 +255,12 @@ namespace dae
 		return std::make_unique<EnemySlidingState>();
 	}
 
+	std::unique_ptr<EnemyState> EnemyBreakingState::Reset(EnemyComponent* snobee, int idx)
+	{
+		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->IdxToPoint(idx));
+		return std::make_unique<EnemyWalkingState>();
+	}
+
 	// Spawning State
 	//============================================================================================================================================================================================
 	void EnemySpawningState::Enter(EnemyComponent* snobee)
@@ -298,6 +311,12 @@ namespace dae
 		return std::make_unique<EnemySlidingState>();
 	}
 
+	std::unique_ptr<EnemyState> EnemySpawningState::Reset(EnemyComponent* snobee, int idx)
+	{
+		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->IdxToPoint(idx));
+		return std::make_unique<EnemyWalkingState>();
+	}
+
 	// Stunned State
 	//============================================================================================================================================================================================
 	void EnemyStunnedState::Enter(EnemyComponent* )
@@ -336,6 +355,12 @@ namespace dae
 		return std::make_unique<EnemySlidingState>();
 	}
 
+	std::unique_ptr<EnemyState> EnemyStunnedState::Reset(EnemyComponent* snobee, int idx)
+	{
+		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->IdxToPoint(idx));
+		return std::make_unique<EnemyWalkingState>();
+	}
+
 	// Sliding State
 	//============================================================================================================================================================================================
 	void EnemySlidingState::Enter(EnemyComponent* snobee)
@@ -347,8 +372,12 @@ namespace dae
 	{
 		if (!m_TilePtr->IsSliding())
 		{
-			snobee->GetOwner()->NotifyObservers(Event{make_sdbm_hash("EnemyDied"), nullptr});
-			snobee->GetOwner()->Destroy();
+			if(!m_IsDead)
+			{
+				snobee->GetOwner()->NotifyObservers(Event{ make_sdbm_hash("EnemyDied"), nullptr });
+				snobee->GetOwner()->Destroy();
+				m_IsDead = true;
+			}
 		}
 
 		return nullptr;
@@ -376,5 +405,10 @@ namespace dae
 	std::unique_ptr<EnemyState> EnemySlidingState::GetHit(EnemyComponent* , GameObject* )
 	{
 		return nullptr;
+	}
+	std::unique_ptr<EnemyState> EnemySlidingState::Reset(EnemyComponent* snobee, int idx)
+	{
+		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->IdxToPoint(idx));
+		return std::make_unique<EnemyWalkingState>();
 	}
 }

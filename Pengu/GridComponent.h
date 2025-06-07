@@ -34,7 +34,7 @@ namespace dae
 		GridComponent& operator=(GridComponent&& other) = delete;
 
 	private:
-		GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfset, WallComponent* walls);
+		GridComponent(GameObject* owner, int width, int height, int tileWidth, glm::vec2 gridOfset, WallComponent* walls);
 		const int WIDTH;
 		const int HEIGHT;
 		const int TILE_WIDTH;

@@ -426,7 +426,7 @@ namespace dae
 				idx % WIDTH == (WIDTH - 1) && direction.x > 0)								// pushing right against a block against the right wall
 			{
 				auto it = FindInVector(m_Blocks, idx);
-				if (it != m_Blocks.end() && it->second->Destroy()) 
+				if (it != m_Blocks.end() && it->second->Destroy(true)) 
 				{
 					m_GridPtr->at(idx) = Tile::Empty;
 					m_Blocks.erase(it);
@@ -546,8 +546,10 @@ namespace dae
 		}
 	}
 
-	GridComponent::GridComponent(int width, int height, int tileWidth, glm::vec2 gridOfset, WallComponent* walls):
-		WIDTH{width}, HEIGHT{height}, TILE_WIDTH{tileWidth}, GRID_OFSETT{ gridOfset }, m_Walls{ walls }
+	GridComponent::GridComponent(GameObject* owner, int width, int height, int tileWidth, glm::vec2 gridOfset, WallComponent* walls):
+		CppBehaviour{ owner }, WIDTH {
+		width
+	}, HEIGHT{ height }, TILE_WIDTH{ tileWidth }, GRID_OFSETT{ gridOfset }, m_Walls{ walls }
 	{
 		m_GridPtr = std::make_unique<std::vector<Tile>>();
 	}

@@ -21,6 +21,7 @@ namespace dae
         void Update(float deltaTime) override;
 
         void SpawnEnemy(const glm::vec2& position);
+        void ResetEnemyPos();
         void AddPengo(PengoComponent* pengo);
 
         void Move(const glm::vec3 direction);
@@ -28,7 +29,7 @@ namespace dae
         void PlayerControlled(bool playerControlled);
 
     private:
-        EnemyControllerComponent(GridComponent* grid);
+        EnemyControllerComponent(GameObject* owner,GridComponent* grid);
         static constexpr int TILE_WIDTH = 48;
         static constexpr int MAXIMUM_SNOBEES = 3;
 
@@ -40,7 +41,7 @@ namespace dae
         int m_AttackingSnobees = 0;
         int m_NextAttackingSnobees = 0;
         bool m_PlayerControlled = false;
-        int m_SnobeesAlive = 0;
+        bool m_Freeze = false;
         int m_SnobeesDead = 0;
         int m_PrevSnobeesDead = 0;
 
@@ -48,6 +49,7 @@ namespace dae
         float m_AttackInterval = 10.f;
 
         int m_ControlledSnobee = 0;
+        int m_PengosDead = 0;
 
     };
 }

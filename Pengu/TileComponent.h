@@ -15,7 +15,7 @@ namespace dae
 	public:
 		void Start() override;
 		void Slide(const glm::vec3& direction);
-		bool Destroy();
+		bool Destroy(bool pushedByPengo = false);
 		bool IsSliding();
 		bool IsBreaking();
 
@@ -28,7 +28,7 @@ namespace dae
 		TileComponent& operator=(TileComponent&& other) = delete;
 
 	private:
-		TileComponent(Tile tileType, float x, float y,  GridComponent* grid);
+		TileComponent(GameObject* owner, Tile tileType, float x, float y,  GridComponent* grid);
 		// sliding
 		GridComponent* m_GridPtr = nullptr;
 		glm::vec3 m_TargetPosition{FLT_MAX,FLT_MAX,0};

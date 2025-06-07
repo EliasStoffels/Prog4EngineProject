@@ -1,6 +1,6 @@
 #include "CppBehaviour.h"
 
-dae::CppBehaviour::CppBehaviour()
+dae::CppBehaviour::CppBehaviour(GameObject* owner) : m_OwningGameObject{owner}
 {
 }
 

@@ -65,8 +65,10 @@ namespace dae
 		break;
 		}
 	}
-	WallComponent::WallComponent(const glm::vec2& gridOfsett, const glm::vec2& gridSize, TextureComponent* vertWallTex, TextureComponent* horWallTex):
-		GRID_OFSETT{gridOfsett},GRID_SIZE{gridSize}, m_VertWallTex{vertWallTex}, m_HorWallTex{horWallTex}
+	WallComponent::WallComponent(GameObject* owner, const glm::vec2& gridOfsett, const glm::vec2& gridSize, TextureComponent* vertWallTex, TextureComponent* horWallTex):
+		CppBehaviour{ owner }, GRID_OFSETT {
+		gridOfsett
+	}, GRID_SIZE{ gridSize }, m_VertWallTex{ vertWallTex }, m_HorWallTex{ horWallTex }
 	{
 		m_VertWallTex->SetWidthAndHeight(WALL_WIDTH, GRID_SIZE.y + WALL_WIDTH*2);
 		m_VertWallTex->SetSourceRect(0,0,8,256);

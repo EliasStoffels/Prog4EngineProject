@@ -22,6 +22,7 @@ namespace dae
 		void SetRenderOfSet(const glm::vec3& ofsett);
 		void SetColor(const SDL_Color& color);
 		void SetColor(int r, int g, int b, int a = 255);
+		void SetActive(bool isActive);
 
 		glm::vec2 GetSize() const;
 
@@ -31,13 +32,14 @@ namespace dae
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
 	private:
-		TextComponent(std::shared_ptr<Font> font, const std::string text = "Default Text", glm::vec3 offset = glm::vec3{});
-		TextComponent();
+		TextComponent(GameObject* owner, std::shared_ptr<Font> font, const std::string text = "Default Text", glm::vec3 offset = glm::vec3{});
+		TextComponent(GameObject* owner);
 		bool m_needsUpdate;
 		std::string m_text;
 		std::shared_ptr<Font> m_font = nullptr;
 		std::shared_ptr<Texture2D> m_textTexture = nullptr;
 		glm::vec3 m_RenderOffset{};
 		SDL_Color m_Color = { 255,255,255,255 };
+		bool m_IsActive;
 	};
 }

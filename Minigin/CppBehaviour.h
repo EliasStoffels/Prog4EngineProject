@@ -30,7 +30,7 @@ namespace dae
 		void SetOwningGameObject(GameObject& owningGameObject);
 		bool m_StartWasCalled = false;
 	protected:
-		CppBehaviour();
+		CppBehaviour(GameObject* owner);
 		GameObject* m_OwningGameObject{ nullptr };
 	};
 }

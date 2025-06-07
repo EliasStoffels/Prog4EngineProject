@@ -7,8 +7,10 @@
 
 namespace dae
 {
-    PengoComponent::PengoComponent(float speed, GridComponent* grid)
-        : m_Speed{ speed }, m_GridPtr{ grid }, m_TexturePtr{nullptr}
+    PengoComponent::PengoComponent(GameObject* owner, float speed, GridComponent* grid)
+        : CppBehaviour{ owner }, m_Speed {
+        speed
+    }, m_GridPtr{ grid }, m_TexturePtr{ nullptr }
     {
         m_CurrentState = std::make_unique<PengoWalkingState>();
     }
@@ -37,6 +39,20 @@ namespace dae
     void PengoComponent::Push()
     {
         auto newState = m_CurrentState->OnPush(this);
+        if (newState)
+            ChangeState(std::move(newState));
+    }
+
+    void PengoComponent::Die()
+    {
+        auto newState = m_CurrentState->Die(this);
+        if (newState)
+            ChangeState(std::move(newState));
+    }
+
+    void PengoComponent::Respawn()
+    {
+        auto newState = m_CurrentState->Respawn(this);
         if (newState)
             ChangeState(std::move(newState));
     }

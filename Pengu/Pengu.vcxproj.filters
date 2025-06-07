@@ -84,6 +84,9 @@
     <ClCompile Include="UIObserver.cpp">
       <Filter>Source Files\ObserverCppFiles</Filter>
     </ClCompile>
+    <ClCompile Include="RespawnCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridComponent.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="UIObserver.h">
       <Filter>Header Files\ObserverHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="RespawnCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

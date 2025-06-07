@@ -49,6 +49,12 @@ void Scene::Update(float deltaTime)
 	auto removeIter = std::remove_if(m_objects.begin(), m_objects.end(),
 		[](const std::shared_ptr <GameObject>& object) { return object->pendingRemove; });
 	m_objects.erase(removeIter, m_objects.end());
+
+	if (m_NeedsSort)
+	{
+		std::sort(m_objects.begin(), m_objects.end(), [](const std::shared_ptr <GameObject>& object1, const std::shared_ptr <GameObject>& object2) { return object1->GetWorldPosition().z < object2->GetWorldPosition().z; });
+		m_NeedsSort = false;
+	}
 }
 
 void dae::Scene::FixedUpdate(float fixedTime)
@@ -61,6 +67,7 @@ void dae::Scene::FixedUpdate(float fixedTime)
 
 void Scene::Render() const
 {
+
 	for (const auto& object : m_objects)
 	{
 		object->Render();
@@ -73,5 +80,10 @@ void dae::Scene::UnloadScene()
 	{
 		object->pendingRemove = true;
 	}
+}
+
+void dae::Scene::SetSortDirty()
+{
+	m_NeedsSort = true;
 }
 

@@ -5,15 +5,15 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 
-dae::TextComponent::TextComponent(std::shared_ptr<Font> font, const std::string text, glm::vec3 offset)
-	: m_needsUpdate(true), m_textTexture(nullptr), m_RenderOffset{ offset }
+dae::TextComponent::TextComponent(GameObject* owner, std::shared_ptr<Font> font, const std::string text, glm::vec3 offset)
+	:CppBehaviour{ owner }, m_needsUpdate(true), m_textTexture(nullptr), m_RenderOffset{ offset }
 {
 	SetFont(font);
 	SetText(text);
 }
 
-dae::TextComponent::TextComponent()
-	: m_needsUpdate(true), m_textTexture(nullptr)
+dae::TextComponent::TextComponent(GameObject* owner)
+	: CppBehaviour{ owner }, m_needsUpdate(true), m_textTexture(nullptr)
 {
 }
 
@@ -39,7 +39,7 @@ void dae::TextComponent::Update(float)
 
 void dae::TextComponent::Render() const
 {
-	if (m_textTexture != nullptr)
+	if (m_textTexture != nullptr && m_IsActive)
 	{
 		const auto& pos = m_OwningGameObject->GetTransform()->GetWorldPosition() + m_RenderOffset;
 		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
@@ -64,6 +64,11 @@ void dae::TextComponent::SetColor(const SDL_Color& color)
 void dae::TextComponent::SetColor(int r, int g, int b, int a)
 {
 	m_Color = SDL_Color{ static_cast<unsigned char>(r),static_cast<unsigned char>(g),static_cast<unsigned char>(b),static_cast<unsigned char>(a) };
+}
+
+void dae::TextComponent::SetActive(bool isActive)
+{
+	m_IsActive = isActive;
 }
 
 glm::vec2 dae::TextComponent::GetSize() const

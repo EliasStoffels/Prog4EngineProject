@@ -35,6 +35,7 @@
 #include "BreakCommand.h"
 #include "EnemyControllerComponent.h"
 #include "StartCommand.h"
+#include "RespawnCommand.h"
 
 void LoadPengo()
 {
@@ -84,16 +85,8 @@ void LoadPengo()
 	
 	// dynamic ui
 	go = std::make_shared<dae::GameObject>();
-	auto textScore = go->AddComponent<dae::TextComponent>(font);
-	textScore->SetRenderOfSet(glm::vec3{ 220,2,0 });
-	auto textureSnobeeEggs = go->AddComponent<dae::TextureComponent>();
-	textureSnobeeEggs->SetTexture("Misc.png");
-	textureSnobeeEggs->SetWidthAndHeight(18, 18);
-	textureSnobeeEggs->SetSourceRect(80,82,8,8);
-	textureSnobeeEggs->SetRepeats(6);
-	textureSnobeeEggs->SetRepeatOfsett(glm::vec3{-20,0,0});
-	textureSnobeeEggs->SetRenderOfsett(glm::vec3{ 400,60,0 });
-	auto uiObserver = go->AddComponent<dae::UIObserverComponent>(textureSnobeeEggs,textScore);
+	auto uiObserver = go->AddComponent<dae::UIObserverComponent>();
+	go->SetLocalPosition(0, 0, 1000); // put infornt of everything
 	scene.Add(go);
 
 	//pengo
@@ -104,10 +97,10 @@ void LoadPengo()
 	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
 	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
 	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
@@ -123,6 +116,10 @@ void LoadPengo()
 	enemyController->PlayerControlled(false);
 	go->AddObserver(uiObserver);
 	scene.Add(go);
+
+
+	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC, enemyController);
+	input.AddBinding<dae::RespawnCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0, pengoC, enemyController);
 
 	//load
 	gridC->LoadLevel(enemyController, 4);

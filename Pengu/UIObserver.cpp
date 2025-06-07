@@ -3,16 +3,60 @@
 #include "TextComponent.h"
 #include "EventArgs.h"
 #include "TextureComponent.h"
+#include <iostream>
+#include "GameStateManager.h"
+#include "ResourceManager.h"
 
 namespace dae
 {
-	UIObserverComponent::UIObserverComponent(TextureComponent* livesTexture, TextComponent* pointsText) : m_TextureLives{livesTexture}, m_TextPoints{pointsText}
+	UIObserverComponent::UIObserverComponent(GameObject* owner) :CppBehaviour{ owner }
 	{
+		auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
+		m_TextPoints = GetOwner()->AddComponent<dae::TextComponent>(font);
+		m_TextPoints->SetRenderOfSet(glm::vec3{ 220,2,0 });
+
+		m_TextRespawn = GetOwner()->AddComponent<dae::TextComponent>(font);
+		m_TextRespawn->SetText("Player 1 Ready");
+		m_TextRespawn->SetRenderOfSet(glm::vec3{ 336,389,0 });
+		m_TextRespawn->SetActive(false);
+
+		m_TextureLives = GetOwner()->AddComponent<dae::TextureComponent>();
+		m_TextureLives->SetTexture("Misc.png");
+		m_TextureLives->SetWidthAndHeight(18, 18);
+		m_TextureLives->SetSourceRect(80, 82, 8, 8);
+		m_TextureLives->SetRepeats(6);
+		m_TextureLives->SetRepeatOfsett(glm::vec3{ -20,0,0 });
+		m_TextureLives->SetRenderOfsett(glm::vec3{ 400,60,0 });
+
+		m_TextureBlack = GetOwner()->AddComponent<TextureComponent>();
+		m_TextureBlack->SetTexture("BlackBG.png");
+		m_TextureBlack->SetWidthAndHeight(672, 0);
+		m_TextureBlack->SetSourceRect(100, 100, 10, 10);
+		m_TextureBlack->SetRenderOfsett(glm::vec3{ 0,82,0 });
+		m_TextureBlack->IsActive(false);
 	}
 
 	void UIObserverComponent::Start()
 	{
 		m_TextPoints->SetText("0");
+	}
+
+	void UIObserverComponent::Update(float deltaTime)
+	{
+		if (m_PlayersDied)
+		{
+			m_TotalDT += deltaTime;
+			if (m_TotalDT > BLACK_SCREEN_DELAY )
+			{
+				m_BlackScreenHeight += deltaTime * 400;
+				m_TextureBlack->SetWidthAndHeight(672, m_BlackScreenHeight);
+
+			}
+			if (m_BlackScreenHeight > 768)
+			{
+				m_TextRespawn->SetActive(true);
+			}
+		}
 	}
 
 	void UIObserverComponent::Notify(const Event& event, GameObject*)
@@ -29,6 +73,12 @@ namespace dae
 			m_TextPoints->SetText(std::to_string(m_Score));
 			m_TextPoints->SetRenderOfSet(glm::vec3{ 210 - m_TextPoints->GetSize().x , 2, 0 });
 
+		}
+		else if (event.id == make_sdbm_hash("PengoDied"))
+		{
+			GameStateManager::GetInstance().playersDead = true;
+			m_TextureBlack->IsActive(true);
+			m_PlayersDied = true;
 		}
 	}
 }

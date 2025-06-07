@@ -12,6 +12,7 @@ namespace dae
 
 	public:
 		void Start() override;
+		void Update(float deltaTime) override;
 		virtual void Notify(const Event& event, GameObject* object);
 
 		virtual ~UIObserverComponent() = default;
@@ -21,13 +22,18 @@ namespace dae
 		UIObserverComponent& operator=(UIObserverComponent&& other) = delete;
 
 	private:
-		UIObserverComponent();
-		UIObserverComponent(TextureComponent* livesTexture, TextComponent* pointsText);
+		UIObserverComponent(GameObject* owner);
 		int m_CharacterHealth = 3;
 		TextureComponent* m_TextureLives = nullptr;
+		TextureComponent* m_TextureBlack = nullptr;
 		TextComponent* m_TextPoints = nullptr;
+		TextComponent* m_TextRespawn = nullptr;
 		int m_SnobeeEggs = 6;
 		int m_Score = 0;
+		bool m_PlayersDied = false;
+		float m_BlackScreenHeight = 0.f;
+		float m_TotalDT = 0.f;
+		const float BLACK_SCREEN_DELAY = 1.5f;
 	};
 }
 

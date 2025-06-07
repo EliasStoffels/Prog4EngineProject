@@ -5,8 +5,8 @@
 
 namespace dae
 {
-	EnemyComponent::EnemyComponent(float speed, GridComponent* grid)
-		: m_Speed{ speed }, m_GridPtr{ grid }, m_TexturePtr{ nullptr }
+	EnemyComponent::EnemyComponent(GameObject* owner, float speed, GridComponent* grid)
+		: CppBehaviour{owner}, m_Speed {speed}, m_GridPtr{ grid }, m_TexturePtr{ nullptr }
 	{
 		m_CurrentState = std::make_unique<EnemySpawningState>();
 	}
@@ -39,6 +39,12 @@ namespace dae
 	void EnemyComponent::GetHit(GameObject* block)
 	{
 		auto newState = m_CurrentState->GetHit(this, block);
+		if (newState)
+			ChangeState(std::move(newState));
+	}
+	void EnemyComponent::Reset(int idx)
+	{
+		auto newState = m_CurrentState->Reset(this, idx);
 		if (newState)
 			ChangeState(std::move(newState));
 	}

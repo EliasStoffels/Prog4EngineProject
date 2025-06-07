@@ -18,6 +18,7 @@ namespace dae
 		void FixedUpdate(float fixedTime);
 		void Render() const;
 		void UnloadScene();
+		void SetSortDirty();
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -27,7 +28,8 @@ namespace dae
 
 		bool startCalled = false;
 		std::string name;
-	private: 
+	private:
+		bool m_NeedsSort = true;
 		explicit Scene(const std::string& name);
 
 		std::vector < std::shared_ptr<GameObject>> m_objects{};

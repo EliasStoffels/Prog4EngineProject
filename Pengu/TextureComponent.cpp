@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include <iostream>
 
-dae::TextureComponent::TextureComponent()
+dae::TextureComponent::TextureComponent(GameObject* owner) : CppBehaviour{owner}
 {
 }
 

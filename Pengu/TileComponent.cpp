@@ -5,8 +5,10 @@
 
 namespace dae
 {
-	TileComponent::TileComponent(Tile tileType, float x, float y, GridComponent* grid):
-		m_Pos{x,y,0}, FRAME_DELAY{0.1f}, m_BlockState{BlockState::Still}, m_TileType{tileType}, m_GridPtr{grid}, m_SlideSpeed{700.f}
+	TileComponent::TileComponent(GameObject* owner, Tile tileType, float x, float y, GridComponent* grid):
+		CppBehaviour{ owner }, m_Pos {
+		x, y, 0
+	}, FRAME_DELAY{ 0.1f }, m_BlockState{ BlockState::Still }, m_TileType{ tileType }, m_GridPtr{ grid }, m_SlideSpeed{ 700.f }
 	{
 	}
 
@@ -21,7 +23,7 @@ namespace dae
 		m_SlideDirection = direction;
 	}
 
-	bool TileComponent::Destroy()
+	bool TileComponent::Destroy(bool pushedByPengo)
 	{
 		if (m_TileType != Tile::Unbreakable)
 		{
@@ -30,6 +32,9 @@ namespace dae
 				m_Texture->SetSourceRect(0, 48);
 			m_TotalDT = 0.f;
 			m_CurrentFrame = 0;
+			if(pushedByPengo)
+				m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("EnemyDied"), nullptr });
+
 			return true;
 		}
 		return false;

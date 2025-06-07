@@ -92,9 +92,19 @@ namespace dae
         }
     }
 
-    void PengoWalkingState::Exit(PengoComponent* pengo)
+    void PengoWalkingState::Exit(PengoComponent* )
     {
-        pengo->GetOwner()->SetLocalPosition(m_TargetPosition - pengo->GetOwner()->GetWorldPosition() + pengo->GetOwner()->GetLocalPosition());
+        //pengo->GetOwner()->SetLocalPosition(m_TargetPosition - pengo->GetOwner()->GetWorldPosition() + pengo->GetOwner()->GetLocalPosition());
+    }
+
+    std::unique_ptr<PengoState> PengoWalkingState::Die(PengoComponent* )
+    {
+        return std::make_unique<PengoDyingState>();
+    }
+
+    std::unique_ptr<PengoState> PengoWalkingState::Respawn(PengoComponent* )
+    {
+        return nullptr;
     }
 
     std::unique_ptr<PengoState> PengoWalkingState::OnMove(PengoComponent* pengo)
@@ -198,6 +208,16 @@ namespace dae
     {
     }
 
+    std::unique_ptr<PengoState> PengoPushingState::Die(PengoComponent* )
+    {
+        return std::make_unique<PengoDyingState>();
+    }
+
+    std::unique_ptr<PengoState> PengoPushingState::Respawn(PengoComponent* )
+    {
+        return nullptr;
+    }
+
     std::unique_ptr<PengoState>  PengoPushingState::OnMove(PengoComponent* )
     {
         return nullptr;
@@ -210,22 +230,45 @@ namespace dae
 
     // Dying State
     //============================================================================================================================================================================================
-    void PengoDyingState::Enter(PengoComponent* )
+    void PengoDyingState::Enter(PengoComponent* pengo)
     {
-        // Setup dying animation
+        m_TexturePtr = pengo->GetTexture();
+        m_Direction = pengo->GetDirection();
+        m_TexturePtr->SetSourceRect(0,32);
     }
 
-    std::unique_ptr<PengoState>  PengoDyingState::Update(PengoComponent* , float )
+    std::unique_ptr<PengoState>  PengoDyingState::Update(PengoComponent* pengo , float deltaTime)
     {
+        Animate(pengo, deltaTime);
         return nullptr;
     }
 
-    void PengoDyingState::Animate(PengoComponent*, float )
+    void PengoDyingState::Animate(PengoComponent* , float deltaTime)
     {
+        m_TotalDT += deltaTime;
+        if (m_TotalDT > FRAME_DELAY)
+        {
+            m_TotalDT -= FRAME_DELAY;
+            ++m_CurrentFrame;
+
+            int currentFrameOffset = 16 * (m_CurrentFrame % 2);
+            m_TexturePtr->SetSourceRect(currentFrameOffset, 32);
+        }
     }
 
     void PengoDyingState::Exit(PengoComponent* )
     {
+    }
+
+    std::unique_ptr<PengoState> PengoDyingState::Die(PengoComponent*)
+    {
+        return nullptr;
+    }
+
+    std::unique_ptr<PengoState> PengoDyingState::Respawn(PengoComponent* pengo)
+    {
+        pengo->GetOwner()->SetLocalPosition(pengo->GetGrid()->PointToGridPos(pengo->GetOwner()->GetWorldPosition()));
+        return std::make_unique<PengoWalkingState>();
     }
 
     std::unique_ptr<PengoState>  PengoDyingState::OnMove(PengoComponent* )
