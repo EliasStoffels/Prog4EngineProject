@@ -342,7 +342,7 @@ void LoadScoreScene()
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("L bozo");
 	text->SetColor(255, 255, 0);
-	go->SetLocalPosition(196, 396, 1000);
+	go->SetLocalPosition(196, 396, FLT_MAX);
 	scene.Add(go);
 }
 

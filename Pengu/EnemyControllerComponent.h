@@ -34,7 +34,6 @@ namespace dae
         static constexpr int MAXIMUM_SNOBEES = 3;
 
         std::vector<EnemyComponent*> m_Snobees;
-        std::vector<EnemyComponent*> m_SnobeesToRemove;
         std::vector<Tile>* m_GridLayoutPtr = nullptr;
         GridComponent* m_GridPtr;
         std::vector<PengoComponent*> m_PengosPtr;

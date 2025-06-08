@@ -24,7 +24,7 @@ namespace dae
 			int leeWay{ 4 };
 			tileWidth -= leeWay;
 
-			
+			std::vector<EnemyComponent*> snobeesToRemove;
 
 			for (auto snobee : m_Snobees)
 			{
@@ -48,7 +48,7 @@ namespace dae
 				{
 					snobee->GetHit(gameObject);
 					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(tileWidth));
-					m_SnobeesToRemove.push_back(snobee);
+					snobeesToRemove.push_back(snobee);
 				}
 			}
 
@@ -56,8 +56,8 @@ namespace dae
 				std::remove_if(
 					m_Snobees.begin(),
 					m_Snobees.end(),
-					[this](EnemyComponent* snobee) {
-						return std::find(m_SnobeesToRemove.begin(), m_SnobeesToRemove.end(), snobee) != m_SnobeesToRemove.end();
+					[&snobeesToRemove](EnemyComponent* snobee) {
+						return std::find(snobeesToRemove.begin(), snobeesToRemove.end(), snobee) != snobeesToRemove.end();
 					}),
 				m_Snobees.end()
 			);
