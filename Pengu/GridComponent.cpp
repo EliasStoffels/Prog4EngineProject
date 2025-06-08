@@ -9,6 +9,7 @@
 #include "WallComponent.h"
 #include <random>
 #include "EnemyControllerComponent.h"
+#include "GameStateManager.h"
 
 namespace dae
 {
@@ -311,7 +312,7 @@ namespace dae
 		}
 
 		file.close();
-
+		GameStateManager::GetInstance().StartLevel();
 	}
 
 	glm::vec3 GridComponent::RequestMove(const glm::vec3& currentPos,const glm::vec3& direction, bool isBlock)

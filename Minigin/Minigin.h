@@ -10,7 +10,7 @@ namespace dae
 		explicit Minigin(const std::string& dataPath, int x, int y);
 		~Minigin();
 		void RunOneFrame();
-		void Run(const std::function<void()>& load);
+		void Run(const std::string& scene);
 
 		Minigin(const Minigin& other) = delete;
 		Minigin(Minigin&& other) = delete;

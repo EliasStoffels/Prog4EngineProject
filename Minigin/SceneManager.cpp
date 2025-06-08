@@ -93,7 +93,6 @@ void dae::SceneManager::LoadScene(const std::string& name)
 
 void dae::SceneManager::Start()
 {
-	m_CurrentScene = m_scenes[0].get();
 	m_CurrentScene->startCalled = true;
 	m_CurrentScene->Start();
 	/*for (const auto& scene : m_scenes)

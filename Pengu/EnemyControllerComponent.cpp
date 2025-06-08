@@ -68,6 +68,9 @@ namespace dae
 			++m_SnobeesDead;
 			if(gameObject->GetParent()) // if it has a parent that means it died from a block being pushed onto it
 				--m_SnobeesAlive;
+			else
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("SnobeeHatched"), nullptr });
+
 			if (m_SnobeesDead == 6)
 			{
 				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("LevelWon"), nullptr });
