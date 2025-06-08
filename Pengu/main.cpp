@@ -36,6 +36,7 @@
 #include "EnemyControllerComponent.h"
 #include "StartCommand.h"
 #include "RespawnCommand.h"
+#include "GameStateManager.h"
 
 void LoadPengo()
 {
@@ -115,6 +116,7 @@ void LoadPengo()
 	enemyController->AddPengo(pengoC);
 	enemyController->PlayerControlled(false);
 	enemies->AddObserver(uiObserver);
+	enemies->AddObserver(&dae::GameStateManager::GetInstance());
 	scene.Add(enemies);
 
 
@@ -330,12 +332,27 @@ void LoadMain()
 
 }
 
+void LoadScoreScene()
+{
+	auto& scene = dae::SceneManager::GetInstance().GetScene("ScoreScene");
+
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
+
+	auto go = std::make_shared<dae::GameObject>();
+	auto text = go->AddComponent<dae::TextComponent>(font);
+	text->SetText("L bozo");
+	text->SetColor(255, 255, 0);
+	go->SetLocalPosition(196, 396, 1000);
+	scene.Add(go);
+}
+
 int main(int, char* []) {
 
 	dae::SceneManager::GetInstance().CreateScene("Main", LoadMain);
 	dae::SceneManager::GetInstance().CreateScene("Pengo", LoadPengo);
 	dae::SceneManager::GetInstance().CreateScene("Versus", LoadVersus);
 	dae::SceneManager::GetInstance().CreateScene("Coop", LoadCoop);
+	dae::SceneManager::GetInstance().CreateScene("ScoreScene", LoadScoreScene);
 
 	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::MixerSoundSystem>());
 

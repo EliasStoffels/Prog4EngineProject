@@ -34,6 +34,7 @@ namespace dae
         static constexpr int MAXIMUM_SNOBEES = 3;
 
         std::vector<EnemyComponent*> m_Snobees;
+        std::vector<EnemyComponent*> m_SnobeesToRemove;
         std::vector<Tile>* m_GridLayoutPtr = nullptr;
         GridComponent* m_GridPtr;
         std::vector<PengoComponent*> m_PengosPtr;
@@ -43,6 +44,7 @@ namespace dae
         bool m_PlayerControlled = false;
         bool m_Freeze = false;
         int m_SnobeesDead = 0;
+        int m_SnobeesAlive = 0;
         int m_PrevSnobeesDead = 0;
 
         float m_TotalDT = 0.f;

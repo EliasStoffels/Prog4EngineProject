@@ -24,7 +24,7 @@ namespace dae
 			int leeWay{ 4 };
 			tileWidth -= leeWay;
 
-			std::vector<EnemyComponent*> snobeesToRemove;
+			
 
 			for (auto snobee : m_Snobees)
 			{
@@ -48,7 +48,7 @@ namespace dae
 				{
 					snobee->GetHit(gameObject);
 					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(tileWidth));
-					snobeesToRemove.push_back(snobee);
+					m_SnobeesToRemove.push_back(snobee);
 				}
 			}
 
@@ -56,15 +56,22 @@ namespace dae
 				std::remove_if(
 					m_Snobees.begin(),
 					m_Snobees.end(),
-					[&snobeesToRemove](EnemyComponent* snobee) {
-						return std::find(snobeesToRemove.begin(), snobeesToRemove.end(), snobee) != snobeesToRemove.end();
+					[this](EnemyComponent* snobee) {
+						return std::find(m_SnobeesToRemove.begin(), m_SnobeesToRemove.end(), snobee) != m_SnobeesToRemove.end();
 					}),
 				m_Snobees.end()
 			);
+			
 		}
 		else if (event.id == make_sdbm_hash("EnemyDied"))
 		{
 			++m_SnobeesDead;
+			if(gameObject->GetParent()) // if it has a parent that means it died from a block being pushed onto it
+				--m_SnobeesAlive;
+			if (m_SnobeesDead == 6)
+			{
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("LevelWon"), nullptr });
+			}
 		}
 		else if (event.id == make_sdbm_hash("Respawn"))
 		{
@@ -135,11 +142,13 @@ namespace dae
 		}
 
 		//spawning
-		while (m_Snobees.size() < MAXIMUM_SNOBEES && m_SnobeesDead < 4)
+		while (m_SnobeesAlive < MAXIMUM_SNOBEES && m_SnobeesDead < 4)
 		{
+			std::cout << "spawned enemy\n";
 			int idx = std::distance(m_GridLayoutPtr->begin(), std::find_if(m_GridLayoutPtr->begin(), m_GridLayoutPtr->end(), [](const Tile& tile) {return tile == Tile::Sno_Bee; }));
 			glm::vec3 pos = m_GridPtr->IdxToPoint(idx);
 			m_GridPtr->RequestBreak(pos, {});
+			++m_SnobeesAlive;
 			SpawnEnemy(pos);
 		}
 
