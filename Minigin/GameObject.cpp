@@ -4,11 +4,15 @@
 #include "Renderer.h"
 
 
+dae::GameObject::GameObject()
+{
+	m_transform.m_childObjects = &m_childObjects;
+}
+
 dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Start()
 {
-	m_transform.m_childObjects = &m_childObjects;
 	for (const auto& component : m_OwnedComponents)
 	{
 		component->m_StartWasCalled = true;
@@ -18,7 +22,6 @@ void dae::GameObject::Start()
 
 void dae::GameObject::Update(float deltaTime)
 {
-
 	for (const auto& component : m_OwnedComponents)
 	{
 		if (!component->m_StartWasCalled)

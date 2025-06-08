@@ -344,6 +344,12 @@ namespace dae
 				return false;
 			};
 
+		if (idx > static_cast<int>(m_GridPtr->size() - 1) || idx < 0)
+		{
+			return currentPos;
+		}
+
+
 		if (m_GridPtr->at(idx) == Tile::Empty || (isBlock && blockBreakingCheck()))
 		{
 			if (isBlock)

@@ -50,6 +50,9 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name, const std::f
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	m_scenes.push_back(scene);
 	m_SceneLoaders.push_back(load);
+	if (!m_CurrentScene)
+		m_CurrentScene = scene.get();
+
 	return *scene;
 }
 

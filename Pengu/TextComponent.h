@@ -40,6 +40,6 @@ namespace dae
 		std::shared_ptr<Texture2D> m_textTexture = nullptr;
 		glm::vec3 m_RenderOffset{};
 		SDL_Color m_Color = { 255,255,255,255 };
-		bool m_IsActive;
+		bool m_IsActive = true;
 	};
 }

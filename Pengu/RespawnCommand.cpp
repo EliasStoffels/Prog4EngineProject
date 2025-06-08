@@ -2,19 +2,21 @@
 #include "PengoComponent.h"
 #include "EnemyControllerComponent.h"
 #include "GameStateManager.h"
+#include <iostream>
 
 namespace dae
 {
-	RespawnCommand::RespawnCommand(PengoComponent* pengo, EnemyControllerComponent* enemyController) : m_PengoPtr{pengo}, m_EnemyControllerPtr{enemyController}
+	RespawnCommand::RespawnCommand(GameObject* gameObject) : GameObjectCommand{gameObject}
 	{
 	}
 	void RespawnCommand::Execute()
 	{
 		if (m_buttonState.ReleasedThisFrame && GameStateManager::GetInstance().playersDead)
 		{
-			m_PengoPtr->Respawn();
-			m_EnemyControllerPtr->ResetEnemyPos();
-			GameStateManager::GetInstance().playersDead = false;
+			GetGameObject()->NotifyObservers(Event{ make_sdbm_hash("Respawn"), nullptr });
+			/*m_PengoPtr->Respawn();
+			m_EnemyControllerPtr->ResetEnemyPos();*/
+			std::cout << "respawn\n";
 		}
 	}
 }

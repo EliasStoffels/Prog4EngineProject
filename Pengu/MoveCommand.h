@@ -12,11 +12,11 @@ namespace dae
     class PengoComponent;
 
     template <typename T>
-    class MoveCommand : public GameObjectCommand
+    class MoveCommand : public Command
     {
     public:
         template <typename T>
-        MoveCommand(GameObject* gameObject, const glm::vec3& direction, T* character) : GameObjectCommand{ gameObject }, m_Direction{ direction }, m_Character{ character } {}
+        MoveCommand(const glm::vec3& direction, T* character) : m_Direction{ direction }, m_Character{ character } {}
         void Execute() override
         {
             m_Character->Move(m_Direction);

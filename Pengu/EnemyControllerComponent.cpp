@@ -11,6 +11,7 @@
 #include "EventArgs.h"
 #include <algorithm>
 #include <iostream>
+#include "GameStateManager.h"
 
 namespace dae
 {
@@ -19,29 +20,34 @@ namespace dae
 		if (event.id == make_sdbm_hash("TileMoved"))
 		{
 			TileMoveArg* args = reinterpret_cast<TileMoveArg*>(event.arg);
-
 			int tileWidth{ 48 };
+			int leeWay{ 4 };
+			tileWidth -= leeWay;
 
 			std::vector<EnemyComponent*> snobeesToRemove;
 
 			for (auto snobee : m_Snobees)
 			{
-				glm::vec3 snobeePos = snobee->GetOwner()->GetWorldPosition();
-				glm::vec3 nextTilePos = args->position + args->direction;
+				glm::vec3 snobeePos = snobee->GetOwner()->GetWorldPosition() + glm::vec3{ leeWay/2,leeWay/2,0 };
+				glm::vec3 nextTilePos = args->position + args->direction + glm::vec3{ leeWay/2,leeWay/2,0 };
 				glm::vec3 currentTilePos = args->position;
 
-				bool isOnCurrentTile =
-					(snobeePos.x >= currentTilePos.x && snobeePos.x < currentTilePos.x + tileWidth &&
-						snobeePos.y >= currentTilePos.y && snobeePos.y < currentTilePos.y + tileWidth);
+				/*bool isOnCurrentTile =
+					(snobeePos.x < currentTilePos.x + tileWidth &&
+					snobeePos.x + tileWidth > currentTilePos.x &&
+					snobeePos.y < currentTilePos.y + tileWidth &&
+					snobeePos.y + tileWidth > currentTilePos.y);*/
 
 				bool isOnNextTile =
-					(snobeePos.x >= nextTilePos.x && snobeePos.x < nextTilePos.x + tileWidth &&
-						snobeePos.y >= nextTilePos.y && snobeePos.y < nextTilePos.y + tileWidth);
+					(snobeePos.x < nextTilePos.x + tileWidth &&
+					snobeePos.x + tileWidth > nextTilePos.x &&
+					snobeePos.y < nextTilePos.y + tileWidth &&
+					snobeePos.y + tileWidth > nextTilePos.y);
 
-				if (isOnCurrentTile || isOnNextTile)
+				if (/*isOnCurrentTile || */isOnNextTile)
 				{
 					snobee->GetHit(gameObject);
-					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(TILE_WIDTH));
+					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(tileWidth));
 					snobeesToRemove.push_back(snobee);
 				}
 			}
@@ -60,7 +66,11 @@ namespace dae
 		{
 			++m_SnobeesDead;
 		}
-
+		else if (event.id == make_sdbm_hash("Respawn"))
+		{
+			ResetEnemyPos();
+			m_Freeze = false;
+		}
 	}
 	
 	void EnemyControllerComponent::Start()
@@ -86,8 +96,9 @@ namespace dae
 
 	void EnemyControllerComponent::Update(float deltaTime)
 	{
-		if (m_Freeze)
+		if (m_Freeze || GameStateManager::GetInstance().playersDead)
 			return;
+
 		// attack / explore mode
 		m_TotalDT += deltaTime;
 		if (m_TotalDT > m_AttackInterval)
@@ -176,16 +187,22 @@ namespace dae
 		}
 
 		int tileWidth{ 48 };
+		int leeWay{ 4 };
+		tileWidth -= leeWay;
+
 		// pengo hitchecks
 		for (auto pengo : m_PengosPtr)
 		{
-			auto pengoPos = pengo->GetOwner()->GetWorldPosition();
+			auto pengoPos = pengo->GetOwner()->GetWorldPosition() + glm::vec3{ leeWay / 2,leeWay / 2,0 };
+
 			for (auto snobee : m_Snobees)
 			{
-				auto snobeePos = snobee->GetOwner()->GetWorldPosition();
+				auto snobeePos = snobee->GetOwner()->GetWorldPosition() + glm::vec3{ leeWay / 2,leeWay / 2,0 };
 
-				if (snobeePos.x >= pengoPos.x && snobeePos.x < pengoPos.x + tileWidth &&
-					snobeePos.y >= pengoPos.y && snobeePos.y < pengoPos.y + tileWidth)
+				if (pengoPos.x < snobeePos.x + tileWidth &&
+					pengoPos.x + tileWidth > snobeePos.x &&
+					pengoPos.y < snobeePos.y + tileWidth &&
+					pengoPos.y + tileWidth > snobeePos.y)
 				{
 					pengo->Die();
 					++m_PengosDead;
@@ -194,8 +211,8 @@ namespace dae
 						GetOwner()->NotifyObservers(Event{ make_sdbm_hash("PengoDied"), nullptr });
 						m_Freeze = true;
 					}
+					break; 
 				}
-
 			}
 		}
 	}
@@ -211,7 +228,7 @@ namespace dae
 		textureMovable->SetWidthAndHeight(static_cast<float>(TILE_WIDTH), static_cast<float>(TILE_WIDTH));
 		auto enemyC = go->AddComponent<dae::EnemyComponent>(150.f, m_GridPtr);
 		m_Snobees.emplace_back(enemyC);
-		go->SetLocalPosition(position.x,position.y);
+		go->SetLocalPosition(position.x,position.y, 10);
 		go->AddObserver(this);
 		scene.Add(go);
 

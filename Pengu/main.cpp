@@ -52,74 +52,81 @@ void LoadPengo()
 	//auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
 	//background
-	auto go = std::make_shared<dae::GameObject>();
-	dae::TextureComponent* textureC1 = go->AddComponent<dae::TextureComponent>();
+	auto background = std::make_shared<dae::GameObject>();
+	dae::TextureComponent* textureC1 = background->AddComponent<dae::TextureComponent>();
 	textureC1->SetTexture("BlackBG.png");
 	textureC1->SetWidthAndHeight(672, 768);
-	go->SetLocalPosition(0, 82);
-	scene.Add(go);
+	background->SetLocalPosition(0, 82);
+	scene.Add(background);
 
 	//walls
-	go = std::make_shared<dae::GameObject>();
-	auto vertWallTex = go->AddComponent<dae::TextureComponent>();
+	auto walls = std::make_shared<dae::GameObject>();
+	auto vertWallTex = walls->AddComponent<dae::TextureComponent>();
 	vertWallTex->SetTexture("VerticalWallTex.png");
 	vertWallTex->IsActive(false);
-	auto horWallTex = go->AddComponent<dae::TextureComponent>();
+	auto horWallTex = walls->AddComponent<dae::TextureComponent>();
 	horWallTex->SetTexture("HorizontalWallTex.png");
 	horWallTex->IsActive(false);
-	auto wallComp = go->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
-	scene.Add(go);
+	auto wallComp = walls->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
+	scene.Add(walls);
 
 	//grid
-	go = std::make_shared<dae::GameObject>();
-	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT, wallComp);
+	auto grid = std::make_shared<dae::GameObject>();
+	auto gridC = grid->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT, wallComp);
 	//gridC->SaveLevel();
-	scene.Add(go);
+	scene.Add(grid);
 
 	//static ui
-	go = std::make_shared<dae::GameObject>();
-	dae::TextureComponent* textureSaticUi = go->AddComponent<dae::TextureComponent>();
+	auto staticUi = std::make_shared<dae::GameObject>();
+	dae::TextureComponent* textureSaticUi = staticUi->AddComponent<dae::TextureComponent>();
 	textureSaticUi->SetTexture("StaticUi.png");
 	textureSaticUi->SetWidthAndHeight(672, 20);
-	scene.Add(go);
+	scene.Add(staticUi);
 	
 	// dynamic ui
-	go = std::make_shared<dae::GameObject>();
-	auto uiObserver = go->AddComponent<dae::UIObserverComponent>();
-	go->SetLocalPosition(0, 0, 1000); // put infornt of everything
-	scene.Add(go);
+	auto dynamicUi = std::make_shared<dae::GameObject>();
+	auto uiObserver = dynamicUi->AddComponent<dae::UIObserverComponent>();
+	dynamicUi->SetLocalPosition(0, 0, 1000); // put infornt of everything
+	scene.Add(dynamicUi);
 
 	//pengo
-	go = std::make_shared<dae::GameObject>();
-	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
+	auto pengo = std::make_shared<dae::GameObject>();
+	dae::TextureComponent* textureMovable = pengo->AddComponent<dae::TextureComponent>();
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
 	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
-	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
-	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
-	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
-	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
-	scene.Add(go);
+	auto pengoC = pengo->AddComponent<dae::PengoComponent>(200.f, gridC);
+	pengo->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, 0, glm::vec3{ 0,-1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, 0, glm::vec3{ 0,1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, 0, glm::vec3{ -1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, 0, glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, glm::vec3{ 0,-1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, glm::vec3{ 0,1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, glm::vec3{ -1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC);
+	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, pengoC);
+	scene.Add(pengo);
 
 	//enemies
-	go = std::make_shared<dae::GameObject>();
-	auto enemyController = go->AddComponent<dae::EnemyControllerComponent>(gridC);
+	auto enemies = std::make_shared<dae::GameObject>();
+	auto enemyController = enemies->AddComponent<dae::EnemyControllerComponent>(gridC);
 	enemyController->AddPengo(pengoC);
 	enemyController->PlayerControlled(false);
-	go->AddObserver(uiObserver);
-	scene.Add(go);
+	enemies->AddObserver(uiObserver);
+	scene.Add(enemies);
 
 
-	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC, enemyController);
-	input.AddBinding<dae::RespawnCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0, pengoC, enemyController);
+	//respawn
+	auto respawnGo = std::make_shared<dae::GameObject>();
+	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, respawnGo.get());
+	input.AddBinding<dae::RespawnCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0, respawnGo.get());
+	respawnGo->AddObserver(pengoC);
+	respawnGo->AddObserver(uiObserver);
+	respawnGo->AddObserver(enemyController);
+	scene.Add(respawnGo);
+
 
 	//load
 	gridC->LoadLevel(enemyController, 4);
@@ -140,65 +147,65 @@ void LoadVersus()
 	//auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
 	//background
-	auto go = std::make_shared<dae::GameObject>();
-	dae::TextureComponent* textureC1 = go->AddComponent<dae::TextureComponent>();
+	auto background = std::make_shared<dae::GameObject>();
+	dae::TextureComponent* textureC1 = background->AddComponent<dae::TextureComponent>();
 	textureC1->SetTexture("BlackBG.png");
 	textureC1->SetWidthAndHeight(672, 768);
-	go->SetLocalPosition(0, 82);
-	scene.Add(go);
+	background->SetLocalPosition(0, 82);
+	scene.Add(background);
 
 	//walls
-	go = std::make_shared<dae::GameObject>();
-	auto vertWallTex = go->AddComponent<dae::TextureComponent>();
+	auto walls = std::make_shared<dae::GameObject>();
+	auto vertWallTex = walls->AddComponent<dae::TextureComponent>();
 	vertWallTex->SetTexture("VerticalWallTex.png");
 	vertWallTex->IsActive(false);
-	auto horWallTex = go->AddComponent<dae::TextureComponent>();
+	auto horWallTex = walls->AddComponent<dae::TextureComponent>();
 	horWallTex->SetTexture("HorizontalWallTex.png");
 	horWallTex->IsActive(false);
-	auto wallComp = go->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
-	scene.Add(go);
+	auto wallComp = walls->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
+	scene.Add(walls);
 
 	//grid
-	go = std::make_shared<dae::GameObject>();
-	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, GRID_OFSETT, wallComp);
+	auto grid = std::make_shared<dae::GameObject>();
+	auto gridC = grid->AddComponent<dae::GridComponent>(GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, GRID_OFSETT, wallComp);
 	//gridC->SaveLevel();
-	scene.Add(go);
+	scene.Add(grid);
 
 	//text
-	go = std::make_shared<dae::GameObject>();
-	auto text = go->AddComponent<dae::TextComponent>(font);
+	auto controlltext = std::make_shared<dae::GameObject>();
+	auto text = controlltext->AddComponent<dae::TextComponent>(font);
 	text->SetText("controls: WASD and E or D-PAD and South button");
-	scene.Add(go);
+	scene.Add(controlltext);
 
-	go = std::make_shared<dae::GameObject>();
-	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
+	auto pengo = std::make_shared<dae::GameObject>();
+	dae::TextureComponent* textureMovable = pengo->AddComponent<dae::TextureComponent>();
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
 	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
-	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
-	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
-	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
-	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
-	scene.Add(go);
+	auto pengoC = pengo->AddComponent<dae::PengoComponent>(200.f, gridC);
+	pengo->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, glm::vec3{ 0,-1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, glm::vec3{ 0,1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, glm::vec3{ -1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, glm::vec3{ 0,-1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, glm::vec3{ 0,1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, glm::vec3{ -1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC);
+	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0,  pengoC);
+	scene.Add(pengo);
 
-	go = std::make_shared<dae::GameObject>();
-	auto enemyController = go->AddComponent<dae::EnemyControllerComponent>(gridC);
+	auto enemies = std::make_shared<dae::GameObject>();
+	auto enemyController = enemies->AddComponent<dae::EnemyControllerComponent>(gridC);
 	enemyController->AddPengo(pengoC);
 	enemyController->PlayerControlled(true);
-	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 1, go.get(), glm::vec3{ 0,-1,0 }, enemyController);
-	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 1, go.get(), glm::vec3{ 0,1,0 }, enemyController);
-	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, go.get(), glm::vec3{ -1,0,0 }, enemyController);
-	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, go.get(), glm::vec3{ 1,0,0 }, enemyController);
-	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), enemyController);
-	scene.Add(go);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 1, glm::vec3{ 0,-1,0 }, enemyController);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 1, glm::vec3{ 0,1,0 }, enemyController);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, glm::vec3{ -1,0,0 }, enemyController);
+	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, glm::vec3{ 1,0,0 }, enemyController);
+	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, enemyController);
+	scene.Add(enemies);
 
 	gridC->LoadLevel(enemyController,4);
 }
@@ -254,16 +261,16 @@ void LoadCoop()
 	textureMovable->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
 	auto pengoC = go->AddComponent<dae::PengoComponent>(200.f, gridC);
 	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH), (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 0,1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, go.get(), glm::vec3{ 1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,-1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, go.get(), glm::vec3{ 0,1,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, go.get(), glm::vec3{ -1,0,0 }, pengoC);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, go.get(), glm::vec3{ 1,0,0 }, pengoC);
-	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, go.get(), pengoC);
-	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, go.get(), pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, glm::vec3{ 0,-1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, glm::vec3{ 0,1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, glm::vec3{ -1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, glm::vec3{ 0,-1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, glm::vec3{ 0,1,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, glm::vec3{ -1,0,0 }, pengoC);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, glm::vec3{ 1,0,0 }, pengoC);
+	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC);
+	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, pengoC);
 	scene.Add(go);
 
 
@@ -274,11 +281,11 @@ void LoadCoop()
 	textureMovable2->SetWidthAndHeight(TILE_WIDTH, TILE_WIDTH);
 	auto pengoC2 = go->AddComponent<dae::PengoComponent>(200.f, gridC);
 	go->SetLocalPosition((GRID_OFSETT.x + (GRID_WIDTH / 2) * TILE_WIDTH) - TILE_WIDTH, (GRID_OFSETT.y + ((GRID_HEIGHT / 2) - 1) * TILE_WIDTH));
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 1, go.get(), glm::vec3{ 0,-1,0 }, pengoC2);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 1, go.get(), glm::vec3{ 0,1,0 }, pengoC2);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, go.get(), glm::vec3{ -1,0,0 }, pengoC2);
-	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, go.get(), glm::vec3{ 1,0,0 }, pengoC2);
-	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, go.get(), pengoC2);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 1, glm::vec3{ 0,-1,0 }, pengoC2);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 1, glm::vec3{ 0,1,0 }, pengoC2);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, glm::vec3{ -1,0,0 }, pengoC2);
+	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, glm::vec3{ 1,0,0 }, pengoC2);
+	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, pengoC2);
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>();
@@ -309,7 +316,7 @@ void LoadMain()
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("1 Player only");
 	text->SetColor(255, 255, 0);
-	go->SetLocalPosition(196, 396);
+	go->SetLocalPosition(196, 396, 1000);
 	scene.Add(go);
 
 	auto startKeyboard = input.AddBinding<dae::StartCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, -1);
@@ -320,6 +327,7 @@ void LoadMain()
 
 	input.AddBinding<dae::ChangeGameModeCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, text, startKeyboard, true);
 	input.AddBinding<dae::ChangeGameModeCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, text, startController, true);
+
 }
 
 int main(int, char* []) {

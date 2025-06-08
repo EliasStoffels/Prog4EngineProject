@@ -2,12 +2,13 @@
 #include "CppBehaviour.h"
 #include "PengoState.h"
 #include <memory>
+#include "BaseObserver.h"
 
 namespace dae
 {
     class TextureComponent;
     class GridComponent;
-    class PengoComponent : public CppBehaviour
+    class PengoComponent : public CppBehaviour, public Observer
     {
         friend class GameObject;
     public:
@@ -20,6 +21,7 @@ namespace dae
         void Push();
         void Die();
         void Respawn();
+        void Notify(const Event& event, GameObject* object) override;
 
         // Getters for states
         TextureComponent* GetTexture() const { return m_TexturePtr; }

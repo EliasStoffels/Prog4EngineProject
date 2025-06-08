@@ -33,6 +33,7 @@ namespace dae
 		explicit Scene(const std::string& name);
 
 		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		std::vector < std::shared_ptr<GameObject>> m_objectsToAdd{};
 
 		static unsigned int m_idCounter; 
 	};

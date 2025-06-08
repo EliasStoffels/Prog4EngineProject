@@ -3,8 +3,8 @@
 
 namespace dae
 {
-	BreakCommand::BreakCommand(GameObject* gameObject, EnemyControllerComponent* snobee)
-		: GameObjectCommand{ gameObject }, m_SnobeeControllerPtr{ snobee }
+	BreakCommand::BreakCommand(EnemyControllerComponent* snobee)
+		: m_SnobeeControllerPtr{ snobee }
 	{
 	}
 	void BreakCommand::Execute()

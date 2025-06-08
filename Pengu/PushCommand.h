@@ -7,10 +7,10 @@
 namespace dae
 {
 
-    class PushCommand : public GameObjectCommand
+    class PushCommand : public Command
     {
     public:
-        PushCommand(GameObject* gameObject, PengoComponent* pengo);
+        PushCommand(PengoComponent* pengo);
         void Execute() override;
 
     private:

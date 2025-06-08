@@ -66,9 +66,6 @@
     <ClCompile Include="EnemyControllerComponent.cpp">
       <Filter>Source Files\ComponentCppFiles</Filter>
     </ClCompile>
-    <ClCompile Include="StartCommand.cpp">
-      <Filter>Source Files\ComandCppFiles</Filter>
-    </ClCompile>
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -85,6 +82,9 @@
       <Filter>Source Files\ObserverCppFiles</Filter>
     </ClCompile>
     <ClCompile Include="RespawnCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="StartCommand.cpp">
       <Filter>Source Files\ComandCppFiles</Filter>
     </ClCompile>
   </ItemGroup>

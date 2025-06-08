@@ -32,7 +32,7 @@ namespace dae
 				m_Texture->SetSourceRect(0, 48);
 			m_TotalDT = 0.f;
 			m_CurrentFrame = 0;
-			if(pushedByPengo)
+			if(pushedByPengo && m_TileType == Tile::Sno_Bee)
 				m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("EnemyDied"), nullptr });
 
 			return true;

@@ -52,9 +52,15 @@ namespace dae
 
     void PengoComponent::Respawn()
     {
-        auto newState = m_CurrentState->Respawn(this);
-        if (newState)
-            ChangeState(std::move(newState));
+        m_CurrentState->Respawn(this);
+    }
+
+    void PengoComponent::Notify(const Event& event, GameObject* )
+    {
+        if (event.id == make_sdbm_hash("Respawn"))
+        {
+            Respawn();
+        }
     }
 
     void PengoComponent::ChangeState(std::unique_ptr<PengoState> newState)

@@ -4,6 +4,7 @@
 #include "TimeSingleton.h"
 #include <SceneManager.h>
 #include "Scene.h"
+#include <iostream>
 
 const glm::vec3& dae::Transform::GetLocalPosition() const
 {

@@ -102,9 +102,9 @@ namespace dae
         return std::make_unique<PengoDyingState>();
     }
 
-    std::unique_ptr<PengoState> PengoWalkingState::Respawn(PengoComponent* )
+    void PengoWalkingState::Respawn(PengoComponent* )
     {
-        return nullptr;
+    
     }
 
     std::unique_ptr<PengoState> PengoWalkingState::OnMove(PengoComponent* pengo)
@@ -213,9 +213,8 @@ namespace dae
         return std::make_unique<PengoDyingState>();
     }
 
-    std::unique_ptr<PengoState> PengoPushingState::Respawn(PengoComponent* )
+    void PengoPushingState::Respawn(PengoComponent* )
     {
-        return nullptr;
     }
 
     std::unique_ptr<PengoState>  PengoPushingState::OnMove(PengoComponent* )
@@ -239,7 +238,14 @@ namespace dae
 
     std::unique_ptr<PengoState>  PengoDyingState::Update(PengoComponent* pengo , float deltaTime)
     {
-        Animate(pengo, deltaTime);
+        if (m_Respawn)
+        {
+            m_TotalDT += deltaTime;
+            if (m_TotalDT > 1.5f)
+                return std::make_unique<PengoWalkingState>();
+        }
+        else
+            Animate(pengo, deltaTime);
         return nullptr;
     }
 
@@ -265,10 +271,11 @@ namespace dae
         return nullptr;
     }
 
-    std::unique_ptr<PengoState> PengoDyingState::Respawn(PengoComponent* pengo)
+    void PengoDyingState::Respawn(PengoComponent* pengo)
     {
         pengo->GetOwner()->SetLocalPosition(pengo->GetGrid()->PointToGridPos(pengo->GetOwner()->GetWorldPosition()));
-        return std::make_unique<PengoWalkingState>();
+        m_Respawn = true;
+        m_TexturePtr->SetSourceRect(0, 0);
     }
 
     std::unique_ptr<PengoState>  PengoDyingState::OnMove(PengoComponent* )

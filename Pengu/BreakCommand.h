@@ -5,10 +5,10 @@
 namespace dae
 {
     class EnemyControllerComponent;
-    class BreakCommand : public GameObjectCommand
+    class BreakCommand : public Command
     {
     public:
-        BreakCommand(GameObject* gameObject, EnemyControllerComponent* snobee);
+        BreakCommand(EnemyControllerComponent* snobee);
         void Execute() override;
 
     private:

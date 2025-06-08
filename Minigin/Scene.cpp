@@ -13,7 +13,7 @@ Scene::~Scene() = default;
 
 void Scene::Add(std::shared_ptr<GameObject> object)
 {
-	m_objects.emplace_back(std::move(object));
+	m_objectsToAdd.emplace_back(std::move(object));
 }
 
 void Scene::Remove(std::shared_ptr<GameObject> object)
@@ -36,8 +36,16 @@ void dae::Scene::Start()
 
 void Scene::Update(float deltaTime)
 {
+	for (auto object : m_objectsToAdd)
+	{
+		m_objects.emplace_back(std::move(object));
+	}
+	m_objectsToAdd.clear();
+
+	int test = 0;
 	for(auto& object : m_objects)
 	{
+		test++;
 		object->Update(deltaTime);
 	}
 

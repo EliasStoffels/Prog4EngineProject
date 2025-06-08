@@ -5,12 +5,12 @@ namespace dae
 {
 	class PengoComponent;
 	class EnemyControllerComponent;
-	class RespawnCommand : public Command
+	class RespawnCommand : public GameObjectCommand
 	{
-		PengoComponent* m_PengoPtr = nullptr;
-		EnemyControllerComponent* m_EnemyControllerPtr = nullptr;
+		/*PengoComponent* m_PengoPtr = nullptr;
+		EnemyControllerComponent* m_EnemyControllerPtr = nullptr;*/
 	public:
-		RespawnCommand(PengoComponent* pengo, EnemyControllerComponent* enemyController);
+		RespawnCommand(GameObject* gameObject);
 		void Execute() override;
 
 	};
