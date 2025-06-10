@@ -321,11 +321,6 @@ void LoadScoreScene()
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 25);
 	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
 
-	//auto dynamicUi = std::make_shared<dae::GameObject>();
-	///*auto uiObserver */ dynamicUi->AddComponent<dae::UIObserverComponent>();
-	//dynamicUi->SetLocalPosition(0, 0, 1000); // put infornt of everything
-	//scene.Add(dynamicUi);
-
 	auto staticUi = scene.AddEmpty();
 	auto textureLives = staticUi->AddComponent<dae::TextureComponent>();
 	textureLives->SetTexture("Misc.png");
@@ -340,7 +335,7 @@ void LoadScoreScene()
 	textureSaticUi->SetWidthAndHeight(672, 20);
 
 	auto textPoints = staticUi->AddComponent<dae::TextComponent>(smallFont);
-	textPoints->SetRenderOfSet(glm::vec3{ 350,2,0 });
+	textPoints->SetRenderOfSet(glm::vec3{ 340,2,0 });
 	textPoints->SetText(std::to_string(dae::GameStateManager::GetInstance().GetScore()));
 
 	auto go = scene.AddEmpty();
@@ -379,6 +374,18 @@ void LoadScoreScene()
 	text->SetText("60 AND OVER				NO BONUS");
 	text->SetColor(255, 255, 0);
 	text->SetRenderOfSet(glm::vec3{ 40, 450 ,0 });
+
+	auto textTime = go->AddComponent<dae::TextComponent>(font);
+	textTime->SetRenderOfSet(glm::vec3{ 355,150,0 });
+	float levelTimeSeconds = dae::GameStateManager::GetInstance().GetLevelTime();
+
+	int minutes = static_cast<int>(levelTimeSeconds) / 60;
+	int seconds = static_cast<int>(levelTimeSeconds) % 60;
+
+	std::string timeText = std::to_string(minutes) + "				" +
+		(seconds < 10 ? "0" : "") + std::to_string(seconds);
+
+	textTime->SetText(timeText);
 
 	go->SetLocalPosition(0, 0, FLT_MAX);
 }

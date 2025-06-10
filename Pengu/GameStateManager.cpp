@@ -18,25 +18,25 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 		auto levelEndTime = std::chrono::high_resolution_clock::now();
 		auto deltaTime = std::chrono::duration_cast<std::chrono::seconds>(levelEndTime - m_LevelStartTime);
 
-		float timeInSeconds = static_cast<float>(deltaTime.count());
+		m_LevelTime = static_cast<float>(deltaTime.count());
 
-		if (timeInSeconds <= 19)
+		if (m_LevelTime <= 19)
 		{
 			m_Score += 5000;
 		}
-		else if (timeInSeconds <= 29)
+		else if (m_LevelTime <= 29)
 		{
 			m_Score += 2000;
 		}
-		else if (timeInSeconds <= 39)
+		else if (m_LevelTime <= 39)
 		{
 			m_Score += 1000;
 		}
-		else if (timeInSeconds <= 49)
+		else if (m_LevelTime <= 49)
 		{
 			m_Score += 500;
 		}
-		else if (timeInSeconds <= 59)
+		else if (m_LevelTime <= 59)
 		{
 			m_Score += 10;
 		}

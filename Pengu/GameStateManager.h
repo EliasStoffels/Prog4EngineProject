@@ -17,6 +17,7 @@ namespace dae
 		void Notify(const Event& event, GameObject* gameObject) override;
 		int GetLives() { return m_Lives; }
 		int GetScore() { return m_Score; }
+		float GetLevelTime() { return m_LevelTime; }
 		void StartLevel();
 
 	private:
@@ -26,6 +27,7 @@ namespace dae
 		int m_Lives = 3;
 		int m_HighScores[5]{};
 		std::chrono::high_resolution_clock::time_point m_LevelStartTime{};
+		float m_LevelTime = 0.f;
 
 	};
 }
