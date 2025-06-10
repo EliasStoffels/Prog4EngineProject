@@ -1,8 +1,9 @@
 #include "SceneManager.h"
-#include "Scene.h"
+//#include "Scene.h"
 #include <algorithm>
 #include <stdexcept>
 #include "InputManager.h"
+
 
 void dae::SceneManager::Update(float deltaTime)
 {
@@ -40,20 +41,21 @@ void dae::SceneManager::Render()
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name, const std::function<void()>& load)
 {
 	auto it = std::find_if(m_scenes.begin(), m_scenes.end(),
-		[&name](const std::shared_ptr<Scene>& scene) {
+		[&name](const std::unique_ptr<Scene>& scene) {
 			return scene->name == name;
 		});
 
 	if(it != m_scenes.end())
 		throw std::runtime_error("Scene already exists: " + name);
 
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_scenes.push_back(scene);
+	m_scenes.emplace_back(std::make_unique<Scene>(name));
+	auto& scene = *m_scenes.back();
+
 	m_SceneLoaders.push_back(load);
 	if (!m_CurrentScene)
-		m_CurrentScene = scene.get();
+		m_CurrentScene = &scene;
 
-	return *scene;
+	return scene;
 }
 
 dae::Scene& dae::SceneManager::GetScene(const std::string& name)
@@ -62,7 +64,7 @@ dae::Scene& dae::SceneManager::GetScene(const std::string& name)
 		return *m_CurrentScene;
 
 	 auto it = std::find_if(m_scenes.begin(), m_scenes.end(),
-        [&name](const std::shared_ptr<Scene>& scene) {
+        [&name](const std::unique_ptr<Scene>& scene) {
             return scene->name == name;
         });
 
@@ -78,7 +80,7 @@ void dae::SceneManager::LoadScene(const std::string& name)
 	InputManager::GetInstance().ClearCommands();
 
 	auto it = std::find_if(m_scenes.begin(), m_scenes.end(),
-		[&name](const std::shared_ptr<Scene>& scene) {
+		[&name](const std::unique_ptr<Scene>& scene) {
 			return scene->name == name;
 		});
 
