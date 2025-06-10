@@ -233,7 +233,7 @@ namespace dae
 	{
 		auto& scene = dae::SceneManager::GetInstance().GetScene();
 
-		auto go = std::make_shared<dae::GameObject>();
+		auto go = scene.AddEmpty();
 		auto textureMovable = go->AddComponent<dae::TextureComponent>();
 		textureMovable->SetTexture("Pengo_snobee_noBG.png");
 		textureMovable->SetSourceRect(0, 160, 16, 16);
@@ -242,7 +242,6 @@ namespace dae
 		m_Snobees.emplace_back(enemyC);
 		go->SetLocalPosition(position.x,position.y, 10);
 		go->AddObserver(this);
-		scene.Add(go);
 
 		GetOwner()->NotifyObservers(Event{ make_sdbm_hash("SnobeeHatched"), nullptr });
 

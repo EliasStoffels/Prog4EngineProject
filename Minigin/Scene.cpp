@@ -11,14 +11,15 @@ Scene::Scene(const std::string& name) : name(name) {}
 
 Scene::~Scene() = default;
 
-void Scene::Add(std::shared_ptr<GameObject> object)
-{
-	m_objectsToAdd.emplace_back(std::move(object));
-}
-
-void Scene::Remove(std::shared_ptr<GameObject> object)
+void Scene::Remove(std::unique_ptr<GameObject> object)
 {
 	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
+}
+
+GameObject* dae::Scene::AddEmpty()
+{
+	m_objectsToAdd.emplace_back(std::make_unique<GameObject>());
+	return m_objectsToAdd[m_objectsToAdd.size() - 1].get();
 }
 
 void Scene::RemoveAll()
@@ -36,7 +37,7 @@ void dae::Scene::Start()
 
 void Scene::Update(float deltaTime)
 {
-	for (auto object : m_objectsToAdd)
+	for (auto& object : m_objectsToAdd)
 	{
 		m_objects.emplace_back(std::move(object));
 	}
@@ -55,12 +56,12 @@ void Scene::Update(float deltaTime)
 	}
 
 	auto removeIter = std::remove_if(m_objects.begin(), m_objects.end(),
-		[](const std::shared_ptr <GameObject>& object) { return object->pendingRemove; });
+		[](const std::unique_ptr <GameObject>& object) { return object->pendingRemove; });
 	m_objects.erase(removeIter, m_objects.end());
 
 	if (m_NeedsSort)
 	{
-		std::sort(m_objects.begin(), m_objects.end(), [](const std::shared_ptr <GameObject>& object1, const std::shared_ptr <GameObject>& object2) { return object1->GetWorldPosition().z < object2->GetWorldPosition().z; });
+		std::sort(m_objects.begin(), m_objects.end(), [](const std::unique_ptr <GameObject>& object1, const std::unique_ptr <GameObject>& object2) { return object1->GetWorldPosition().z < object2->GetWorldPosition().z; });
 		m_NeedsSort = false;
 	}
 }

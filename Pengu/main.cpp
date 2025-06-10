@@ -53,15 +53,14 @@ void LoadPengo()
 	//auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
 	//background
-	auto background = std::make_shared<dae::GameObject>();
+	auto background = scene.AddEmpty();
 	dae::TextureComponent* textureC1 = background->AddComponent<dae::TextureComponent>();
 	textureC1->SetTexture("BlackBG.png");
 	textureC1->SetWidthAndHeight(672, 768);
 	background->SetLocalPosition(0, 82);
-	scene.Add(background);
 
 	//walls
-	auto walls = std::make_shared<dae::GameObject>();
+	auto walls = scene.AddEmpty();
 	auto vertWallTex = walls->AddComponent<dae::TextureComponent>();
 	vertWallTex->SetTexture("VerticalWallTex.png");
 	vertWallTex->IsActive(false);
@@ -69,29 +68,25 @@ void LoadPengo()
 	horWallTex->SetTexture("HorizontalWallTex.png");
 	horWallTex->IsActive(false);
 	auto wallComp = walls->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
-	scene.Add(walls);
 
 	//grid
-	auto grid = std::make_shared<dae::GameObject>();
+	auto grid = scene.AddEmpty();
 	auto gridC = grid->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT, wallComp);
 	//gridC->SaveLevel();
-	scene.Add(grid);
 
 	//static ui
-	auto staticUi = std::make_shared<dae::GameObject>();
+	auto staticUi = scene.AddEmpty();
 	dae::TextureComponent* textureSaticUi = staticUi->AddComponent<dae::TextureComponent>();
 	textureSaticUi->SetTexture("StaticUi.png");
 	textureSaticUi->SetWidthAndHeight(672, 20);
-	scene.Add(staticUi);
 	
 	// dynamic ui
-	auto dynamicUi = std::make_shared<dae::GameObject>();
+	auto dynamicUi = scene.AddEmpty();
 	auto uiObserver = dynamicUi->AddComponent<dae::UIObserverComponent>();
 	dynamicUi->SetLocalPosition(0, 0, 1000); // put infornt of everything
-	scene.Add(dynamicUi);
 
 	//pengo
-	auto pengo = std::make_shared<dae::GameObject>();
+	auto pengo = scene.AddEmpty();
 	dae::TextureComponent* textureMovable = pengo->AddComponent<dae::TextureComponent>();
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
@@ -108,26 +103,23 @@ void LoadPengo()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, glm::vec3{ 1,0,0 }, pengoC);
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, pengoC);
-	scene.Add(pengo);
 
 	//enemies
-	auto enemies = std::make_shared<dae::GameObject>();
+	auto enemies = scene.AddEmpty();
 	auto enemyController = enemies->AddComponent<dae::EnemyControllerComponent>(gridC);
 	enemyController->AddPengo(pengoC);
 	enemyController->PlayerControlled(false);
 	enemies->AddObserver(uiObserver);
 	enemies->AddObserver(&dae::GameStateManager::GetInstance());
-	scene.Add(enemies);
 
 
 	//respawn
-	auto respawnGo = std::make_shared<dae::GameObject>();
-	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, respawnGo.get());
-	input.AddBinding<dae::RespawnCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0, respawnGo.get());
+	auto respawnGo = scene.AddEmpty();
+	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, respawnGo);
+	input.AddBinding<dae::RespawnCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0, respawnGo);
 	respawnGo->AddObserver(pengoC);
 	respawnGo->AddObserver(uiObserver);
 	respawnGo->AddObserver(enemyController);
-	scene.Add(respawnGo);
 
 
 	//load
@@ -149,15 +141,14 @@ void LoadVersus()
 	//auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
 	//background
-	auto background = std::make_shared<dae::GameObject>();
+	auto background = scene.AddEmpty();
 	dae::TextureComponent* textureC1 = background->AddComponent<dae::TextureComponent>();
 	textureC1->SetTexture("BlackBG.png");
 	textureC1->SetWidthAndHeight(672, 768);
 	background->SetLocalPosition(0, 82);
-	scene.Add(background);
 
 	//walls
-	auto walls = std::make_shared<dae::GameObject>();
+	auto walls = scene.AddEmpty();
 	auto vertWallTex = walls->AddComponent<dae::TextureComponent>();
 	vertWallTex->SetTexture("VerticalWallTex.png");
 	vertWallTex->IsActive(false);
@@ -165,21 +156,18 @@ void LoadVersus()
 	horWallTex->SetTexture("HorizontalWallTex.png");
 	horWallTex->IsActive(false);
 	auto wallComp = walls->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
-	scene.Add(walls);
 
 	//grid
-	auto grid = std::make_shared<dae::GameObject>();
+	auto grid = scene.AddEmpty();
 	auto gridC = grid->AddComponent<dae::GridComponent>(GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, GRID_OFSETT, wallComp);
 	//gridC->SaveLevel();
-	scene.Add(grid);
 
 	//text
-	auto controlltext = std::make_shared<dae::GameObject>();
+	auto controlltext = scene.AddEmpty();
 	auto text = controlltext->AddComponent<dae::TextComponent>(font);
 	text->SetText("controls: WASD and E or D-PAD and South button");
-	scene.Add(controlltext);
 
-	auto pengo = std::make_shared<dae::GameObject>();
+	auto pengo = scene.AddEmpty();
 	dae::TextureComponent* textureMovable = pengo->AddComponent<dae::TextureComponent>();
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
@@ -196,9 +184,8 @@ void LoadVersus()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, glm::vec3{ 1,0,0 }, pengoC);
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0,  pengoC);
-	scene.Add(pengo);
 
-	auto enemies = std::make_shared<dae::GameObject>();
+	auto enemies = scene.AddEmpty();
 	auto enemyController = enemies->AddComponent<dae::EnemyControllerComponent>(gridC);
 	enemyController->AddPengo(pengoC);
 	enemyController->PlayerControlled(true);
@@ -207,7 +194,6 @@ void LoadVersus()
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, glm::vec3{ -1,0,0 }, enemyController);
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, glm::vec3{ 1,0,0 }, enemyController);
 	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, enemyController);
-	scene.Add(enemies);
 
 	gridC->LoadLevel(enemyController,4);
 }
@@ -227,15 +213,14 @@ void LoadCoop()
 	//auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 
 	//background
-	auto go = std::make_shared<dae::GameObject>();
+	auto go = scene.AddEmpty();
 	dae::TextureComponent* textureC1 = go->AddComponent<dae::TextureComponent>();
 	textureC1->SetTexture("BlackBG.png");
 	textureC1->SetWidthAndHeight(672, 768);
 	go->SetLocalPosition(0, 82);
-	scene.Add(go);
 
 	//walls
-	go = std::make_shared<dae::GameObject>();
+	go = scene.AddEmpty();
 	auto vertWallTex = go->AddComponent<dae::TextureComponent>();
 	vertWallTex->SetTexture("VerticalWallTex.png");
 	vertWallTex->IsActive(false);
@@ -243,20 +228,17 @@ void LoadCoop()
 	horWallTex->SetTexture("HorizontalWallTex.png");
 	horWallTex->IsActive(false);
 	auto wallComp = go->AddComponent<dae::WallComponent>(GRID_OFSETT, glm::vec2{ GRID_WIDTH * TILE_WIDTH, GRID_HEIGHT * TILE_WIDTH }, vertWallTex, horWallTex);
-	scene.Add(go);
 
 	//grid
-	go = std::make_shared<dae::GameObject>();
+	go = scene.AddEmpty();
 	auto gridC = go->AddComponent<dae::GridComponent>(GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, GRID_OFSETT, wallComp);
-	scene.Add(go);
 
 	//text
-	go = std::make_shared<dae::GameObject>();
+	go = scene.AddEmpty();
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("controls: WASD and E or D-PAD and South button");
-	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>();
+	go = scene.AddEmpty();
 	dae::TextureComponent* textureMovable = go->AddComponent<dae::TextureComponent>();
 	textureMovable->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable->SetSourceRect(0, 0, 16, 16);
@@ -273,10 +255,9 @@ void LoadCoop()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, glm::vec3{ 1,0,0 }, pengoC);
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, pengoC);
-	scene.Add(go);
 
 
-	go = std::make_shared<dae::GameObject>();
+	go = scene.AddEmpty();
 	dae::TextureComponent* textureMovable2 = go->AddComponent<dae::TextureComponent>();
 	textureMovable2->SetTexture("Pengo_snobee_noBG.png");
 	textureMovable2->SetSourceRect(0, 0, 16, 16);
@@ -288,14 +269,12 @@ void LoadCoop()
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, glm::vec3{ -1,0,0 }, pengoC2);
 	input.AddBinding<dae::MoveCommand<dae::PengoComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, glm::vec3{ 1,0,0 }, pengoC2);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, pengoC2);
-	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>();
+	go = scene.AddEmpty();
 	auto enemyController = go->AddComponent<dae::EnemyControllerComponent>(gridC);
 	enemyController->AddPengo(pengoC);
 	enemyController->AddPengo(pengoC2);
 	enemyController->PlayerControlled(false);
-	scene.Add(go);
 
 
 	gridC->LoadLevel(enemyController, 4);
@@ -306,26 +285,23 @@ void LoadMain()
 	auto& input = dae::InputManager::GetInstance();
 	auto& scene = dae::SceneManager::GetInstance().GetScene("Main");
 
-	auto staticUi = std::make_shared<dae::GameObject>();
+	auto staticUi = scene.AddEmpty();
 	dae::TextureComponent* textureSaticUi = staticUi->AddComponent<dae::TextureComponent>();
 	textureSaticUi->SetTexture("StaticUi.png");
 	textureSaticUi->SetWidthAndHeight(672, 20);
-	scene.Add(staticUi);
 
-	auto go = std::make_shared<dae::GameObject>();
+	auto go = scene.AddEmpty();
 	dae::TextureComponent* textureC1 = go->AddComponent<dae::TextureComponent>();
 	textureC1->SetTexture("MainScene.png");
 	textureC1->SetWidthAndHeight(672, 840);
-	scene.Add(go);
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
 
-	go = std::make_shared<dae::GameObject>();
+	go = scene.AddEmpty();
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("1 Player only");
 	text->SetColor(255, 255, 0);
 	go->SetLocalPosition(196, 396, 1000);
-	scene.Add(go);
 
 	auto startKeyboard = input.AddBinding<dae::StartCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, -1);
 	auto startController = input.AddBinding<dae::StartCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0);
@@ -343,13 +319,31 @@ void LoadScoreScene()
 	auto& scene = dae::SceneManager::GetInstance().GetScene("ScoreScene");
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 25);
+	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
 
-	auto dynamicUi = std::make_shared<dae::GameObject>();
-	/*auto uiObserver */ dynamicUi->AddComponent<dae::UIObserverComponent>();
-	dynamicUi->SetLocalPosition(0, 0, 1000); // put infornt of everything
-	scene.Add(dynamicUi);
+	//auto dynamicUi = std::make_shared<dae::GameObject>();
+	///*auto uiObserver */ dynamicUi->AddComponent<dae::UIObserverComponent>();
+	//dynamicUi->SetLocalPosition(0, 0, 1000); // put infornt of everything
+	//scene.Add(dynamicUi);
 
-	auto go = std::make_shared<dae::GameObject>();
+	auto staticUi = scene.AddEmpty();
+	auto textureLives = staticUi->AddComponent<dae::TextureComponent>();
+	textureLives->SetTexture("Misc.png");
+	textureLives->SetWidthAndHeight(48, 48);
+	textureLives->SetSourceRect(0, 150, 16, 16);
+	textureLives->SetRepeats(dae::GameStateManager::GetInstance().GetLives());
+	textureLives->SetRepeatOfsett(glm::vec3{ 50,0,0 });
+	textureLives->SetRenderOfsett(glm::vec3{ 20,30,0 });
+
+	dae::TextureComponent* textureSaticUi = staticUi->AddComponent<dae::TextureComponent>();
+	textureSaticUi->SetTexture("StaticUi.png");
+	textureSaticUi->SetWidthAndHeight(672, 20);
+
+	auto textPoints = staticUi->AddComponent<dae::TextComponent>(smallFont);
+	textPoints->SetRenderOfSet(glm::vec3{ 350,2,0 });
+	textPoints->SetText(std::to_string(dae::GameStateManager::GetInstance().GetScore()));
+
+	auto go = scene.AddEmpty();
 	auto text = go->AddComponent<dae::TextComponent>(font);
 	text->SetText("GAME TIME					MIN.		SEC.");
 	text->SetColor(255, 255, 0);
@@ -387,8 +381,6 @@ void LoadScoreScene()
 	text->SetRenderOfSet(glm::vec3{ 40, 450 ,0 });
 
 	go->SetLocalPosition(0, 0, FLT_MAX);
-
-	scene.Add(go);
 }
 
 int main(int, char* []) {

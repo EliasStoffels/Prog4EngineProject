@@ -280,7 +280,7 @@ namespace dae
 			auto tileType = m_GridPtr->at(idx);
 			if (tileType != Tile::Empty)
 			{
-				auto go = std::make_shared<dae::GameObject>();
+				auto go = scene.AddEmpty();
 				auto tilePos = IdxToPoint(idx);
 				auto tileC = go->AddComponent<TileComponent>(tileType, tilePos.x, tilePos.y, this);
 				switch (tileType)
@@ -307,7 +307,6 @@ namespace dae
 				go->AddObserver(enemyController);
 
 				m_Blocks.emplace_back(std::pair<int, TileComponent*>(idx, tileC));
-				scene.Add(go);
 			}
 		}
 
