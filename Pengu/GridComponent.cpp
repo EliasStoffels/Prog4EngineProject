@@ -245,6 +245,458 @@ namespace dae
 		m_GridPtr->emplace_back(Tile::Empty);
 		m_GridPtr->emplace_back(Tile::Empty);
 
+		// level2
+
+		//row 1
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 2
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 3
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 4
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Unbreakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+
+		//row 5
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 6
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Unbreakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Unbreakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 7
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 8
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+
+		//row 9
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 10 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 11
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 12 
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 13 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 14 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 15 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//level3
+		//row 1
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 2
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 3
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 4
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+
+		//row 5
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 6
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Unbreakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Unbreakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 7
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 8
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+
+		//row 9
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 10 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 11
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 12 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+
+		//row 13 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable	);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 14 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Unbreakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+
+		//row 15 
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Breakable);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
+		m_GridPtr->emplace_back(Tile::Empty);
 
 		std::ofstream file{};
 		file.open("../data/levels.bin", std::ios::binary);
@@ -257,7 +709,7 @@ namespace dae
 		file.close();
 	}
 
-	void GridComponent::LoadLevel(EnemyControllerComponent* enemyController, int )
+	void GridComponent::LoadLevel(EnemyControllerComponent* enemyController, int level)
 	{
 		const size_t numTiles = WIDTH * HEIGHT;
 		m_GridPtr->resize(numTiles);
@@ -269,7 +721,10 @@ namespace dae
 			return;
 		}
 
+		file.seekg(level * numTiles * sizeof(Tile), std::ios::beg);
+
 		file.read(reinterpret_cast<char*>(m_GridPtr->data()), numTiles * sizeof(Tile));
+		file.close();
 		
 		RandomiseSnobee();
 
@@ -310,7 +765,6 @@ namespace dae
 			}
 		}
 
-		file.close();
 		GameStateManager::GetInstance().StartLevel();
 	}
 

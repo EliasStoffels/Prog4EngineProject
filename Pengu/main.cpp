@@ -72,7 +72,7 @@ void LoadPengo()
 	//grid
 	auto grid = scene.AddEmpty();
 	auto gridC = grid->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT, wallComp);
-	//gridC->SaveLevel();
+	gridC->SaveLevel();
 
 	//static ui
 	auto staticUi = scene.AddEmpty();
@@ -123,7 +123,7 @@ void LoadPengo()
 
 
 	//load
-	gridC->LoadLevel(enemyController, 4);
+	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
 }
 
 void LoadVersus()
@@ -316,6 +316,7 @@ void LoadMain()
 
 void LoadScoreScene()
 {
+	auto& input = dae::InputManager::GetInstance();
 	auto& scene = dae::SceneManager::GetInstance().GetScene("ScoreScene");
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 25);
@@ -387,7 +388,15 @@ void LoadScoreScene()
 
 	textTime->SetText(timeText);
 
+	input.AddBinding<dae::StartCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, -1);
+	input.AddBinding<dae::StartCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0);
+
 	go->SetLocalPosition(0, 0, FLT_MAX);
+}
+
+void LoadHighScore()
+{
+
 }
 
 int main(int, char* []) {
@@ -397,6 +406,7 @@ int main(int, char* []) {
 	dae::SceneManager::GetInstance().CreateScene("Versus", LoadVersus);
 	dae::SceneManager::GetInstance().CreateScene("Coop", LoadCoop);
 	dae::SceneManager::GetInstance().CreateScene("ScoreScene", LoadScoreScene);
+	dae::SceneManager::GetInstance().CreateScene("HighScoreScene", LoadHighScore);
 
 	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::MixerSoundSystem>());
 

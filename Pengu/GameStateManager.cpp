@@ -2,6 +2,8 @@
 #include "EventArgs.h"
 #include "SceneManager.h"
 #include <iostream>
+#include <fstream>
+#include <iterator>
 
 void dae::GameStateManager::Notify(const Event& event, GameObject* )
 {
@@ -10,7 +12,16 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 		--m_Lives;
 		if (m_Lives <= 0)
 		{
-			SceneManager::GetInstance().LoadScene("ScoreScene");
+			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
+			if (it != m_HighScores.end())
+			{
+				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
+				m_HighScores.insert(it, HighScore{ m_Score });
+				m_HighScores.pop_back();
+				SceneManager::GetInstance().LoadScene("HighScoreScene");
+			}
+			else 
+				SceneManager::GetInstance().LoadScene("Main");
 		}
 	}
 	if (event.id == make_sdbm_hash("LevelWon"))
@@ -41,11 +52,20 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 			m_Score += 10;
 		}
 
-		for (int score : m_HighScores)
+		if (m_CurrentLevel == 2)
 		{
-			score;
-;		}
-
+			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
+			if (it != m_HighScores.end())
+			{
+				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
+				m_HighScores.insert(it, HighScore{ m_Score });
+				m_HighScores.pop_back();
+				SceneManager::GetInstance().LoadScene("HighScoreScene");
+			}
+			SceneManager::GetInstance().LoadScene("Main");
+		}
+		
+		++m_CurrentLevel;
 		SceneManager::GetInstance().LoadScene("ScoreScene");
 	}
 	else if (event.id == make_sdbm_hash("ScoreChanged"))
@@ -58,4 +78,41 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 void dae::GameStateManager::StartLevel()
 {
 	m_LevelStartTime = std::chrono::high_resolution_clock::now();
+}
+
+void dae::GameStateManager::SetHighScoreName(const std::string& name)
+{
+	m_HighScores[m_NewHighscoreIdx].name[0] = name.c_str()[0];
+	m_HighScores[m_NewHighscoreIdx].name[1] = name.c_str()[1];
+	m_HighScores[m_NewHighscoreIdx].name[2] = name.c_str()[2];
+}
+
+dae::GameStateManager::GameStateManager()
+{
+	std::ifstream file("../data/HighScores.bin", std::ios::binary);
+	if (!file.is_open())
+	{
+		std::cerr << "Error opening file\n";
+		return;
+	}
+
+	file.read(reinterpret_cast<char*>(m_HighScores.data()), m_HighScores.size() * sizeof(HighScore));
+
+	file.close();
+
+}
+
+dae::GameStateManager::~GameStateManager()
+{
+	std::ofstream file("../data/HighScores.bin", std::ios::binary);
+	if (!file.is_open())
+	{
+		std::cerr << "Error opening file\n";
+		return;
+	}
+
+	file.write(reinterpret_cast<char*>(m_HighScores.data()), m_HighScores.size() * sizeof(HighScore));
+
+	file.close();
+
 }
