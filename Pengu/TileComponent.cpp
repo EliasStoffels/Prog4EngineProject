@@ -67,7 +67,7 @@ namespace dae
 					if (m_CurrentFrame < 9)
 					{
 						int frameNr = m_CurrentFrame % 2;
-						m_Texture->SetSourceRect(16 * frameNr, 0);
+						m_Texture->SetSourceRect(LVL_TEXTURE_OFSETT.x * frameNr, LVL_TEXTURE_OFSETT.y);
 					}
 				}
 			}

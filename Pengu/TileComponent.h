@@ -4,6 +4,7 @@
 #include "TextureComponent.h"
 #include "Enums.h"
 #include "GridComponent.h"
+#include "GameStateManager.h"
 
 namespace dae
 {
@@ -41,6 +42,7 @@ namespace dae
 		const float FRAME_DELAY;
 		float m_TotalDT = 0.f;
 		int m_CurrentFrame = 0;
+		const IntVec2 LVL_TEXTURE_OFSETT { GameStateManager::GetInstance().GetLevel() * 16,0 };
 
 		// blockState 
 		BlockState m_BlockState;

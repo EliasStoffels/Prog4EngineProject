@@ -12,6 +12,7 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 		--m_Lives;
 		if (m_Lives <= 0)
 		{
+			m_CurrentLevel = 0;
 			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
 			if (it != m_HighScores.end())
 			{
@@ -52,8 +53,9 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 			m_Score += 10;
 		}
 
-		if (m_CurrentLevel == 2)
+		if (m_CurrentLevel >= 2)
 		{
+			m_CurrentLevel = 0;
 			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
 			if (it != m_HighScores.end())
 			{
@@ -62,11 +64,17 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 				m_HighScores.pop_back();
 				SceneManager::GetInstance().LoadScene("HighScoreScene");
 			}
-			SceneManager::GetInstance().LoadScene("Main");
+			else
+			{
+				SceneManager::GetInstance().LoadScene("Main");
+			}
+		}
+		else
+		{
+			++m_CurrentLevel;
+			SceneManager::GetInstance().LoadScene("ScoreScene");
 		}
 		
-		++m_CurrentLevel;
-		SceneManager::GetInstance().LoadScene("ScoreScene");
 	}
 	else if (event.id == make_sdbm_hash("ScoreChanged"))
 	{

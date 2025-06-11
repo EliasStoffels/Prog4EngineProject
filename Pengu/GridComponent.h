@@ -16,7 +16,6 @@ namespace dae
 		friend class GameObject;
 
 	public:
-		void SaveLevel();
 		void LoadLevel(EnemyControllerComponent* enemyController, int level);
 		glm::vec3 RequestMove(const glm::vec3& currentPos, const glm::vec3& direction, bool isBlock =false);
 		BlockState RequestPush(const glm::vec3& currentPos, const glm::vec3& direction);

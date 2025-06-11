@@ -17,19 +17,19 @@ namespace dae
 		m_Direction = snobee->GetDirection();
 		if (m_Direction.x < 0)
 		{
-			m_TexturePtr->SetSourceRect(32, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 32, LVL_TEXTURE_OFSETT.y + 32);
 		}
 		if (m_Direction.x > 0)
 		{
-			m_TexturePtr->SetSourceRect(96, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 96, LVL_TEXTURE_OFSETT.y + 32);
 		}
 		if (m_Direction.y < 0)
 		{
-			m_TexturePtr->SetSourceRect(64, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 64, LVL_TEXTURE_OFSETT.y + 32);
 		}
 		if (m_Direction.y > 0)
 		{
-			m_TexturePtr->SetSourceRect(0, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x, LVL_TEXTURE_OFSETT.y + 32);
 		}
 
 		m_TargetPosition = snobee->GetOwner()->GetWorldPosition();
@@ -80,19 +80,19 @@ namespace dae
 
 			if (m_Direction.x < 0)
 			{
-				m_TexturePtr->SetSourceRect(32 + currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 32 + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 			if (m_Direction.x > 0)
 			{
-				m_TexturePtr->SetSourceRect(96 + currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 96 + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 			if (m_Direction.y < 0)
 			{
-				m_TexturePtr->SetSourceRect(64 + currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 64 + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 			if (m_Direction.y > 0)
 			{
-				m_TexturePtr->SetSourceRect(currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 		}
 	}
@@ -151,19 +151,19 @@ namespace dae
 		m_Direction = snobee->GetDirection();
 		if (m_Direction.x < 0)
 		{
-			m_TexturePtr->SetSourceRect(32, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 32, LVL_TEXTURE_OFSETT.y + 32);
 		}
 		if (m_Direction.x > 0)
 		{
-			m_TexturePtr->SetSourceRect(96, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 96, LVL_TEXTURE_OFSETT.y + 32);
 		}
 		if (m_Direction.y < 0)
 		{
-			m_TexturePtr->SetSourceRect(64, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 64, LVL_TEXTURE_OFSETT.y + 32);
 		}
 		if (m_Direction.y > 0)
 		{
-			m_TexturePtr->SetSourceRect(0, 160);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x, LVL_TEXTURE_OFSETT.y + 32);
 		}
 
 		m_Direction = snobee->GetDirection();
@@ -217,19 +217,19 @@ namespace dae
 
 			if (m_Direction.x < 0)
 			{
-				m_TexturePtr->SetSourceRect(32 + currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 32 + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 			if (m_Direction.x > 0)
 			{
-				m_TexturePtr->SetSourceRect(96 + currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 96 + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 			if (m_Direction.y < 0)
 			{
-				m_TexturePtr->SetSourceRect(64 + currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 64 + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 			if (m_Direction.y > 0)
 			{
-				m_TexturePtr->SetSourceRect(currentFrameOffset, 160);
+				m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + currentFrameOffset, LVL_TEXTURE_OFSETT.y + 32);
 			}
 		}
 	}
@@ -266,7 +266,7 @@ namespace dae
 	void EnemySpawningState::Enter(EnemyComponent* snobee)
 	{
 		m_TexturePtr = snobee->GetTexture();
-		m_TexturePtr->SetSourceRect(0,128);
+		m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x, LVL_TEXTURE_OFSETT.y);
 		m_TargetPosition = snobee->GetOwner()->GetWorldPosition();
 	}
 
@@ -288,7 +288,7 @@ namespace dae
 			m_TotalDT -= FRAME_DELAY;
 			++m_CurrentFrame;
 
-			m_TexturePtr->SetSourceRect(16 * m_CurrentFrame, 128);
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 16 * m_CurrentFrame, LVL_TEXTURE_OFSETT.y);
 		}
 	}
 

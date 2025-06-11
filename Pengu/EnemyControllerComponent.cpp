@@ -144,15 +144,17 @@ namespace dae
 			m_PrevSnobeesDead = m_SnobeesDead;
 		}
 
+		auto it = std::find_if(m_GridLayoutPtr->begin(), m_GridLayoutPtr->end(), [](const Tile& tile) {return tile == Tile::Sno_Bee; });
 		//spawning
-		while (m_SnobeesAlive < MAXIMUM_SNOBEES && m_SnobeesDead < 4)
+		while (m_SnobeesAlive < MAXIMUM_SNOBEES && it != m_GridLayoutPtr->end())
 		{
 			std::cout << "spawned enemy\n";
-			int idx = std::distance(m_GridLayoutPtr->begin(), std::find_if(m_GridLayoutPtr->begin(), m_GridLayoutPtr->end(), [](const Tile& tile) {return tile == Tile::Sno_Bee; }));
+			int idx = std::distance(m_GridLayoutPtr->begin(), it);
 			glm::vec3 pos = m_GridPtr->IdxToPoint(idx);
 			m_GridPtr->RequestBreak(pos, {});
 			++m_SnobeesAlive;
 			SpawnEnemy(pos);
+			it = std::find_if(m_GridLayoutPtr->begin(), m_GridLayoutPtr->end(), [](const Tile& tile) {return tile == Tile::Sno_Bee; });
 		}
 
 		// movement 

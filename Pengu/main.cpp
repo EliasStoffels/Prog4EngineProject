@@ -72,7 +72,6 @@ void LoadPengo()
 	//grid
 	auto grid = scene.AddEmpty();
 	auto gridC = grid->AddComponent<dae::GridComponent>(GRID_WIDTH,GRID_HEIGHT,TILE_WIDTH,GRID_OFSETT, wallComp);
-	gridC->SaveLevel();
 
 	//static ui
 	auto staticUi = scene.AddEmpty();
@@ -112,7 +111,6 @@ void LoadPengo()
 	enemies->AddObserver(uiObserver);
 	enemies->AddObserver(&dae::GameStateManager::GetInstance());
 
-
 	//respawn
 	auto respawnGo = scene.AddEmpty();
 	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, respawnGo);
@@ -120,7 +118,6 @@ void LoadPengo()
 	respawnGo->AddObserver(pengoC);
 	respawnGo->AddObserver(uiObserver);
 	respawnGo->AddObserver(enemyController);
-
 
 	//load
 	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
@@ -195,7 +192,7 @@ void LoadVersus()
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, glm::vec3{ 1,0,0 }, enemyController);
 	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, enemyController);
 
-	gridC->LoadLevel(enemyController,4);
+	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
 }
 
 void LoadCoop()
@@ -256,7 +253,6 @@ void LoadCoop()
 	input.AddBinding<dae::PushCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, pengoC);
 	input.AddBinding<dae::PushCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, pengoC);
 
-
 	go = scene.AddEmpty();
 	dae::TextureComponent* textureMovable2 = go->AddComponent<dae::TextureComponent>();
 	textureMovable2->SetTexture("Pengo_snobee_noBG.png");
@@ -276,8 +272,7 @@ void LoadCoop()
 	enemyController->AddPengo(pengoC2);
 	enemyController->PlayerControlled(false);
 
-
-	gridC->LoadLevel(enemyController, 4);
+	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
 }
 
 void LoadMain()
@@ -311,7 +306,6 @@ void LoadMain()
 
 	input.AddBinding<dae::ChangeGameModeCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, text, startKeyboard, true);
 	input.AddBinding<dae::ChangeGameModeCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, text, startController, true);
-
 }
 
 void LoadScoreScene()
@@ -336,7 +330,7 @@ void LoadScoreScene()
 	textureSaticUi->SetWidthAndHeight(672, 20);
 
 	auto textPoints = staticUi->AddComponent<dae::TextComponent>(smallFont);
-	textPoints->SetRenderOfSet(glm::vec3{ 340,2,0 });
+	textPoints->SetRenderOfSet(glm::vec3{ 150,2,0 });
 	textPoints->SetText(std::to_string(dae::GameStateManager::GetInstance().GetScore()));
 
 	auto go = scene.AddEmpty();
@@ -396,7 +390,13 @@ void LoadScoreScene()
 
 void LoadHighScore()
 {
+	auto& scene = dae::SceneManager::GetInstance().GetScene("HighScoreScene");
 
+	auto staticUi = scene.AddEmpty();
+
+	dae::TextureComponent* textureSaticUi = staticUi->AddComponent<dae::TextureComponent>();
+	textureSaticUi->SetTexture("StaticUi.png");
+	textureSaticUi->SetWidthAndHeight(672, 20);
 }
 
 int main(int, char* []) {

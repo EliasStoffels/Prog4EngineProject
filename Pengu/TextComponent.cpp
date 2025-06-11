@@ -73,7 +73,9 @@ void dae::TextComponent::SetActive(bool isActive)
 
 glm::vec2 dae::TextComponent::GetSize() const
 {
-	return m_textTexture->GetSize();
+	if(m_textTexture)
+		return m_textTexture->GetSize();
+	return { 0.f,0.f };
 }
 
 // This implementation uses the "dirty flag" pattern

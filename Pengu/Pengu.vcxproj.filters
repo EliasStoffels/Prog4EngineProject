@@ -87,6 +87,12 @@
     <ClCompile Include="StartCommand.cpp">
       <Filter>Source Files\ComandCppFiles</Filter>
     </ClCompile>
+    <ClCompile Include="HighScoreNameComponent.cpp">
+      <Filter>Source Files\ComponentCppFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeLetterCommand.cpp">
+      <Filter>Source Files\ComandCppFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridComponent.h">
@@ -144,6 +150,12 @@
       <Filter>Header Files\ObserverHeaders</Filter>
     </ClInclude>
     <ClInclude Include="RespawnCommand.h">
+      <Filter>Header Files\CommandHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreNameComponent.h">
+      <Filter>Header Files\ComponentHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeLetterCommand.h">
       <Filter>Header Files\CommandHeaders</Filter>
     </ClInclude>
   </ItemGroup>

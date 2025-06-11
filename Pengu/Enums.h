@@ -17,4 +17,10 @@ namespace dae
 	{
 		Still, Sliding, Breaking, Spawning
 	};
+
+	struct IntVec2
+	{
+		int x;
+		int y;
+	};
 }

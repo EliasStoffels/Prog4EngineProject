@@ -36,7 +36,7 @@ namespace dae
 
 		auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
 		m_TextPoints = owner->AddComponent<dae::TextComponent>(font);
-		m_TextPoints->SetRenderOfSet(glm::vec3{ 220,2,0 });
+		m_TextPoints->SetRenderOfSet(glm::vec3{ 150 ,2,0 });
 
 		m_TextRespawn = owner->AddComponent<dae::TextComponent>(font);
 		m_TextRespawn->SetText("Player 1 Ready");

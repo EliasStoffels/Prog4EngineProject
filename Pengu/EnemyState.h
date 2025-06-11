@@ -1,9 +1,12 @@
 #pragma once
 #include "glm.hpp"
 #include <memory>
+#include "GameStateManager.h"
+#include "enums.h"
 
 namespace dae
 {
+
     class TextureComponent;
     class EnemyComponent;
     class GameObject;
@@ -15,6 +18,7 @@ namespace dae
         float m_TotalDT{};
         float FRAME_DELAY{ 0.15f };
         int m_CurrentFrame{ 0 };
+        const IntVec2 LVL_TEXTURE_OFSETT{GameStateManager::GetInstance().GetLevel() * 128, 128};
 
     public:
         virtual ~EnemyState() = default;
