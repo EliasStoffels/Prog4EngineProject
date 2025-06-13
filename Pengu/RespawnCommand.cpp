@@ -14,9 +14,6 @@ namespace dae
 		if (m_buttonState.ReleasedThisFrame && GameStateManager::GetInstance().playersDead)
 		{
 			GetGameObject()->NotifyObservers(Event{ make_sdbm_hash("Respawn"), nullptr });
-			/*m_PengoPtr->Respawn();
-			m_EnemyControllerPtr->ResetEnemyPos();*/
-			std::cout << "respawn\n";
 		}
 	}
 }

@@ -12,12 +12,11 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 		--m_Lives;
 		if (m_Lives <= 0)
 		{
-			m_CurrentLevel = 0;
 			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
 			if (it != m_HighScores.end())
 			{
 				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
-				m_HighScores.insert(it, HighScore{ m_Score });
+				m_HighScores.insert(it, HighScore{ m_Score, m_CurrentLevel, "AAA" });
 				m_HighScores.pop_back();
 				SceneManager::GetInstance().LoadScene("HighScoreScene");
 			}
@@ -55,12 +54,11 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 
 		if (m_CurrentLevel >= 2)
 		{
-			m_CurrentLevel = 0;
 			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
 			if (it != m_HighScores.end())
 			{
 				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
-				m_HighScores.insert(it, HighScore{ m_Score });
+				m_HighScores.insert(it, HighScore{ m_Score, m_CurrentLevel, "AAA" });
 				m_HighScores.pop_back();
 				SceneManager::GetInstance().LoadScene("HighScoreScene");
 			}
@@ -95,6 +93,15 @@ void dae::GameStateManager::SetHighScoreName(const std::string& name)
 	m_HighScores[m_NewHighscoreIdx].name[2] = name.c_str()[2];
 }
 
+void dae::GameStateManager::Reset()
+{
+	m_CurrentLevel = 0;
+	m_Score = 0;
+	m_Lives = 3;
+	m_LevelTime = 0.f;
+	m_NewHighscoreIdx = -1;
+}
+
 dae::GameStateManager::GameStateManager()
 {
 	std::ifstream file("../data/HighScores.bin", std::ios::binary);
@@ -122,5 +129,4 @@ dae::GameStateManager::~GameStateManager()
 	file.write(reinterpret_cast<char*>(m_HighScores.data()), m_HighScores.size() * sizeof(HighScore));
 
 	file.close();
-
 }

@@ -6,10 +6,6 @@
 
 namespace dae
 {
-	StartCommand::StartCommand()
-	{
-
-	}
 
 	void dae::StartCommand::Execute()
 	{

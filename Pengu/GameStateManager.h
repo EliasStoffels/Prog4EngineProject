@@ -11,6 +11,7 @@ namespace dae
 	struct HighScore
 	{
 		int score = 0;
+		int round = 0;
 		char name[4] = "AAA";
 	};
 
@@ -23,9 +24,12 @@ namespace dae
 		int GetLevel() { return m_CurrentLevel; }
 		int GetLives() { return m_Lives; }
 		int GetScore() { return m_Score; }
+		int GetHighScoreIndex() { return m_NewHighscoreIdx; }
+		std::vector<HighScore> GetHighScores() { return m_HighScores; };
 		float GetLevelTime() { return m_LevelTime; }
 		void StartLevel();
 		void SetHighScoreName(const std::string& name);
+		void Reset();
 
 	private:
 		friend class Singleton<GameStateManager>;

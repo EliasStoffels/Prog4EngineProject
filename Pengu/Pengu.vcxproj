@@ -158,6 +158,7 @@
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HighScoreNameComponent.cpp" />
+    <ClCompile Include="LoadSceneCommand.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoState.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="EventArgs.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HighScoreNameComponent.h" />
+    <ClInclude Include="LoadSceneCommand.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="PengoComponent.h" />
     <ClInclude Include="PengoState.h" />

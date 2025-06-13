@@ -8,7 +8,7 @@ namespace dae
 	{
 		std::string m_GameModeScenes[3]{ "Pengo", "Versus", "Coop" };
 	public:
-		StartCommand();
+		StartCommand() = default;
 		void Execute() override;
 
 	};

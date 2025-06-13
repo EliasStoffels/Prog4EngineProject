@@ -39,6 +39,7 @@
 #include "GameStateManager.h"
 #include "HighScoreNameComponent.h"
 #include "ChangeLetterCommand.h"
+#include "LoadSceneCommand.h"
 
 void LoadPengo()
 {
@@ -279,6 +280,7 @@ void LoadCoop()
 
 void LoadMain()
 {
+	dae::GameStateManager::GetInstance().Reset();
 	auto& input = dae::InputManager::GetInstance();
 	auto& scene = dae::SceneManager::GetInstance().GetScene("Main");
 
@@ -404,8 +406,47 @@ void LoadHighScore()
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 25);
 
 	auto scoreSelector = scene.AddEmpty();
-	scoreSelector->SetLocalPosition(100, 100);
 	auto nameComponent = scoreSelector->AddComponent<dae::HighScoreNameComponent>();
+
+	auto allHighScores = scene.AddEmpty();
+	auto highScores = dae::GameStateManager::GetInstance().GetHighScores();
+	allHighScores->SetLocalPosition(50, 200);
+
+	for (int idx{}; idx < static_cast<int>(highScores.size()); ++idx)
+	{
+		auto text = allHighScores->AddComponent<dae::TextComponent>(font);
+
+		std::string rank;
+		switch (idx + 1)
+		{
+		case 1:  
+			rank = "1st"; 
+			break;
+		case 2:  
+			rank = "2nd"; 
+			break;
+		case 3:  
+			rank = "3rd"; 
+			break;
+		default: 
+			rank = std::to_string(idx + 1) + "th"; 
+			break;
+		}
+
+		std::string scoreText;
+
+		if (dae::GameStateManager::GetInstance().GetHighScoreIndex() == idx)
+		{
+			scoreSelector->SetLocalPosition(350, idx * 70.f + 200.f, 10.f);
+			scoreText = rank + "    " + std::to_string(highScores[idx].round +1) + "										 " + std::to_string(highScores[idx].score);
+		}
+		else
+			scoreText = rank + "    "  + std::to_string(highScores[idx].round +1) + "    " +
+			std::string(highScores[idx].name) + "    " + std::to_string(highScores[idx].score);
+
+		text->SetText(scoreText);
+		text->SetRenderOfSet(glm::vec3{ 0, idx * 70, 0 });
+	}
 
 	auto keyboardUp = input.AddBinding<dae::ChangeLetterCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, nameComponent, true);
 	auto controllerUp = input.AddBinding<dae::ChangeLetterCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, nameComponent, true);
@@ -418,6 +459,10 @@ void LoadHighScore()
 
 	input.AddBinding<dae::ChangeSelectedLetterCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, std::vector<dae::ChangeLetterCommand*>{ keyboardUp, keyBoardDown }, true);
 	input.AddBinding<dae::ChangeSelectedLetterCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, std::vector<dae::ChangeLetterCommand*>{ controllerUp, ControllerDown }, true);
+
+
+	input.AddBinding<dae::LoadSceneCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, -1, "Main");
+	input.AddBinding<dae::LoadSceneCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0, "Main");
 }
 
 int main(int, char* []) {
@@ -435,7 +480,7 @@ int main(int, char* []) {
 	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 10.f,-1);
 
 	dae::Minigin engine("../Data/", 672, 840);
-	engine.Run("HighScoreScene");
+	engine.Run("Main");
 
 	return 0;
 }

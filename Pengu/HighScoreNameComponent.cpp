@@ -2,6 +2,7 @@
 #include <GameObject.h>
 #include <ResourceManager.h>
 #include "TextComponent.h"
+#include "GameStateManager.h"
 
 namespace dae
 {
@@ -21,6 +22,7 @@ namespace dae
 		}
 
 		m_NameTexture->SetText(std::string{ m_Name });
+		GameStateManager::GetInstance().SetHighScoreName(m_Name);
 	}
 
 	HighScoreNameComponent::HighScoreNameComponent(GameObject* owner) : CppBehaviour{owner}
@@ -28,5 +30,6 @@ namespace dae
 		auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 25);
 		m_NameTexture = GetOwner()->AddComponent<TextComponent>(font);
 		m_NameTexture->SetText(std::string{ m_Name });
+		m_NameTexture->SetColor(255, 255, 0);
 	}
 }
