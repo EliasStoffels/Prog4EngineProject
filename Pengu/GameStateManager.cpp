@@ -99,7 +99,7 @@ void dae::GameStateManager::Reset()
 {
 	m_CurrentLevel = 0;
 	m_Score = 0;
-	m_Lives = 3;
+	m_Lives = MAXIMUM_LIVES;
 	m_LevelTime = 0.f;
 	m_NewHighscoreIdx = -1;
 }

@@ -160,10 +160,12 @@
     <ClCompile Include="HighScoreNameComponent.cpp" />
     <ClCompile Include="LoadSceneCommand.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="MuteSoundCommand.cpp" />
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoState.cpp" />
     <ClCompile Include="PushCommand.cpp" />
     <ClCompile Include="RespawnCommand.cpp" />
+    <ClCompile Include="SkipLevelCommand.cpp" />
     <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
@@ -185,10 +187,12 @@
     <ClInclude Include="HighScoreNameComponent.h" />
     <ClInclude Include="LoadSceneCommand.h" />
     <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="MuteSoundCommand.h" />
     <ClInclude Include="PengoComponent.h" />
     <ClInclude Include="PengoState.h" />
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="RespawnCommand.h" />
+    <ClInclude Include="SkipLevelCommand.h" />
     <ClInclude Include="StartCommand.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextureComponent.h" />

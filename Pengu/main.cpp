@@ -40,6 +40,8 @@
 #include "HighScoreNameComponent.h"
 #include "ChangeLetterCommand.h"
 #include "LoadSceneCommand.h"
+#include "SkipLevelCommand.h"
+#include "MuteSoundCommand.h"
 
 void LoadPengo()
 {
@@ -125,6 +127,11 @@ void LoadPengo()
 	respawnGo->AddObserver(pengoC);
 	respawnGo->AddObserver(uiObserver);
 	respawnGo->AddObserver(enemyController);
+
+	//skipLevelCommand
+	auto skipGo = scene.AddEmpty();
+	input.AddBinding<dae::SkipLevelCommand>(SDL_SCANCODE_F1, dae::InputType::Keyboard, 0, skipGo);
+	skipGo->AddObserver(&dae::GameStateManager::GetInstance());
 
 	//load
 	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
@@ -220,6 +227,11 @@ void LoadVersus()
 	respawnGo->AddObserver(pengoC);
 	respawnGo->AddObserver(uiObserver);
 	respawnGo->AddObserver(enemyController);
+
+	//skipLevelCommand
+	auto skipGo = scene.AddEmpty();
+	input.AddBinding<dae::SkipLevelCommand>(SDL_SCANCODE_F1, dae::InputType::Keyboard, 0, skipGo);
+	skipGo->AddObserver(&dae::GameStateManager::GetInstance());
 
 	//load
 	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
@@ -325,6 +337,11 @@ void LoadCoop()
 	respawnGo->AddObserver(pengoC2);
 	respawnGo->AddObserver(uiObserver);
 	respawnGo->AddObserver(enemyController);
+
+	//skipLevelCommand
+	auto skipGo = scene.AddEmpty();
+	input.AddBinding<dae::SkipLevelCommand>(SDL_SCANCODE_F1, dae::InputType::Keyboard, 0, skipGo);
+	skipGo->AddObserver(&dae::GameStateManager::GetInstance());
 
 	//load
 	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
@@ -533,6 +550,8 @@ int main(int, char* []) {
 
 	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadMusic(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), "../Data/PengoSoundFX/Main_BGM_Popcorn.mp3");
 	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 10.f,-1);
+
+	//dae::InputManager::GetInstance().AddGlobalBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
 
 	dae::Minigin engine("../Data/", 672, 840);
 	engine.Run("Main");

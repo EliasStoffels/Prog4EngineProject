@@ -81,8 +81,22 @@ namespace dae
             m_Condition.notify_one();
         }
 
+        void Mute()
+        {
+            std::lock_guard<std::mutex> lock(m_QueueMutex);
+            m_EventQueue.push({ SoundEventType::MUTE, 0, 0, 0, ""});
+            m_Condition.notify_one();
+        }
+
+        void UnMute(float volume)
+        {
+            std::lock_guard<std::mutex> lock(m_QueueMutex);
+            m_EventQueue.push({ SoundEventType::UNMUTE, 0, 0, volume , ""});
+            m_Condition.notify_one();
+        }
+
     private:
-        enum class SoundEventType { PLAY, STOP, STOP_ALL, LOAD, LOAD_MUSIC, LOOP };
+        enum class SoundEventType { PLAY, STOP, STOP_ALL, LOAD, LOAD_MUSIC, LOOP, MUTE, UNMUTE };
 
         struct SoundEvent {
             SoundEventType type;
@@ -127,7 +141,12 @@ namespace dae
                 case SoundEventType::LOOP:
                     HandleLoopEvent(event);
                     break;
-
+                case SoundEventType::MUTE:
+                    HandleMuteEvent(event);
+                    break;
+                case SoundEventType::UNMUTE:
+                    HandleUnMuteEvent(event);
+                    break;
                 }
             }
         }
@@ -245,6 +264,24 @@ namespace dae
             }
         }
 
+        void HandleMuteEvent(const SoundEvent& )
+        {
+            Mix_VolumeMusic(0);
+            for (auto playingChannel : m_PlayingChannels)
+            {
+                Mix_Volume(playingChannel.second, 0);
+            }
+        }
+
+        void HandleUnMuteEvent(const SoundEvent& event)
+        {
+            Mix_VolumeMusic(static_cast<int>(event.volume));
+            for (auto playingChannel : m_PlayingChannels)
+            {
+                Mix_Volume(playingChannel.second, static_cast<int>(event.volume));
+            }
+        }
+
         std::queue<SoundEvent> m_EventQueue;
         std::mutex m_QueueMutex;
         std::condition_variable m_Condition;
@@ -296,5 +333,13 @@ namespace dae
 	{
 		return m_Impl->IsSoundPlaying(id);
 	}
+    void MixerSoundSystem::Mute()
+    {
+        m_Impl->Mute();
+    }
+    void MixerSoundSystem::UnMute(const float volume)
+    {
+        m_Impl->UnMute(volume);
+    }
 }
 

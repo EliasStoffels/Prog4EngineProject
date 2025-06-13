@@ -18,6 +18,8 @@ namespace dae
         void LoadSound(const sound_id id, const std::string& filePath) override;
         void LoadMusic(const sound_id id, const std::string& filePath) override;
         bool IsSoundPlaying(const sound_id id) override;
+        void Mute() override;
+        void UnMute(const float volume) override;
 
     private:
         class Impl;

@@ -17,7 +17,7 @@ namespace dae
 		m_TextureLives->SetSourceRect(0, 150, 16, 16);
 		m_TextureLives->SetRepeats(GameStateManager::GetInstance().GetLives());
 		m_TextureLives->SetRepeatOfsett(glm::vec3{ 50,0,0 });
-		m_TextureLives->SetRenderOfsett(glm::vec3{ 20,30,0 });
+		m_TextureLives->SetRenderOfsett(glm::vec3{ 10,30,0 });
 
 		m_TextureEggs = owner->AddComponent<dae::TextureComponent>();
 		m_TextureEggs->SetTexture("Misc.png");

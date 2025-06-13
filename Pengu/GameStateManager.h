@@ -31,13 +31,14 @@ namespace dae
 		void SetHighScoreName(const std::string& name);
 		void Reset();
 
+		const int MAXIMUM_LIVES = 4;
 	private:
 		friend class Singleton<GameStateManager>;
 		GameStateManager();
 		~GameStateManager();
 		int m_CurrentLevel = 0;
 		int m_Score = 0;
-		int m_Lives = 3;
+		int m_Lives = MAXIMUM_LIVES;
 		std::vector<HighScore> m_HighScores = std::vector<HighScore>(5);
 		std::chrono::high_resolution_clock::time_point m_LevelStartTime{};
 		float m_LevelTime = 0.f;

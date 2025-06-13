@@ -64,6 +64,7 @@ namespace dae
         }
 
         implPtr->ProcessInput(m_commands);
+        //implPtr->ProcessInput(m_globalCommands);
         return true;
     }
 
