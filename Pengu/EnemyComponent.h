@@ -21,13 +21,14 @@ namespace dae
         void Break();
         void GetHit(GameObject* block);
         void Reset(int idx);
-
+        void GetStunned();
         // Getters for states
         TextureComponent* GetTexture() const { return m_TexturePtr; }
         float GetSpeed() const { return m_Speed; }
         glm::vec3 GetDirection() { return m_Direction; }
         GridComponent* GetGrid() const { return m_GridPtr; }
 
+        bool isStunned = false;
     private:
         EnemyComponent(GameObject* owner, float speed, GridComponent* grid);
         float m_Speed;

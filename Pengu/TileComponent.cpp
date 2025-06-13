@@ -100,7 +100,11 @@ namespace dae
 				m_TargetPosition = m_GridPtr->RequestMove(m_Pos, m_SlideDirection, true);
 
 				if (m_TargetPosition == m_Pos)
+				{
 					m_BlockState = BlockState::Still;
+					if(m_TileType == Tile::Unbreakable)
+						m_OwningGameObject->NotifyObservers(Event{ make_sdbm_hash("UnbreakableTileStopped"), &args });
+				}
 			}
 			else
 			{

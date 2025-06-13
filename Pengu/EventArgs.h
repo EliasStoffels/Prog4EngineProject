@@ -1,5 +1,6 @@
 #pragma once
 #include "glm.hpp"
+#include "Enums.h"
 
 namespace dae
 {
@@ -16,4 +17,8 @@ namespace dae
 		int amount;
 	};
 
+	struct WallShakeArgs
+	{
+		Walls wall;
+	};
 }

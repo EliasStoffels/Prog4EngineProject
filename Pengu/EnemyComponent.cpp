@@ -48,6 +48,12 @@ namespace dae
 		if (newState)
 			ChangeState(std::move(newState));
 	}
+	void EnemyComponent::GetStunned()
+	{
+		auto newState = m_CurrentState->GetStunned(this);
+		if (newState)
+			ChangeState(std::move(newState));
+	}
 	void EnemyComponent::ChangeState(std::unique_ptr<EnemyState> newState)
 	{
 		m_CurrentState->Exit(this);

@@ -31,13 +31,13 @@ namespace dae
 
 
 	}
-	void WallComponent::ShakeWall(Walls direction)
+	void WallComponent::ShakeWall(Walls wall)
 	{
 		if (m_Shake)
 			return;
 
 		m_Shake = true;
-		switch (direction)
+		switch (wall)
 		{
 		case Walls::Left:
 		{

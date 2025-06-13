@@ -143,6 +143,11 @@ namespace dae
 		return nullptr;
 	}
 
+	std::unique_ptr<EnemyState> EnemyWalkingState::GetStunned(EnemyComponent*)
+	{
+		return std::make_unique<EnemyStunnedState>();
+	}
+
 	// Breaking State
 	//============================================================================================================================================================================================
 	void EnemyBreakingState::Enter(EnemyComponent* snobee)
@@ -261,6 +266,11 @@ namespace dae
 		return std::make_unique<EnemyWalkingState>();
 	}
 
+	std::unique_ptr<EnemyState> EnemyBreakingState::GetStunned(EnemyComponent* )
+	{
+		return std::make_unique<EnemyStunnedState>();
+	}
+
 	// Spawning State
 	//============================================================================================================================================================================================
 	void EnemySpawningState::Enter(EnemyComponent* snobee)
@@ -317,26 +327,45 @@ namespace dae
 		return std::make_unique<EnemyWalkingState>();
 	}
 
+	std::unique_ptr<EnemyState> EnemySpawningState::GetStunned(EnemyComponent* )
+	{
+		return std::make_unique<EnemyStunnedState>();
+	}
+
 	// Stunned State
 	//============================================================================================================================================================================================
-	void EnemyStunnedState::Enter(EnemyComponent* )
+	void EnemyStunnedState::Enter(EnemyComponent* snobee)
 	{
-
+		m_TexturePtr = snobee->GetTexture();
+		m_Direction = snobee->GetDirection();
+		m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 96, LVL_TEXTURE_OFSETT.y);
+		snobee->isStunned = true;
 	}
 
-	std::unique_ptr<EnemyState> EnemyStunnedState::Update(EnemyComponent* , float )
+	std::unique_ptr<EnemyState> EnemyStunnedState::Update(EnemyComponent* snobee, float deltaTime)
 	{
-		return std::unique_ptr<EnemyState>();
+		m_StunDuration += deltaTime;
+		if (m_StunDuration > STUN_DURATION)
+			return std::make_unique<EnemyWalkingState>();
+
+		Animate(snobee, deltaTime);
+		return nullptr;
 	}
 
-	void EnemyStunnedState::Animate(EnemyComponent* , float )
+	void EnemyStunnedState::Animate(EnemyComponent* , float deltaTime)
 	{
-
+		m_TotalDT += deltaTime;
+		if (m_TotalDT > FRAME_DELAY)
+		{
+			m_TotalDT -= FRAME_DELAY;
+			m_CurrentFrame = ++m_CurrentFrame % 2;
+			m_TexturePtr->SetSourceRect(LVL_TEXTURE_OFSETT.x + 96 + 16 * m_CurrentFrame, LVL_TEXTURE_OFSETT.y);
+		}
 	}
 
-	void EnemyStunnedState::Exit(EnemyComponent* )
+	void EnemyStunnedState::Exit(EnemyComponent* snobee)
 	{
-
+		snobee->isStunned = false;
 	}
 
 	std::unique_ptr<EnemyState> EnemyStunnedState::OnMove(EnemyComponent* )
@@ -359,6 +388,11 @@ namespace dae
 	{
 		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->IdxToPoint(idx));
 		return std::make_unique<EnemyWalkingState>();
+	}
+
+	std::unique_ptr<EnemyState> EnemyStunnedState::GetStunned(EnemyComponent*)
+	{
+		return nullptr;
 	}
 
 	// Sliding State
@@ -410,5 +444,9 @@ namespace dae
 	{
 		snobee->GetOwner()->SetLocalPosition(snobee->GetGrid()->IdxToPoint(idx));
 		return std::make_unique<EnemyWalkingState>();
+	}
+	std::unique_ptr<EnemyState> EnemySlidingState::GetStunned(EnemyComponent* )
+	{
+		return nullptr;
 	}
 }

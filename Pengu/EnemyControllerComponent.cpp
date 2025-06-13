@@ -32,19 +32,13 @@ namespace dae
 				glm::vec3 nextTilePos = args->position + args->direction + glm::vec3{ leeWay/2,leeWay/2,0 };
 				glm::vec3 currentTilePos = args->position;
 
-				/*bool isOnCurrentTile =
-					(snobeePos.x < currentTilePos.x + tileWidth &&
-					snobeePos.x + tileWidth > currentTilePos.x &&
-					snobeePos.y < currentTilePos.y + tileWidth &&
-					snobeePos.y + tileWidth > currentTilePos.y);*/
-
 				bool isOnNextTile =
 					(snobeePos.x < nextTilePos.x + tileWidth &&
 					snobeePos.x + tileWidth > nextTilePos.x &&
 					snobeePos.y < nextTilePos.y + tileWidth &&
 					snobeePos.y + tileWidth > nextTilePos.y);
 
-				if (/*isOnCurrentTile || */isOnNextTile)
+				if (isOnNextTile)
 				{
 					snobee->GetHit(gameObject);
 					snobee->GetOwner()->SetLocalPosition(args->direction * static_cast<float>(tileWidth));
@@ -63,26 +57,139 @@ namespace dae
 			);
 			
 		}
+		else if (event.id == make_sdbm_hash("UnbreakableTileStopped"))
+		{
+			std::vector<glm::ivec2> unbreakableIndexes;
+			for (int y = 0; y < 15; ++y) {
+				for (int x = 0; x < 13; ++x) {
+					if ((*m_GridLayoutPtr)[y * 13 + x] == Tile::Unbreakable) { 
+						unbreakableIndexes.emplace_back(x, y);
+					}
+				}
+			}
+
+			const int x1 = unbreakableIndexes[0].x;
+			const int y1 = unbreakableIndexes[0].y;
+			const int x2 = unbreakableIndexes[1].x;
+			const int y2 = unbreakableIndexes[1].y;
+			const int x3 = unbreakableIndexes[2].x;
+			const int y3 = unbreakableIndexes[2].y;
+
+			bool areInLineAndAdjacent = false;
+			bool horizontal = false;
+
+			if (x1 == x2 && x2 == x3) {
+				std::vector<int> ys = { y1, y2, y3 };
+				std::sort(ys.begin(), ys.end());
+
+				areInLineAndAdjacent = (ys[1] == ys[0] + 1) && (ys[2] == ys[1] + 1);
+			}
+			else if (y1 == y2 && y2 == y3) {
+				horizontal = true;
+				std::vector<int> xs = { x1, x2, x3 };
+				std::sort(xs.begin(), xs.end());
+
+				areInLineAndAdjacent = (xs[1] == xs[0] + 1) && (xs[2] == xs[1] + 1);
+			}
+
+			if (areInLineAndAdjacent)
+			{
+				for (auto snobee : m_Snobees)
+				{
+					snobee->GetStunned();
+				}
+			}
+			else
+				return;
+
+			const bool allLeft = (x1 == 0);      // Left wall (x=0)
+			const bool allRight = (x1 == 12);     // Right wall (x=12)
+			const bool allTop = (y1 == 0);      // Top wall (y=0)
+			const bool allBottom = (y1 == 14);     // Bottom wall (y=14)
+
+			if ((allLeft && !horizontal) || (allRight && !horizontal) || (allTop && horizontal) || (allBottom && horizontal))
+			{
+				ScoreChangedArgs args{ 1000 };
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("ScoreChanged"), &args });
+			}
+			else
+			{
+				ScoreChangedArgs args{ 1500 };
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("ScoreChanged"), &args });
+			}
+		}
 		else if (event.id == make_sdbm_hash("EnemyDied"))
 		{
-			++m_SnobeesDead;
-			if(gameObject->GetParent()) // if it has a parent that means it died from a block being pushed onto it
-				--m_SnobeesAlive;
-			else
-				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("SnobeeHatched"), nullptr });
-
-			if (m_SnobeesDead == 6)
-			{
-				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("LevelWon"), nullptr });
-			}
+			HandleEnemyDead(gameObject);
 		}
 		else if (event.id == make_sdbm_hash("Respawn"))
 		{
 			ResetEnemyPos();
 			m_Freeze = false;
 		}
+		else if (event.id == make_sdbm_hash("WallShake"))
+		{
+			WallShakeArgs* args = reinterpret_cast<WallShakeArgs*>(event.arg);
+			const glm::vec2 gridOfsett{ 24,106 };
+			const glm::vec2 gridSize{ 13, 15 };
+			const float tileWidth{ 48 };
+
+			for (auto snobee : m_Snobees)
+			{
+				const auto snobeePos = snobee->GetOwner()->GetWorldPosition();
+				switch (args->wall)
+				{
+				case Walls::Left:
+				{
+					if (snobeePos.x < gridOfsett.x + tileWidth/2)
+					{
+						snobee->GetStunned();
+					}
+				}
+				break;
+				case Walls::Right:
+				{
+					if (snobeePos.x > gridOfsett.x + tileWidth * (gridSize.x - 1.5f))
+					{
+						snobee->GetStunned();
+					}
+				}
+				break;
+				case Walls::Up:
+				{
+					if (snobeePos.y < gridOfsett.y + tileWidth /2)
+					{
+						snobee->GetStunned();
+					}
+				}
+				break;
+				case Walls::Down:
+				{
+					if (snobeePos.y > gridOfsett.y + tileWidth * (gridSize.y - 1.5f))
+					{
+						snobee->GetStunned();
+					}
+				}
+				break;
+				}
+			}
+		}
 	}
 	
+	void EnemyControllerComponent::HandleEnemyDead(GameObject* gameObject)
+	{
+		++m_SnobeesDead;
+		if (gameObject->GetParent()) // if it has a parent that means it died from a block being pushed onto it
+			--m_SnobeesAlive;
+		else
+			GetOwner()->NotifyObservers(Event{ make_sdbm_hash("SnobeeHatched"), nullptr });
+
+		if (m_SnobeesDead == 6)
+		{
+			GetOwner()->NotifyObservers(Event{ make_sdbm_hash("LevelWon"), nullptr });
+		}
+	}
+
 	void EnemyControllerComponent::Start()
 	{
 		m_GridLayoutPtr = m_GridPtr->GetGridLayout();
@@ -148,7 +255,6 @@ namespace dae
 		//spawning
 		while (m_SnobeesAlive < MAXIMUM_SNOBEES && it != m_GridLayoutPtr->end())
 		{
-			std::cout << "spawned enemy\n";
 			int idx = std::distance(m_GridLayoutPtr->begin(), it);
 			glm::vec3 pos = m_GridPtr->IdxToPoint(idx);
 			m_GridPtr->RequestBreak(pos, {});
@@ -218,6 +324,12 @@ namespace dae
 					pengoPos.y < snobeePos.y + tileWidth &&
 					pengoPos.y + tileWidth > snobeePos.y)
 				{
+					if (snobee->isStunned)
+					{
+						HandleEnemyDead(snobee->GetOwner());
+						break;
+					}
+
 					pengo->Die();
 					++m_PengosDead;
 					if (m_PengosDead == static_cast<int>(m_PengosPtr.size()))

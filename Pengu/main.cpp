@@ -120,6 +120,8 @@ void LoadPengo()
 	enemies->AddObserver(uiObserver);
 	enemies->AddObserver(&dae::GameStateManager::GetInstance());
 
+	grid->AddObserver(enemyController);
+
 	//respawn
 	auto respawnGo = scene.AddEmpty();
 	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, respawnGo);
@@ -219,6 +221,9 @@ void LoadVersus()
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, glm::vec3{ -1,0,0 }, enemyController);
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, glm::vec3{ 1,0,0 }, enemyController);
 	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, enemyController);
+
+
+	grid->AddObserver(enemyController);
 
 	//respawn
 	auto respawnGo = scene.AddEmpty();
@@ -329,6 +334,8 @@ void LoadCoop()
 	enemies->AddObserver(uiObserver);
 	enemies->AddObserver(&dae::GameStateManager::GetInstance());
 
+	grid->AddObserver(enemyController);
+
 	//respawn
 	auto respawnGo = scene.AddEmpty();
 	input.AddBinding<dae::RespawnCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, 0, respawnGo);
@@ -350,8 +357,6 @@ void LoadCoop()
 void LoadMain()
 {
 	dae::GameStateManager::GetInstance().Reset();
-
-	std::cout << "loaded main\n";
 
 	auto& input = dae::InputManager::GetInstance();
 	auto& scene = dae::SceneManager::GetInstance().GetScene("Main");

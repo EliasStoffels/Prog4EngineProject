@@ -11,7 +11,7 @@ namespace dae
 	public:
 		void Update(float deltaTime) override;
 		
-		void ShakeWall(Walls direction);
+		void ShakeWall(Walls wall);
 
 		virtual ~WallComponent() = default;
 		WallComponent(const WallComponent& other) = delete;

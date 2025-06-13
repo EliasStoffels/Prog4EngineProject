@@ -10,6 +10,7 @@
 #include <random>
 #include "EnemyControllerComponent.h"
 #include "GameStateManager.h"
+#include "EventArgs.h"
 
 namespace dae
 {
@@ -143,6 +144,8 @@ namespace dae
 			}
 			else
 			{
+				auto args = WallShakeArgs{ Walls::Left };
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("WallShake") , &args });
 				m_Walls->ShakeWall(Walls::Left);
 				return BlockState::Breaking;
 			}
@@ -156,6 +159,8 @@ namespace dae
 			}
 			else
 			{
+				auto args = WallShakeArgs{ Walls::Right };
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("WallShake") , &args });
 				m_Walls->ShakeWall(Walls::Right);
 				return BlockState::Breaking;
 			}
@@ -169,6 +174,8 @@ namespace dae
 			}
 			else
 			{
+				auto args = WallShakeArgs{ Walls::Up };
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("WallShake") , &args });
 				m_Walls->ShakeWall(Walls::Up);
 				return BlockState::Breaking;
 			}
@@ -182,6 +189,8 @@ namespace dae
 			}
 			else
 			{
+				auto args = WallShakeArgs{ Walls::Down };
+				GetOwner()->NotifyObservers(Event{ make_sdbm_hash("WallShake") , &args});
 				m_Walls->ShakeWall(Walls::Down);
 				return BlockState::Breaking;
 			}
