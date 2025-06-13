@@ -11,8 +11,8 @@ namespace dae
     {
         friend class GameObject;
     public:
-        void Start() override;
-        void Update(float deltaTime) override;
+       /* void Start() override;
+        void Update(float deltaTime) override;*/
 
         void ChangeLetter(int idx, bool increase);
 

@@ -37,6 +37,8 @@
 #include "StartCommand.h"
 #include "RespawnCommand.h"
 #include "GameStateManager.h"
+#include "HighScoreNameComponent.h"
+#include "ChangeLetterCommand.h"
 
 void LoadPengo()
 {
@@ -390,6 +392,7 @@ void LoadScoreScene()
 
 void LoadHighScore()
 {
+	auto& input = dae::InputManager::GetInstance();
 	auto& scene = dae::SceneManager::GetInstance().GetScene("HighScoreScene");
 
 	auto staticUi = scene.AddEmpty();
@@ -397,6 +400,24 @@ void LoadHighScore()
 	dae::TextureComponent* textureSaticUi = staticUi->AddComponent<dae::TextureComponent>();
 	textureSaticUi->SetTexture("StaticUi.png");
 	textureSaticUi->SetWidthAndHeight(672, 20);
+
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 25);
+
+	auto scoreSelector = scene.AddEmpty();
+	scoreSelector->SetLocalPosition(100, 100);
+	auto nameComponent = scoreSelector->AddComponent<dae::HighScoreNameComponent>();
+
+	auto keyboardUp = input.AddBinding<dae::ChangeLetterCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, nameComponent, true);
+	auto controllerUp = input.AddBinding<dae::ChangeLetterCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, nameComponent, true);
+
+	auto keyBoardDown = input.AddBinding<dae::ChangeLetterCommand>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, nameComponent, false);
+	auto ControllerDown = input.AddBinding<dae::ChangeLetterCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, nameComponent, false);
+
+	input.AddBinding<dae::ChangeSelectedLetterCommand>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, std::vector<dae::ChangeLetterCommand*>{keyboardUp, keyBoardDown}, false);
+	input.AddBinding<dae::ChangeSelectedLetterCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, std::vector<dae::ChangeLetterCommand*>{ controllerUp, ControllerDown }, false);
+
+	input.AddBinding<dae::ChangeSelectedLetterCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, std::vector<dae::ChangeLetterCommand*>{ keyboardUp, keyBoardDown }, true);
+	input.AddBinding<dae::ChangeSelectedLetterCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, std::vector<dae::ChangeLetterCommand*>{ controllerUp, ControllerDown }, true);
 }
 
 int main(int, char* []) {
@@ -414,7 +435,7 @@ int main(int, char* []) {
 	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 10.f,-1);
 
 	dae::Minigin engine("../Data/", 672, 840);
-	engine.Run("Main");
+	engine.Run("HighScoreScene");
 
 	return 0;
 }

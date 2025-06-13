@@ -17,10 +17,11 @@ namespace dae
 
 	class ChangeSelectedLetterCommand : public Command
 	{
-		ChangeLetterCommand* m_ChangeLetterCommand;
+		bool m_GoNext = true;
+		std::vector<ChangeLetterCommand*> m_ChangeLetterCommands;
 	public:
 		void Execute() override;
-		ChangeSelectedLetterCommand(ChangeLetterCommand* changeLetterCommand);
+		ChangeSelectedLetterCommand(std::vector<ChangeLetterCommand*> changeLetterCommand, bool goNext);
 	};
 }
 

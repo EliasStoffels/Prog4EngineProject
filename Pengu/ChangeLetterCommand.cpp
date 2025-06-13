@@ -1,8 +1,10 @@
 #include "ChangeLetterCommand.h"
+#include "HighScoreNameComponent.h"
 
 void dae::ChangeLetterCommand::Execute()
 {
-
+	if(m_buttonState.ReleasedThisFrame)
+		m_NameComponent->ChangeLetter(m_SelectedLetter, m_Increase); 
 }
 
 void dae::ChangeLetterCommand::ChangeSelectedLetter(bool goNext)
@@ -24,7 +26,14 @@ dae::ChangeLetterCommand::ChangeLetterCommand(HighScoreNameComponent* nameCompon
 
 }
 
-dae::ChangeSelectedLetterCommand::ChangeSelectedLetterCommand(ChangeLetterCommand* changeLetterCommand) : m_ChangeLetterCommand{changeLetterCommand}
+void dae::ChangeSelectedLetterCommand::Execute()
+{
+	if(m_buttonState.ReleasedThisFrame)
+	for(auto command : m_ChangeLetterCommands)
+		command->ChangeSelectedLetter(m_GoNext);
+}
+
+dae::ChangeSelectedLetterCommand::ChangeSelectedLetterCommand(std::vector<ChangeLetterCommand*> changeLetterCommand, bool goNext) : m_ChangeLetterCommands{changeLetterCommand}, m_GoNext{goNext}
 {
 
 }
