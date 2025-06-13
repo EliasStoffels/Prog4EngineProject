@@ -46,6 +46,7 @@ namespace dae
 
 	void UIObserverComponent::Start()
 	{
+		m_Score = GameStateManager::GetInstance().GetScore();
 		m_TextPoints->SetText(std::to_string(GameStateManager::GetInstance().GetScore()));
 	}
 

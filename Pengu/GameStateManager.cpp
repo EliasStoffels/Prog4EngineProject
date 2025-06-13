@@ -22,6 +22,7 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 			}
 			else 
 				SceneManager::GetInstance().LoadScene("Main");
+			m_CurrentLevel = 0;
 		}
 	}
 	if (event.id == make_sdbm_hash("LevelWon"))
@@ -66,6 +67,7 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 			{
 				SceneManager::GetInstance().LoadScene("Main");
 			}
+			m_CurrentLevel = 0;
 		}
 		else
 		{
