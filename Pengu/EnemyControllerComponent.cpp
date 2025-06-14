@@ -255,7 +255,7 @@ namespace dae
 		//spawning
 		while (m_SnobeesAlive < MAXIMUM_SNOBEES && it != m_GridLayoutPtr->end())
 		{
-			int idx = std::distance(m_GridLayoutPtr->begin(), it);
+			int idx = static_cast<int>(std::distance(m_GridLayoutPtr->begin(), it));
 			glm::vec3 pos = m_GridPtr->IdxToPoint(idx);
 			m_GridPtr->RequestBreak(pos, {});
 			++m_SnobeesAlive;

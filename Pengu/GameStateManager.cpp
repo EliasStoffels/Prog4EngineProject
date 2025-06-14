@@ -15,7 +15,7 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
 			if (it != m_HighScores.end())
 			{
-				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
+				m_NewHighscoreIdx = static_cast<int>(std::distance(m_HighScores.begin(), it));
 				m_HighScores.insert(it, HighScore{ m_Score, m_CurrentLevel, "AAA" });
 				m_HighScores.pop_back();
 			}
@@ -56,7 +56,7 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 			auto it = std::find_if(m_HighScores.begin(), m_HighScores.end(), [this](const HighScore& highScore) {return m_Score > highScore.score; });
 			if (it != m_HighScores.end())
 			{
-				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
+				m_NewHighscoreIdx = static_cast<int>(std::distance(m_HighScores.begin(), it));
 				m_HighScores.insert(it, HighScore{ m_Score, m_CurrentLevel, "AAA" });
 				m_HighScores.pop_back();
 			}

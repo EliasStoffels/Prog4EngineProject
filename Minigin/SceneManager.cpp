@@ -88,7 +88,7 @@ void dae::SceneManager::LoadScene(const std::string& name)
 		throw std::runtime_error("Scene not found: " + name);
 
 	m_CurrentScene = it->get();
-	int idx = std::distance(m_scenes.begin(), it);
+	int idx = static_cast<int>(std::distance(m_scenes.begin(), it));
 	m_SceneLoaders[idx]();
 
 }
