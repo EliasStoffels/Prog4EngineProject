@@ -120,7 +120,7 @@ namespace dae
 		}
 		else if (event.id == make_sdbm_hash("EnemyDied"))
 		{
-			HandleEnemyDead(gameObject);
+			HandleEnemyDead(gameObject->GetParent());// if it has a parent that means it died from a block being pushed onto it
 		}
 		else if (event.id == make_sdbm_hash("Respawn"))
 		{
@@ -176,10 +176,10 @@ namespace dae
 		}
 	}
 	
-	void EnemyControllerComponent::HandleEnemyDead(GameObject* gameObject)
+	void EnemyControllerComponent::HandleEnemyDead(bool hatchNewSnobee)
 	{
 		++m_SnobeesDead;
-		if (gameObject->GetParent()) // if it has a parent that means it died from a block being pushed onto it
+		if (hatchNewSnobee)
 			--m_SnobeesAlive;
 		else
 			GetOwner()->NotifyObservers(Event{ make_sdbm_hash("SnobeeHatched"), nullptr });
@@ -266,7 +266,7 @@ namespace dae
 		// movement 
 		for (int idx{}; idx < static_cast<int>(m_Snobees.size()); ++idx)
 		{
-			if (m_PlayerControlled && idx == m_ControlledSnobee)
+			if ((m_PlayerControlled && idx == m_ControlledSnobee) || !m_Snobees[idx])
 				continue;
 
 			glm::vec3 snobeePos = m_Snobees[idx]->GetOwner()->GetWorldPosition();
@@ -311,6 +311,8 @@ namespace dae
 		tileWidth -= leeWay;
 
 		// pengo hitchecks
+		std::vector<EnemyComponent*> snobeesToRemove;
+
 		for (auto pengo : m_PengosPtr)
 		{
 			auto pengoPos = pengo->GetOwner()->GetWorldPosition() + glm::vec3{ leeWay / 2,leeWay / 2,0 };
@@ -326,8 +328,10 @@ namespace dae
 				{
 					if (snobee->isStunned)
 					{
-						HandleEnemyDead(snobee->GetOwner());
-						break;
+						HandleEnemyDead(true);
+						snobeesToRemove.push_back(snobee);
+						snobee->GetOwner()->Destroy();
+						continue;
 					}
 
 					pengo->Die();
@@ -341,6 +345,15 @@ namespace dae
 				}
 			}
 		}
+
+		m_Snobees.erase(
+			std::remove_if(
+				m_Snobees.begin(),
+				m_Snobees.end(),
+				[&snobeesToRemove](EnemyComponent* snobee) {
+					return std::find(snobeesToRemove.begin(), snobeesToRemove.end(), snobee) != snobeesToRemove.end();
+				}),
+			m_Snobees.end());
 	}
 
 	void EnemyControllerComponent::SpawnEnemy(const glm::vec2& position)

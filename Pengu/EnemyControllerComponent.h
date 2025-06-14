@@ -17,7 +17,7 @@ namespace dae
     public:
         void Notify(const Event& event, GameObject* object) override;
 
-        void HandleEnemyDead(GameObject* gameObject);
+        void HandleEnemyDead(bool hatchNewSnobee);
 
         void Start() override;
         void Update(float deltaTime) override;
