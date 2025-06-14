@@ -1,5 +1,6 @@
 #include "WallComponent.h"
 #include "GameObject.h"
+#include <ServiceLocator.h>
 
 namespace dae
 {

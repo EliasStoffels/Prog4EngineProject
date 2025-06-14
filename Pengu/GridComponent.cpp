@@ -11,6 +11,7 @@
 #include "EnemyControllerComponent.h"
 #include "GameStateManager.h"
 #include "EventArgs.h"
+#include <ServiceLocator.h>
 
 namespace dae
 {
@@ -218,6 +219,7 @@ namespace dae
 				{
 					it->second->Slide(direction);
 				}
+				dae::ServiceLocator::GetInstance().GetSoundSystem().Play(static_cast<dae::sound_id>(dae::make_sdbm_hash("PushIceBlock")), 50.f);
 				return BlockState::Sliding;
 			}
 		}

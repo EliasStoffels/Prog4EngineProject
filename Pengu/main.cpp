@@ -573,7 +573,7 @@ void LoadHighScore()
 }
 
 int main(int, char* []) {
-
+	//create scenes
 	dae::SceneManager::GetInstance().CreateScene("Main", LoadMain);
 	dae::SceneManager::GetInstance().CreateScene("Pengo", LoadPengo);
 	dae::SceneManager::GetInstance().CreateScene("Versus", LoadVersus);
@@ -581,9 +581,15 @@ int main(int, char* []) {
 	dae::SceneManager::GetInstance().CreateScene("ScoreScene", LoadScoreScene);
 	dae::SceneManager::GetInstance().CreateScene("HighScoreScene", LoadHighScore);
 
+	//register system
 	dae::ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<dae::MixerSoundSystem>());
 
+	//load sounds
 	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadMusic(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), "../Data/PengoSoundFX/Main_BGM_Popcorn.mp3");
+	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadSound(static_cast<dae::sound_id>(dae::make_sdbm_hash("PengoSquashed")), "../Data/PengoSoundFX/Snow-Bee_Squashed.mp3");
+	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadSound(static_cast<dae::sound_id>(dae::make_sdbm_hash("PushIceBlock")), "../Data/PengoSoundFX/Push_Ice_Block.mp3");
+
+	// play bgm
 	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 10.f,-1);
 
 

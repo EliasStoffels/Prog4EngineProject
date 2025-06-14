@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include "TileComponent.h"
+#include <ServiceLocator.h>
 
 namespace dae
 {
@@ -411,6 +412,7 @@ namespace dae
 				snobee->GetOwner()->NotifyObservers(Event{ make_sdbm_hash("EnemyDied"), nullptr });
 				snobee->GetOwner()->Destroy();
 				m_IsDead = true;
+				dae::ServiceLocator::GetInstance().GetSoundSystem().Play(static_cast<dae::sound_id>(dae::make_sdbm_hash("PengoSquashed")), 50.f);
 			}
 		}
 
