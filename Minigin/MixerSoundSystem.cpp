@@ -97,6 +97,7 @@ namespace dae
 
     private:
         enum class SoundEventType { PLAY, STOP, STOP_ALL, LOAD, LOAD_MUSIC, LOOP, MUTE, UNMUTE };
+        bool m_Muted = false;
 
         struct SoundEvent {
             SoundEventType type;
@@ -153,6 +154,9 @@ namespace dae
 
         void HandlePlayEvent(const SoundEvent& event)
         {
+            if (m_Muted)
+                return;
+
             auto it = m_SoundChunks.find(event.id);
             if (it != m_SoundChunks.end())
             {
@@ -230,6 +234,9 @@ namespace dae
 
         void HandleLoopEvent(const SoundEvent& event)
         {
+            if (m_Muted)
+                return;
+
             auto it = m_SoundChunks.find(event.id);
             if (it != m_SoundChunks.end())
             {
@@ -266,6 +273,7 @@ namespace dae
 
         void HandleMuteEvent(const SoundEvent& )
         {
+            m_Muted = true;
             Mix_VolumeMusic(0);
             for (auto playingChannel : m_PlayingChannels)
             {
@@ -275,6 +283,7 @@ namespace dae
 
         void HandleUnMuteEvent(const SoundEvent& event)
         {
+            m_Muted = false;
             Mix_VolumeMusic(static_cast<int>(event.volume));
             for (auto playingChannel : m_PlayingChannels)
             {

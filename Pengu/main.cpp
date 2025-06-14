@@ -135,6 +135,8 @@ void LoadPengo()
 	input.AddBinding<dae::SkipLevelCommand>(SDL_SCANCODE_F1, dae::InputType::Keyboard, 0, skipGo);
 	skipGo->AddObserver(&dae::GameStateManager::GetInstance());
 
+	dae::InputManager::GetInstance().AddBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
+
 	//load
 	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
 }
@@ -237,6 +239,9 @@ void LoadVersus()
 	auto skipGo = scene.AddEmpty();
 	input.AddBinding<dae::SkipLevelCommand>(SDL_SCANCODE_F1, dae::InputType::Keyboard, 0, skipGo);
 	skipGo->AddObserver(&dae::GameStateManager::GetInstance());
+
+	dae::InputManager::GetInstance().AddBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
+
 
 	//load
 	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
@@ -350,6 +355,8 @@ void LoadCoop()
 	input.AddBinding<dae::SkipLevelCommand>(SDL_SCANCODE_F1, dae::InputType::Keyboard, 0, skipGo);
 	skipGo->AddObserver(&dae::GameStateManager::GetInstance());
 
+	dae::InputManager::GetInstance().AddBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
+
 	//load
 	gridC->LoadLevel(enemyController, dae::GameStateManager::GetInstance().GetLevel());
 }
@@ -387,6 +394,9 @@ void LoadMain()
 
 	input.AddBinding<dae::ChangeGameModeCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, text, startKeyboard, true);
 	input.AddBinding<dae::ChangeGameModeCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, text, startController, true);
+
+	dae::InputManager::GetInstance().AddBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
+
 }
 
 void LoadScoreScene()
@@ -466,6 +476,8 @@ void LoadScoreScene()
 	input.AddBinding<dae::StartCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, -1);
 	input.AddBinding<dae::StartCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0);
 
+	dae::InputManager::GetInstance().AddBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
+
 	go->SetLocalPosition(0, 0, FLT_MAX);
 }
 
@@ -482,8 +494,6 @@ void LoadHighScore()
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 25);
 
-	auto scoreSelector = scene.AddEmpty();
-	auto nameComponent = scoreSelector->AddComponent<dae::HighScoreNameComponent>();
 
 	auto allHighScores = scene.AddEmpty();
 	auto highScores = dae::GameStateManager::GetInstance().GetHighScores();
@@ -514,8 +524,22 @@ void LoadHighScore()
 
 		if (dae::GameStateManager::GetInstance().GetHighScoreIndex() == idx)
 		{
+			auto scoreSelector = scene.AddEmpty();
+			auto nameComponent = scoreSelector->AddComponent<dae::HighScoreNameComponent>();
 			scoreSelector->SetLocalPosition(350, idx * 70.f + 200.f, 10.f);
 			scoreText = rank + "    " + std::to_string(highScores[idx].round +1) + "										 " + std::to_string(highScores[idx].score);
+
+			auto keyboardUp = input.AddBinding<dae::ChangeLetterCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, nameComponent, true);
+			auto controllerUp = input.AddBinding<dae::ChangeLetterCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, nameComponent, true);
+
+			auto keyBoardDown = input.AddBinding<dae::ChangeLetterCommand>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, nameComponent, false);
+			auto ControllerDown = input.AddBinding<dae::ChangeLetterCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, nameComponent, false);
+
+			input.AddBinding<dae::ChangeSelectedLetterCommand>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, std::vector<dae::ChangeLetterCommand*>{keyboardUp, keyBoardDown}, false);
+			input.AddBinding<dae::ChangeSelectedLetterCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, std::vector<dae::ChangeLetterCommand*>{ controllerUp, ControllerDown }, false);
+
+			input.AddBinding<dae::ChangeSelectedLetterCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, std::vector<dae::ChangeLetterCommand*>{ keyboardUp, keyBoardDown }, true);
+			input.AddBinding<dae::ChangeSelectedLetterCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, std::vector<dae::ChangeLetterCommand*>{ controllerUp, ControllerDown }, true);
 		}
 		else
 			scoreText = rank + "    "  + std::to_string(highScores[idx].round +1) + "    " +
@@ -525,21 +549,27 @@ void LoadHighScore()
 		text->SetRenderOfSet(glm::vec3{ 0, idx * 70, 0 });
 	}
 
-	auto keyboardUp = input.AddBinding<dae::ChangeLetterCommand>(SDL_SCANCODE_W, dae::InputType::Keyboard, -1, nameComponent, true);
-	auto controllerUp = input.AddBinding<dae::ChangeLetterCommand>(XINPUT_GAMEPAD_DPAD_UP, dae::InputType::Controller, 0, nameComponent, true);
-
-	auto keyBoardDown = input.AddBinding<dae::ChangeLetterCommand>(SDL_SCANCODE_S, dae::InputType::Keyboard, -1, nameComponent, false);
-	auto ControllerDown = input.AddBinding<dae::ChangeLetterCommand>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 0, nameComponent, false);
-
-	input.AddBinding<dae::ChangeSelectedLetterCommand>(SDL_SCANCODE_A, dae::InputType::Keyboard, -1, std::vector<dae::ChangeLetterCommand*>{keyboardUp, keyBoardDown}, false);
-	input.AddBinding<dae::ChangeSelectedLetterCommand>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 0, std::vector<dae::ChangeLetterCommand*>{ controllerUp, ControllerDown }, false);
-
-	input.AddBinding<dae::ChangeSelectedLetterCommand>(SDL_SCANCODE_D, dae::InputType::Keyboard, -1, std::vector<dae::ChangeLetterCommand*>{ keyboardUp, keyBoardDown }, true);
-	input.AddBinding<dae::ChangeSelectedLetterCommand>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 0, std::vector<dae::ChangeLetterCommand*>{ controllerUp, ControllerDown }, true);
-
+	if (dae::GameStateManager::GetInstance().GetHighScoreIndex() == -1)
+	{
+		auto text = allHighScores->AddComponent<dae::TextComponent>(font);
+		text->SetText("No new highscore");
+		text->SetRenderOfSet(glm::vec3{50, 400, 0});
+		auto text2 = allHighScores->AddComponent<dae::TextComponent>(font);
+		text2->SetText("your score: " + std::to_string(dae::GameStateManager::GetInstance().GetScore()));
+		text2->SetRenderOfSet(glm::vec3{ 70, 450, 0 });
+	}
+	else
+	{
+		auto text = allHighScores->AddComponent<dae::TextComponent>(font);
+		text->SetText("New highscore!");
+		text->SetRenderOfSet(glm::vec3{ 50, 400, 0 });
+	}
 
 	input.AddBinding<dae::LoadSceneCommand>(SDL_SCANCODE_E, dae::InputType::Keyboard, -1, "Main");
 	input.AddBinding<dae::LoadSceneCommand>(XINPUT_GAMEPAD_START, dae::InputType::Controller, 0, "Main");
+
+	dae::InputManager::GetInstance().AddBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
+
 }
 
 int main(int, char* []) {
@@ -556,7 +586,6 @@ int main(int, char* []) {
 	dae::ServiceLocator::GetInstance().GetSoundSystem().LoadMusic(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), "../Data/PengoSoundFX/Main_BGM_Popcorn.mp3");
 	dae::ServiceLocator::GetInstance().GetSoundSystem().PlayLooping(static_cast<dae::sound_id>(dae::make_sdbm_hash("BGMusic")), 10.f,-1);
 
-	//dae::InputManager::GetInstance().AddGlobalBinding<dae::MuteSoundCommand>(SDL_SCANCODE_F2, dae::InputType::Keyboard, -1);
 
 	dae::Minigin engine("../Data/", 672, 840);
 	engine.Run("Main");

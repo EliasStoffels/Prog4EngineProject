@@ -18,10 +18,8 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
 				m_HighScores.insert(it, HighScore{ m_Score, m_CurrentLevel, "AAA" });
 				m_HighScores.pop_back();
-				SceneManager::GetInstance().LoadScene("HighScoreScene");
 			}
-			else 
-				SceneManager::GetInstance().LoadScene("Main");
+			SceneManager::GetInstance().LoadScene("HighScoreScene");
 			m_CurrentLevel = 0;
 		}
 	}
@@ -61,12 +59,8 @@ void dae::GameStateManager::Notify(const Event& event, GameObject* )
 				m_NewHighscoreIdx = std::distance(m_HighScores.begin(), it);
 				m_HighScores.insert(it, HighScore{ m_Score, m_CurrentLevel, "AAA" });
 				m_HighScores.pop_back();
-				SceneManager::GetInstance().LoadScene("HighScoreScene");
 			}
-			else
-			{
-				SceneManager::GetInstance().LoadScene("Main");
-			}
+			SceneManager::GetInstance().LoadScene("HighScoreScene");
 			m_CurrentLevel = 0;
 		}
 		else
