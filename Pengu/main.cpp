@@ -222,7 +222,7 @@ void LoadVersus()
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_DOWN, dae::InputType::Controller, 1, glm::vec3{ 0,1,0 }, enemyController);
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_LEFT, dae::InputType::Controller, 1, glm::vec3{ -1,0,0 }, enemyController);
 	input.AddBinding<dae::MoveCommand<dae::EnemyControllerComponent>>(XINPUT_GAMEPAD_DPAD_RIGHT, dae::InputType::Controller, 1, glm::vec3{ 1,0,0 }, enemyController);
-	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 0, enemyController);
+	input.AddBinding<dae::BreakCommand>(XINPUT_GAMEPAD_A, dae::InputType::Controller, 1, enemyController);
 
 
 	grid->AddObserver(enemyController);
@@ -379,6 +379,16 @@ void LoadMain()
 	textureC1->SetWidthAndHeight(672, 840);
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 20);
+	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Pengo-Atari 5200.ttf", 12);
+
+	go = scene.AddEmpty();
+	go->SetLocalPosition(glm::vec3{ 50,100,1000 });
+	auto textControls = go->AddComponent<dae::TextComponent>(smallFont);
+	textControls->SetText("W/D or Gamepad left/right to change gamemode");
+
+	textControls = go->AddComponent<dae::TextComponent>(smallFont);
+	textControls->SetText("E or Start to start");
+	textControls->SetRenderOfSet(glm::vec3{ 150,30,0 });
 
 	go = scene.AddEmpty();
 	auto text = go->AddComponent<dae::TextComponent>(font);
